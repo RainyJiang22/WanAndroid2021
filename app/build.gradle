@@ -1,0 +1,100 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+}
+def config = rootProject.ext.android
+def libraries = rootProject.ext.libraries
+
+android {
+    compileSdk config.compileSdk
+
+    defaultConfig {
+        applicationId "com.base.wanandroid"
+        minSdk config.minSdk
+        multiDexEnabled true
+        targetSdk config.targetSdk
+        versionCode 1000
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_ENABLE", "true"
+        }
+        release {
+            buildConfigField "boolean", "LOG_ENABLE", "true"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation libraries.appcompat
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation libraries.constraint_layout
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    implementation libraries.glide
+    kapt libraries.glideCompiler
+    implementation libraries.okhttp
+    implementation libraries.okhttp_loggin
+    implementation libraries.eventbus
+    kapt libraries.room_compiler
+    implementation libraries.room
+    implementation libraries.room_rxjava2
+    implementation libraries.android_job
+    implementation libraries.walle
+    implementation libraries.rxJava
+    implementation libraries.rxAndroid
+
+    implementation libraries.design
+    implementation libraries.cardview
+
+
+    implementation libraries.lottie
+
+    implementation libraries.coroutines
+    implementation libraries.coroutines_android
+    implementation libraries.viewpager2
+    implementation libraries.rxcahce
+    implementation libraries.rxcahce_ktx
+    implementation libraries.stetho
+    implementation libraries.stetho_okhttp
+
+    implementation libraries.rxpermissions
+
+    implementation libraries.worker
+
+    implementation "androidx.fragment:fragment-ktx:1.3.0"
+    implementation libraries.BaseRecyclerViewAdapterHelper
+
+    implementation 'com.github.nekocode.rxlifecycle:rxlifecycle:2.0'
+    implementation 'com.github.nekocode.rxlifecycle:rxlifecycle-compact:2.0' // Optional
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.4.0")
+    implementation("androidx.lifecycle:lifecycle-process:2.4.0")
+
+}
