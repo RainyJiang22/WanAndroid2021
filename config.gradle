@@ -54,9 +54,9 @@ ext {
             espresso                     : 'com.android.support.test.espresso:espresso-core:3.0.2',
 
             // ------------- 网络请求 -------------
-            retrofit                     : 'com.squareup.retrofit2:retrofit:2.4.0',
-            rxJavaAdapter                : 'com.squareup.retrofit2:adapter-rxjava2:2.4.0',
-            retrofitGsonConverter                : 'com.squareup.retrofit2:converter-gson:2.4.0',
+            retrofit                     : 'com.squareup.retrofit2:retrofit:2.9.0',
+            rxJavaAdapter                : 'com.squareup.retrofit2:adapter-rxjava2:2.9.0',
+            retrofitGsonConverter                : 'com.squareup.retrofit2:converter-gson:2.9.0',
             worker :                    'androidx.work:work-runtime-ktx:2.7.0-alpha05',
             // ------------- 图片加载 -------------
             glide                        : 'com.github.bumptech.glide:glide:4.12.0',

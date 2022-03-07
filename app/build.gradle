@@ -97,4 +97,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-common-java8:2.4.0")
     implementation("androidx.lifecycle:lifecycle-process:2.4.0")
 
+
+    //retrofit
+    implementation libraries.retrofit
+    implementation libraries.rxJavaAdapter
+    implementation libraries.retrofitGsonConverter
 }
