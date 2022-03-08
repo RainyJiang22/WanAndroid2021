@@ -8,6 +8,7 @@ import com.base.wanandroid.databinding.ActivityMainBinding
 import com.base.wanandroid.ui.home.HomeFragment
 import com.base.wanandroid.ui.tree.TreeFragment
 import com.base.wanandroid.utils.replaceFragment
+import com.gyf.immersionbar.ktx.immersionBar
 import com.photoroom.editor.base.EmptyViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding, EmptyViewModel>() {
@@ -27,6 +28,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, EmptyViewModel>() {
     }
 
     override fun init(savedInstanceState: Bundle?) {
+        immersionBar {
+            this.statusBarDarkFont(true)
+        }
 
         replaceFragment(fragment[0], HOME_TAG)
 

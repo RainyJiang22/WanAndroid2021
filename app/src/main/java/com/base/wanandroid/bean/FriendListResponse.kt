@@ -1,11 +1,15 @@
 package com.base.wanandroid.bean
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * @author jiangshiyu
  * @date 2022/3/7
  */
 data class FriendListResponse(
+    @SerializedName("baseResponse")
     var baseResponse: BaseResponse,
+    @SerializedName("data")
     var data: List<Data>?
 ) {
     data class Data(

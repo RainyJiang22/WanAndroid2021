@@ -1,5 +1,7 @@
 package com.base.wanandroid.bean
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * @author jiangshiyu
  * @date 2022/3/7
@@ -35,6 +37,8 @@ data class ArticleListResponse(
      * visible : 1
      * zan : 0
      */
+    @SerializedName("baseResponse")
     val baseResponse: BaseResponse,
+    @SerializedName("data")
     val data: Data
 )
