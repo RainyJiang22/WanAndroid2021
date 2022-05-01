@@ -112,5 +112,7 @@ dependencies {
     //banner
     implementation("io.github.youth5201314:banner:2.2.2")
 
+    implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
+    implementation 'com.github.getActivity:ShapeView:6.2'
 
 }

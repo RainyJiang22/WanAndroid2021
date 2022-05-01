@@ -26,7 +26,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     }
 
     override fun init(savedInstanceState: Bundle?) {
-
         getHomeData()
         getBannerData()
     }

@@ -33,14 +33,17 @@ class MainActivity : BaseActivity<ActivityMainBinding, EmptyViewModel>() {
         }
 
         replaceFragment(fragment[0], HOME_TAG)
+        binding?.navTitle?.text = getString(R.string.home_name)
 
         binding?.bottomNavigation?.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.page_home -> {
                     replaceFragment(fragment[0], HOME_TAG)
+                    binding?.navTitle?.text = getString(R.string.home_name)
                     true
                 }
                 R.id.page_tree -> {
+                    binding?.navTitle?.text = getString(R.string.tree_name)
                     replaceFragment(fragment[1], TREE_TAG)
                     true
                 }

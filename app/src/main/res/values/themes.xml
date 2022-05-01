@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.WanAndroid" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -17,4 +17,23 @@
     <style name="bottom_tab_title_active">
         <item name="android:textSize">11sp</item>
     </style>
+
+    <!--标签框通用样式-->
+    <style name="ShapeTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/dp_8</item>
+        <item name="android:padding">@dimen/dp_4</item>
+        <item name="android:textSize">@dimen/sp_10</item>
+        <item name="shape_radius">@dimen/dp_2</item>
+        <item name="shape_strokeWidth">@dimen/dp_0.5</item>
+    </style>
+
+
+    <!--ShapeAbleImageView 圆角-->
+    <style name="RoundedStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
 </resources>

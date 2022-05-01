@@ -3,4 +3,14 @@
 
     <string name="home_name">首页</string>
     <string name="tree_name">体系</string>
+    <string name="error_retry">数据加载失败，请重试</string>
+    <string name="click_retry">点击重试</string>
+    <string name="article_author">Android轮子哥</string>
+    <string name="top_tip">置顶</string>
+    <string name="new_fresh">新</string>
+    <string name="platform_fragment">公众号</string>
+    <string name="just">刚刚</string>
+    <string name="article_title">AndroidMVVM框架实践</string>
+    <string name="article_content">一个Jetpack结合MVVM的快速开发框架，基于MVVM模式集成谷歌官方推荐的JetPack组件库：LiveData、ViewModel、Lifecycle组件 使用Kotlin语言，添加大量拓展函数，简化代码 加入Retrofit网络请求</string>
+    <string name="article_chapter"><![CDATA[分类>项目]]></string>
 </resources>
