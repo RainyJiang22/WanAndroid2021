@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/blue"/>
+        android:background="@color/color_accent"/>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_main"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/blue"
+        android:background="@color/color_accent"
         android:elevation="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

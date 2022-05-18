@@ -1,5 +1,6 @@
 package com.base.wanandroid.bean
 
+import com.base.wanandroid.bean.base.ApiPagerResponse
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -40,5 +41,5 @@ data class ArticleListResponse(
     @SerializedName("baseResponse")
     val baseResponse: BaseResponse,
     @SerializedName("data")
-    val data: Data
+    val data: ApiPagerResponse<ArticleResponse>
 )

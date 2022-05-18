@@ -2,6 +2,7 @@ package com.base.wanandroid.ui.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.BannerResponse
 import com.base.wanandroid.bean.HomeListResponse
 import com.base.wanandroid.network.RetrofitHelper
@@ -20,6 +21,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun getHomeList(page: Int): Observable<HomeListResponse> {
         return RetrofitHelper.get().getHomeList(page)
 
+    }
+
+
+    /**
+     * 获取主页文章列表数据
+     */
+    fun getArticleList(page: Int): Observable<ArticleListResponse> {
+        return RetrofitHelper.get().getArticleList(page)
     }
 
 

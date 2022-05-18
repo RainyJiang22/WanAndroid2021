@@ -115,4 +115,7 @@ dependencies {
     implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
     implementation 'com.github.getActivity:ShapeView:6.2'
 
+    // if u use AndroidX, use the following
+    implementation 'com.blankj:utilcodex:1.31.0'
+
 }

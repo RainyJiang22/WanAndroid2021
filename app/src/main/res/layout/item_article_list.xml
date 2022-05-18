@@ -121,8 +121,6 @@
                 android:textColor="@color/color_article_chapter"
                 android:textSize="@dimen/sp_12"
                 tools:text="@string/article_chapter" />
-
-<!--            ic_collect_silver.xml-->
         </LinearLayout>
 
     </LinearLayout>

@@ -33,6 +33,13 @@ interface WanApi {
 
 
     /**
+     * 首页文章列表
+     * https://www.wanandroid.com/article/list/0/json
+     */
+    @GET(Constant.URI.HOME_LIST)
+    fun getArticleList(@Path("page") page: Int): Observable<ArticleListResponse>
+
+    /**
      * 知识体系
      * https://www.wanandroid.com/tree/json
      */
