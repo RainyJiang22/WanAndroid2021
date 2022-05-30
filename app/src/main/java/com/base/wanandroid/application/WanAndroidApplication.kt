@@ -43,6 +43,8 @@ class WanAndroidApplication : Application() {
             emptyLayout = R.layout.layout_empty
             loadingLayout = R.layout.layout_loading
             errorLayout = R.layout.layout_error
+            //重试
+            setRetryIds(R.id.msg)
         }
 
         //全局分页索引
@@ -52,7 +54,7 @@ class WanAndroidApplication : Application() {
 
         //初始化SmartRefreshLayout构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-            layout.setPrimaryColorsId(R.color.color_primary_dark, R.color.white)
+            layout.setPrimaryColorsId(R.color.color_accent, R.color.white)
             ClassicsHeader(context)
         }
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->

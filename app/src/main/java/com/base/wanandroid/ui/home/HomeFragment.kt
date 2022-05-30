@@ -83,7 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                 showContent(true)
             }
             //自动刷新
-        }?.refreshing()
+        }?.autoRefresh()
     }
 
 
@@ -116,7 +116,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
             }
 
-        }
+        }?.autoRefresh()
 
 
     }
