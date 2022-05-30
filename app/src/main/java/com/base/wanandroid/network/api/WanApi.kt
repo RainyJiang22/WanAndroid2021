@@ -2,6 +2,7 @@ package com.base.wanandroid.network.api
 
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.BannerResponse
+import com.base.wanandroid.bean.ClassificationListResponse
 import com.base.wanandroid.bean.FriendListResponse
 import com.base.wanandroid.bean.HomeListResponse
 import com.base.wanandroid.bean.HotKeyResponse
@@ -121,5 +122,30 @@ interface WanApi {
     @GET(Constant.URI.HOME_BANNER)
     fun getBanner(): Observable<BannerResponse>
 
+
+    /**
+     * 项目分类数据
+     */
+    @GET(Constant.URI.TYPE_PROJECT)
+    fun getProjectType(): Observable<ClassificationListResponse>
+
+
+    /**
+     * 最新项目数据
+     * https://www.wanandroid.com/article/listproject/{page}/json
+     */
+    @GET(Constant.URI.Project_NEW)
+    fun getProjectNew(@Path("page") page: Int): Observable<ArticleListResponse>
+
+
+    /**
+     * 项目列表数据
+     * https://www.wanandroid.com/project/list/{page}/json?cid =111
+     */
+    @GET(Constant.URI.PROJECT_LIST)
+    fun getProjectList(
+        @Path("page") page: Int,
+        @Query("cid") cid: Int
+    ): Observable<ArticleListResponse>
 
 }

@@ -8,6 +8,7 @@
     <string name="article_author">Android轮子哥</string>
     <string name="top_tip">置顶</string>
     <string name="new_fresh">新</string>
+    <string name="new_project">最新项目</string>
     <string name="platform_fragment">公众号</string>
     <string name="just">刚刚</string>
     <string name="article_title">AndroidMVVM框架实践</string>
@@ -15,4 +16,8 @@
     <string name="article_chapter"><![CDATA[分类>项目]]></string>
     <string name="no_data">暂无数据,请重试</string>
     <string name="no_net">网络异常,请重试</string>
+    <string name="home_fragment">首页</string>
+    <string name="project_fragment">体系</string>
+    <string name="square_fragment">广场</string>
+    <string name="mine_fragment">我的</string>
 </resources>

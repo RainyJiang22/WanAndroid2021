@@ -15,5 +15,5 @@ data class ClassificationListResponse(
     val apiResponse: ApiResponse,
 
     @SerializedName("data")
-    val data: ApiPagerResponse<ClassificationResponse>
+    val data: List<ClassificationResponse>
 )

@@ -9,6 +9,8 @@ import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.*
 import androidx.annotation.IntRange
@@ -20,9 +22,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.base.wanandroid.R
+import com.base.wanandroid.widget.ScaleTransitionPagerTitleView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import net.lucode.hackware.magicindicator.MagicIndicator
+import net.lucode.hackware.magicindicator.buildins.UIUtil
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
 import java.util.*
 
 /**
@@ -148,6 +159,76 @@ fun ViewPager2.init(activity: FragmentActivity, fragments: ArrayList<Fragment>, 
         override fun getItemCount() = fragments.size
     }
     return this
+}
+
+/**
+ * ViewPager指示器扩展函数
+ *
+ * desc: 简化bindViewPager操作
+ *
+ * @param viewPager ViewPager2对象
+ * @param mStringList 用作标题的字符串集合
+ * @param action 子项行为，可空
+ */
+fun MagicIndicator.bindViewPager2(viewPager: ViewPager2, mStringList: List<String> = arrayListOf(), action: (index: Int) -> Unit = {}) {
+    val commonNavigator = CommonNavigator(context)
+    commonNavigator.adapter = object : CommonNavigatorAdapter() {
+
+        override fun getCount() = mStringList.size
+
+        @RequiresApi(Build.VERSION_CODES.N)
+        override fun getTitleView(context: Context, index: Int): IPagerTitleView {
+            return ScaleTransitionPagerTitleView(context).apply {
+                //设置文本
+                text = mStringList[index].html2Spanned()
+                //字体大小
+                textSize = 18f
+                //选中颜色
+                selectedColor = resources.getColor(R.color.color_viewpager_selected, null)
+                //未选中颜色
+                normalColor = resources.getColor(R.color.color_viewpager_unselected, null)
+                //点击事件
+                setOnClickListener {
+                    viewPager.currentItem = index
+                    action.invoke(index)
+                }
+            }
+        }
+
+        override fun getIndicator(context: Context): IPagerIndicator {
+            return LinePagerIndicator(context).apply {
+                mode = LinePagerIndicator.MODE_EXACTLY
+                //线条的宽高度
+                lineHeight = UIUtil.dip2px(context, 3.0).toFloat()
+                lineWidth = UIUtil.dip2px(context, 30.0).toFloat()
+                //线条的圆角
+                roundRadius = UIUtil.dip2px(context, 6.0).toFloat()
+                startInterpolator = AccelerateInterpolator()
+                endInterpolator = DecelerateInterpolator(2.0f)
+                //线条的颜色
+                setColors(resources.getColor(R.color.color_viewpager_selected, null))
+            }
+        }
+    }
+    this.navigator = commonNavigator
+
+    viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            this@bindViewPager2.onPageSelected(position)
+            action.invoke(position)
+        }
+
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            this@bindViewPager2.onPageScrolled(position, positionOffset, positionOffsetPixels)
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+            this@bindViewPager2.onPageScrollStateChanged(state)
+        }
+    })
 }
 
 

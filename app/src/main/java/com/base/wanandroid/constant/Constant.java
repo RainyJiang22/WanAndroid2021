@@ -11,7 +11,7 @@ public interface Constant {
 
         String BASE_URI = "https://www.wanandroid.com";
 
-  // ----------------  首页相关 ---------------
+        // ----------------  首页相关 ---------------
 
         //首页文章列表
         String HOME_LIST = "/article/list/{page}/json";
@@ -24,7 +24,7 @@ public interface Constant {
         //置顶文章
         String TOP_ARTICLE = "/top/json";
 
-  // ---------------  体系相关 -----------------
+        // ---------------  体系相关 -----------------
 
         //体系数据
         String TREE_LIST = "/tree/json";
@@ -32,7 +32,7 @@ public interface Constant {
         //体系知识下的文章
         String TREE_ARTICLE_LIST = "/article/list/{page}/json";
 
-   // ------------ 导航 --------------
+        // ------------ 导航 --------------
 
         //导航数据
         String NAVI = "/navi/json";
@@ -41,27 +41,32 @@ public interface Constant {
         //搜素
         String SEARCH = "/article/query/{page}/json";
 
-   // ------------ 项目 --------------
+        // ------------ 项目 --------------
 
         //项目分类
         String TYPE_PROJECT = "/project/tree/json";
 
         //项目列表数据
-        String PROJECT_LIST = "/project/list/1/json";
+        String PROJECT_LIST = "/project/list/{page}/json";
 
-   //  -------------登录与注册 ------------
+        /**
+         * 最新项目数据
+         */
+        String Project_NEW = "article/listproject/{page}/json";
+
+        //  -------------登录与注册 ------------
 
         //登录
         String LOGIN = "/user/login";
 
-       //注册
+        //注册
         String REGISTER = "/user/register";
 
-       //退出
+        //退出
         String LOGOUT = "/user/logout/json";
 
 
-    // ------------收藏 -------------------
+        // ------------收藏 -------------------
 
         //收藏文章列表
         String COLLECT_LIST = "/lg/collect/list/{page}/json";
@@ -75,7 +80,7 @@ public interface Constant {
         String UN_COLLECT = "lg/uncollect_originId/{articleId}/json";
 
 
-    // ---------------广场 -----------------
+        // ---------------广场 -----------------
 
         String SQUARE_ARTICLE = "user_article/list/{page}/json";
 

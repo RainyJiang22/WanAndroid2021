@@ -132,10 +132,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             )
             .compose(RxTransformer.async())
             .subscribe({
-                if (BuildConfig.LOG_ENABLE) {
-                    Log.d(TAG, "getBannerData: $it")
-                }
-
                 if (it.data?.isNotEmpty() == true) {
                     binding?.banner?.apply {
                         setAdapter(ImageTitleAdapter(Glide.with(this@HomeFragment), it.data!!))
@@ -146,12 +142,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
                 }
 
-
             }, {
-                if (BuildConfig.LOG_ENABLE) {
-                    Log.d(TAG, "getBannerError: $it")
-                }
-
+                it.printStackTrace()
             }).lifecycleOwner(this)
     }
 
