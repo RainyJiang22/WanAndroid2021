@@ -70,14 +70,22 @@ class TreeChildFragment : BaseFragment<FragmentTreeChildBinding, TreeViewModel>(
 
     private fun onRefresh() {
         binding?.page?.onRefresh {
-
             if (isNew) {
                 loadNewProject(index, {
                     if (it.data.datas.isEmpty()) {
                         showEmpty()
                     }
-                    articleAdapter.addData(it.data.datas)
-                    index += 1
+                    index += if (isNew && index == 0 || !isNew && index == 1) {
+                        articleAdapter.setList(it.data.datas)
+                        1
+                    } else {
+                        if (it.data.datas.isNullOrEmpty()) {
+                            showContent(false)
+                            return@loadNewProject
+                        }
+                        articleAdapter.addData(it.data.datas)
+                        1
+                    }
                 }, {
                     showError()
                 })
@@ -86,8 +94,17 @@ class TreeChildFragment : BaseFragment<FragmentTreeChildBinding, TreeViewModel>(
                     if (it.data.datas.isEmpty()) {
                         showEmpty()
                     }
-                    articleAdapter.addData(it.data.datas)
-                    index += 1
+                    index += if (isNew && index == 0 || !isNew && index == 1) {
+                        articleAdapter.setList(it.data.datas)
+                        1
+                    } else {
+                        if (it.data.datas.isNullOrEmpty()) {
+                            showContent(false)
+                            return@loadProjectList
+                        }
+                        articleAdapter.addData(it.data.datas)
+                        1
+                    }
                 }, {
                     showError()
                 })

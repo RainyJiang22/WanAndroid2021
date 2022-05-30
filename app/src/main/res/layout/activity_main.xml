@@ -19,6 +19,7 @@
         android:layout_height="60dp"
         android:background="@color/color_accent"
         android:elevation="0dp"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_bar">
