@@ -6,7 +6,10 @@ import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityMainBinding
 import com.base.wanandroid.ui.home.HomeFragment
-import com.base.wanandroid.ui.tree.TreeFragment
+import com.base.wanandroid.ui.mine.MineFragment
+import com.base.wanandroid.ui.platform.PlatformFragment
+import com.base.wanandroid.ui.project.ProjectFragment
+import com.base.wanandroid.ui.square.SquareFragment
 import com.base.wanandroid.utils.replaceFragment
 import com.gyf.immersionbar.ktx.immersionBar
 import com.photoroom.editor.base.EmptyViewModel
@@ -18,10 +21,21 @@ class MainActivity : BaseActivity<ActivityMainBinding, EmptyViewModel>() {
 
         const val HOME_TAG = "HOME"
         const val TREE_TAG = "TREE"
+        const val SQUARE_TAG = "SQUARE"
+        const val PLATFORM_TAG = "PLATFORM"
+        const val MINE_TAG = "MINE"
     }
 
 
-    private val fragment by lazy { arrayOf(HomeFragment(), TreeFragment()) }
+    private val fragment by lazy {
+        arrayOf(
+            HomeFragment(),
+            ProjectFragment(),
+            SquareFragment(),
+            PlatformFragment(),
+            MineFragment()
+        )
+    }
 
     override fun onBundle(bundle: Bundle) {
 
@@ -33,18 +47,26 @@ class MainActivity : BaseActivity<ActivityMainBinding, EmptyViewModel>() {
         }
 
         replaceFragment(fragment[0], HOME_TAG)
-        binding?.navTitle?.text = getString(R.string.home_name)
-
         binding?.bottomNavigation?.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.page_home -> {
                     replaceFragment(fragment[0], HOME_TAG)
-                    binding?.navTitle?.text = getString(R.string.home_name)
                     true
                 }
                 R.id.page_tree -> {
-                    binding?.navTitle?.text = getString(R.string.tree_name)
                     replaceFragment(fragment[1], TREE_TAG)
+                    true
+                }
+                R.id.page_square -> {
+                    replaceFragment(fragment[2], SQUARE_TAG)
+                    true
+                }
+                R.id.page_platform -> {
+                    replaceFragment(fragment[3], PLATFORM_TAG)
+                    true
+                }
+                R.id.page_mine -> {
+                    replaceFragment(fragment[4], MINE_TAG)
                     true
                 }
                 else -> {

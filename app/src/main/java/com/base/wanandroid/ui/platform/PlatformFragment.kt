@@ -1,36 +1,31 @@
-package com.base.wanandroid.ui.tree
+package com.base.wanandroid.ui.platform
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
-import com.base.wanandroid.BuildConfig
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseFragment
-import com.base.wanandroid.databinding.FragmentTreeBinding
+import com.base.wanandroid.databinding.FragmentPlatformBinding
+import com.base.wanandroid.ui.project.ProjectChildFragment
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.bindViewPager2
 import com.base.wanandroid.utils.init
 import com.base.wanandroid.utils.lifecycleOwner
-import com.photoroom.editor.base.EmptyViewModel
 
 /**
  * @author jiangshiyu
- * @date 2022/3/7
+ * @date 2022/5/31
+ * 公众号fragment
  */
-class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
+class PlatformFragment : BaseFragment<FragmentPlatformBinding, PlatformViewModel>() {
 
-    companion object {
-        const val TAG = "TreeFragment"
 
-    }
+    /** fragment集合 */
+    private val fragments: ArrayList<Fragment> by lazy { arrayListOf() }
 
     /** 分类集合 */
     private val classifyList: ArrayList<String> by lazy { arrayListOf() }
-
-    //子项目体系fragment集合
-    private val fragments: ArrayList<Fragment> by lazy { arrayListOf() }
 
 
     override fun onBundle(bundle: Bundle) {
@@ -38,14 +33,15 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
     }
 
     override fun init(savedInstanceState: Bundle?) {
-        loadProjectType()
+        loadPlatformList()
     }
+
 
     /**
      * 加载项目体系
      */
-    private fun loadProjectType() {
-        viewModel.getProjectType()
+    private fun loadPlatformList() {
+        viewModel.getPlatFormList()
             .compose(
                 RxLifecycleCompact.bind(this).disposeObservableWhen(
                     LifecycleEvent.DESTROY_VIEW
@@ -58,11 +54,8 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
                 //所有分类tab加上
                 classifyList.addAll(classify.data.map { it.name })
 
-                //先创建最新项目的fragment
-                fragments.add(TreeChildFragment.newInstance(0, true))
-
                 classify.data.forEach {
-                    fragments.add(TreeChildFragment.newInstance(it.id, false))
+                    fragments.add(PlatformChildFragment.newInstance(it.id))
                 }
                 //初始化
                 binding?.contentLayout?.let {
@@ -73,5 +66,4 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
             }.lifecycleOwner(this)
 
     }
-
 }

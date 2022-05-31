@@ -1,4 +1,4 @@
-package com.base.wanandroid.ui.tree
+package com.base.wanandroid.ui.project
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -7,18 +7,19 @@ import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.bean.ArticleListResponse
-import com.base.wanandroid.databinding.FragmentTreeChildBinding
+import com.base.wanandroid.databinding.FragmentChildBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
+import com.drake.brv.PageRefreshLayout
 
 /**
  * @author jiangshiyu
  * @date 2022/5/30
  * 项目体系下子fragment
  */
-class TreeChildFragment : BaseFragment<FragmentTreeChildBinding, TreeViewModel>() {
+class ProjectChildFragment : BaseFragment<FragmentChildBinding, ProjectViewModel>() {
 
     companion object {
         /**
@@ -27,12 +28,12 @@ class TreeChildFragment : BaseFragment<FragmentTreeChildBinding, TreeViewModel>(
          * @param isNew 是否最新
          * @return fragment对象
          */
-        fun newInstance(cid: Int, isNew: Boolean = false): TreeChildFragment {
+        fun newInstance(cid: Int, isNew: Boolean = false): ProjectChildFragment {
             val args = Bundle().apply {
                 putInt("cid", cid)
                 putBoolean("isNew", isNew)
             }
-            val fragment = TreeChildFragment()
+            val fragment = ProjectChildFragment()
             fragment.arguments = args
             return fragment
         }
@@ -156,6 +157,15 @@ class TreeChildFragment : BaseFragment<FragmentTreeChildBinding, TreeViewModel>(
             }, {
                 onError()
             }).lifecycleOwner(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(isNew) {
+            PageRefreshLayout.startIndex = 0
+        } else {
+            PageRefreshLayout.startIndex = 1
+        }
     }
 
 }

@@ -148,4 +148,28 @@ interface WanApi {
         @Query("cid") cid: Int
     ): Observable<ArticleListResponse>
 
+
+    /**
+     * 广场列表数据
+     */
+    @GET(Constant.URI.SQUARE_ARTICLE)
+    fun getSquareList(@Path("page") page: Int): Observable<ArticleListResponse>
+
+
+    /**
+     *公众号列表数据
+     */
+    @GET(Constant.URI.PLATFORM_LIST)
+    fun getPlatformList(): Observable<ClassificationListResponse>
+
+
+    /**
+     * 公众号历史数据
+     */
+    @GET(Constant.URI.PLATFORM_HISTORY)
+    fun getPlatformHistory(
+        @Path("cid") cid: Int,
+        @Path("page") page: Int
+    ): Observable<ArticleListResponse>
+
 }

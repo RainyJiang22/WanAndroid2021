@@ -85,6 +85,13 @@ public interface Constant {
         String SQUARE_ARTICLE = "user_article/list/{page}/json";
 
 
+        // ---------------公众号 -----------------
+
+        //公众号历史数据
+        String PLATFORM_HISTORY = "wxarticle/list/{cid}/{page}/json";
+
+        //公众号列表数据
+        String PLATFORM_LIST = "wxarticle/chapters/json";
     }
 
 }

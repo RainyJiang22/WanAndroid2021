@@ -1,4 +1,4 @@
-package com.base.wanandroid.ui.tree
+package com.base.wanandroid.ui.project
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -11,7 +11,7 @@ import io.reactivex.Observable
  * @author jiangshiyu
  * @date 2022/3/8
  */
-class TreeViewModel(application: Application) : AndroidViewModel(application) {
+class ProjectViewModel(application: Application) : AndroidViewModel(application) {
 
 
     /**
