@@ -1,5 +1,6 @@
 package com.base.wanandroid.ui.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.base.wanandroid.R
 import com.base.wanandroid.bean.BannerData
 import com.base.wanandroid.databinding.ActivityMainBinding.inflate
 import com.base.wanandroid.databinding.BannerImageTitleBinding
+import com.base.wanandroid.ui.WebActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.youth.banner.adapter.BannerAdapter
@@ -19,7 +21,11 @@ import java.util.zip.Inflater
  * @author jiangshiyu
  * @date 2022/3/8
  */
-class ImageTitleAdapter(val glide: RequestManager, dataList: List<BannerData>) :
+class ImageTitleAdapter(
+    val context: Context,
+    val glide: RequestManager,
+    dataList: List<BannerData>
+) :
     BannerAdapter<BannerData, ImageTitleAdapter.ImageTittleHolder>(dataList) {
 
 
@@ -46,9 +52,8 @@ class ImageTitleAdapter(val glide: RequestManager, dataList: List<BannerData>) :
         }
         holder?.title?.text = data?.title
 
-        setOnBannerListener { data, position ->
-
-            //TODO 2022/3/8
+        setOnBannerListener { mData, _ ->
+            WebActivity.start(context, mData.url)
         }
     }
 }

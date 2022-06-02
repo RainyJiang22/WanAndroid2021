@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
+import android.webkit.WebView
 import androidx.annotation.*
 import androidx.annotation.IntRange
 import androidx.core.view.get
@@ -23,10 +24,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.base.wanandroid.R
+import com.base.wanandroid.widget.CoolIndicatorLayout
 import com.base.wanandroid.widget.ScaleTransitionPagerTitleView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.just.agentweb.AgentWeb
+import com.just.agentweb.DefaultWebClient
+import com.just.agentweb.WebChromeClient
+import com.just.agentweb.WebViewClient
 import net.lucode.hackware.magicindicator.MagicIndicator
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -345,3 +351,36 @@ fun NestedScrollView.cancelFloatBtn(floatBtn: FloatingActionButton) {
     //清除悬浮按钮点击事件
     floatBtn.setOnClickListener(null)
 }
+
+
+/**
+ * 代理网站
+ *
+ * @param activity 活动
+ * @param webContent web容器
+ * @param layoutParams 布局参数
+ * @param webView web视图
+ * @param webViewClient web视图客户端
+ * @param webChromeClient web谷歌客户端
+ * @return 网站代理对象
+ */
+fun String.getAgentWeb(
+    activity: Activity,
+    webContent: ViewGroup,
+    layoutParams: ViewGroup.LayoutParams,
+    webView: WebView,
+    webViewClient: WebViewClient,
+    webChromeClient: WebChromeClient,
+): AgentWeb = AgentWeb.with(activity)//传入Activity or Fragment
+    .setAgentWebParent(webContent, 1, layoutParams)//传入AgentWeb的父控件
+    .setCustomIndicator(CoolIndicatorLayout(activity))
+    .setWebView(webView)
+    .setWebViewClient(webViewClient)
+    .setWebChromeClient(webChromeClient)
+    .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
+    .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
+    .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.DISALLOW)//不允许打开其他应用
+    .interceptUnkownUrl()
+    .createAgentWeb()
+    .ready()
+    .go(this)

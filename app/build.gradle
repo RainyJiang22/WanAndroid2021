@@ -130,4 +130,11 @@ dependencies {
 
     //viewpager指示器
     implementation 'com.github.hackware1993:MagicIndicator:1.7.0'
+
+    //web浏览器 https://github.com/Justson/AgentWeb
+    implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.0-alpha.1-androidx'
+    //web文件下载 https://github.com/Justson/Downloader
+    implementation 'com.github.Justson:Downloader:v5.0.0-androidx'
+    //web进度指示条 https://github.com/Justson/CoolIndicator
+    implementation 'com.github.Justson:CoolIndicator:v1.0.0'
 }

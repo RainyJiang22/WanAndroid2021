@@ -134,7 +134,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
             .subscribe({
                 if (it.data?.isNotEmpty() == true) {
                     binding?.banner?.apply {
-                        setAdapter(ImageTitleAdapter(Glide.with(this@HomeFragment), it.data!!))
+                        setAdapter(
+                            ImageTitleAdapter(
+                                context,
+                                Glide.with(this@HomeFragment),
+                                it.data!!
+                            )
+                        )
                         setPageTransformer(ZoomOutPageTransformer())
                         indicator = CircleIndicator(requireContext())
                         addBannerLifecycleObserver(this@HomeFragment)

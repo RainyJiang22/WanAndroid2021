@@ -49,9 +49,7 @@ class PlatformFragment : BaseFragment<FragmentPlatformBinding, PlatformViewModel
             )
             .compose(RxTransformer.async())
             .subscribe { classify ->
-                //最新项目tab
-                classifyList.add(getString(R.string.new_project))
-                //所有分类tab加上
+                //所有分类
                 classifyList.addAll(classify.data.map { it.name })
 
                 classify.data.forEach {
