@@ -9,7 +9,6 @@ import com.base.wanandroid.bean.HomeListResponse
 import com.base.wanandroid.bean.HotKeyResponse
 import com.base.wanandroid.bean.LoginResponse
 import com.base.wanandroid.bean.TreeListResponse
-import com.base.wanandroid.bean.base.ApiPagerResponse
 import com.base.wanandroid.constant.Constant
 import com.base.wanandroid.network.entity.ApiResponse
 import io.reactivex.Observable
@@ -174,5 +173,9 @@ interface WanApi {
         @Path("cid") cid: Int,
         @Path("page") page: Int
     ): Observable<ArticleListResponse>
+
+
+    @GET(Constant.URI.InquiryAnswerAPI)
+    fun getAnswerList(@Path("page") page: Int): Observable<ArticleListResponse>
 
 }

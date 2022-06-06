@@ -92,6 +92,9 @@ public interface Constant {
 
         //公众号列表数据
         String PLATFORM_LIST = "wxarticle/chapters/json";
+
+        //问答数据路径
+        String InquiryAnswerAPI = "wenda/list/{page}/json";
     }
 
 }

@@ -23,6 +23,8 @@ import com.base.wanandroid.utils.lifecycleOwner
 class SquareChildFragment : BaseFragment<FragmentChildBinding, SquareViewModel>() {
 
 
+    private var first = true
+
     private val articleAdapter by lazy {
         ArticleAdapter(true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
@@ -50,9 +52,10 @@ class SquareChildFragment : BaseFragment<FragmentChildBinding, SquareViewModel>(
         binding?.page?.onRefresh {
 
             loadSquareList(index, {
-                if (it.data.datas.isEmpty()) {
+                if (first && it.data.datas.isEmpty()) {
                     showEmpty()
                 } else {
+                    first = false
                     index += if (index == 0) {
                         articleAdapter.setList(it.data.datas)
                         1

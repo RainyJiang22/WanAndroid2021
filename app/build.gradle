@@ -137,4 +137,7 @@ dependencies {
     implementation 'com.github.Justson:Downloader:v5.0.0-androidx'
     //web进度指示条 https://github.com/Justson/CoolIndicator
     implementation 'com.github.Justson:CoolIndicator:v1.0.0'
+
+    //伸缩布局
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }

@@ -1,4 +1,4 @@
-package com.base.wanandroid.ui.platform
+package com.base.wanandroid.ui.answer
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
@@ -17,23 +17,12 @@ import kotlinx.coroutines.launch
 
 /**
  * @author jiangshiyu
- * @date 2022/5/31
+ * @date 2022/6/6
  */
-class PlatformChildFragment : BaseFragment<FragmentChildBinding, PlatformViewModel>() {
+class InquiryAnswerFragment : BaseFragment<FragmentChildBinding, AnswerViewModel>() {
 
 
-    companion object {
-
-        fun newInstance(cid: Int): PlatformChildFragment {
-            val args = Bundle().apply {
-                putInt("cid", cid)
-            }
-            val fragment = PlatformChildFragment()
-            fragment.arguments = args
-            return fragment
-        }
-
-    }
+    private var first = true
 
     private val articleAdapter by lazy {
         ArticleAdapter(true).apply {
@@ -41,19 +30,11 @@ class PlatformChildFragment : BaseFragment<FragmentChildBinding, PlatformViewMod
         }
     }
 
-    private var first = true
-
-    private var cid = 0
-
     override fun onBundle(bundle: Bundle) {
+
     }
 
     override fun init(savedInstanceState: Bundle?) {
-
-        arguments?.let {
-            //项目id
-            cid = it.getInt("cid")
-        }
         initAdapter()
     }
 
@@ -65,13 +46,12 @@ class PlatformChildFragment : BaseFragment<FragmentChildBinding, PlatformViewMod
         onRefresh()
     }
 
-
     private fun onRefresh() {
         binding?.page?.onRefresh {
             lifecycleScope.launch {
-                viewModel.getPlatFormHistory(cid, index)
+                viewModel.getAnswerList(index)
                     .compose(
-                        RxLifecycleCompact.bind(this@PlatformChildFragment)
+                        RxLifecycleCompact.bind(this@InquiryAnswerFragment)
                             .disposeObservableWhen(LifecycleEvent.DESTROY_VIEW)
                     )
                     .compose(RxTransformer.async())
@@ -94,13 +74,12 @@ class PlatformChildFragment : BaseFragment<FragmentChildBinding, PlatformViewMod
                         }
                     }, {
                         showError()
-                    }).lifecycleOwner(this@PlatformChildFragment)
+                    }).lifecycleOwner(this@InquiryAnswerFragment)
 
             }
             showContent(true)
         }?.autoRefresh()
     }
-
 
     override fun onResume() {
         super.onResume()

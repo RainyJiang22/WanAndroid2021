@@ -5,6 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.TreeListResponse
 import com.base.wanandroid.network.RetrofitHelper
+import com.base.wanandroid.network.entity.ApiResponse
+import com.example.wanAndroid.logic.model.SystemResponse
 import io.reactivex.Observable
 
 /**

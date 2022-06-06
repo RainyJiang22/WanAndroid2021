@@ -20,7 +20,7 @@ class WebContainer : CoordinatorLayout {
             ContextCompat.getColor(
                 context,
                 R.color.color_web_bg_draw
-            ), 1f
+            ), 0f
         )
     }
 

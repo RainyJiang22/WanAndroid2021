@@ -1,5 +1,7 @@
 package com.base.wanandroid.bean
 
+import com.base.wanandroid.bean.base.ApiResponse
+import com.example.wanAndroid.logic.model.SystemResponse
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -8,42 +10,9 @@ import java.io.Serializable
  * @date 2022/3/7
  */
 data class TreeListResponse(
-    @SerializedName("baseResponse")
-    var baseResponse: BaseResponse,
+    @SerializedName("apiResponse")
+    val apiResponse: ApiResponse,
+
     @SerializedName("data")
-    var data: List<Data>
-) {
-    data class Data(
-        @SerializedName("id")
-        var id: Int,
-        @SerializedName("name")
-        var name: String,
-        @SerializedName("courseId")
-        var courseId: Int,
-        @SerializedName("parentChapterId")
-        var parentChapterId: Int,
-        @SerializedName("order")
-        var order: Int,
-        @SerializedName("visible")
-        var visible: Int,
-        @SerializedName("children")
-        var children: List<Children>?
-    ) : Serializable {
-        data class Children(
-            @SerializedName("id")
-            var id: Int,
-            @SerializedName("name")
-            var name: String,
-            @SerializedName("courseId")
-            var courseId: Int,
-            @SerializedName("parentChapterId")
-            var parentChapterId: Int,
-            @SerializedName("order")
-            var order: Int,
-            @SerializedName("visible")
-            var visible: Int,
-            @SerializedName("children")
-            var children: List<Children>?
-        ) : Serializable
-    }
-}
+    val data: List<SystemResponse>,
+)
