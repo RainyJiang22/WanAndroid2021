@@ -3,12 +3,15 @@ package com.base.wanandroid.network.api
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.BannerResponse
 import com.base.wanandroid.bean.ClassificationListResponse
+import com.base.wanandroid.bean.Data
 import com.base.wanandroid.bean.FriendListResponse
 import com.base.wanandroid.bean.HomeListResponse
 import com.base.wanandroid.bean.HotKeyResponse
 import com.base.wanandroid.bean.LoginResponse
 import com.base.wanandroid.bean.TreeListResponse
+import com.base.wanandroid.bean.base.ApiPagerResponse
 import com.base.wanandroid.constant.Constant
+import com.base.wanandroid.network.entity.ApiResponse
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -30,7 +33,7 @@ interface WanApi {
      * @param page page
      */
     @GET(Constant.URI.HOME_LIST)
-    fun getHomeList(@Path("page") page: Int): Observable<HomeListResponse>
+    fun getHomeList(@Path("page") page: Int): Observable<ApiResponse<Data>>
 
 
     /**

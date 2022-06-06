@@ -9,13 +9,9 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.base.wanandroid.R
 import com.base.wanandroid.bean.BannerData
-import com.base.wanandroid.databinding.ActivityMainBinding.inflate
-import com.base.wanandroid.databinding.BannerImageTitleBinding
-import com.base.wanandroid.ui.WebActivity
-import com.bumptech.glide.Glide
+import com.base.wanandroid.ui.web.WebActivity
 import com.bumptech.glide.RequestManager
 import com.youth.banner.adapter.BannerAdapter
-import java.util.zip.Inflater
 
 /**
  * @author jiangshiyu

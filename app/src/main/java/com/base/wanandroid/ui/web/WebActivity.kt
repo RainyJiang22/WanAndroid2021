@@ -1,4 +1,4 @@
-package com.base.wanandroid.ui
+package com.base.wanandroid.ui.web
 
 import android.content.Context
 import android.content.Intent
@@ -12,11 +12,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityWebBinding
-import com.base.wanandroid.ui.web.BaseWebClient
 import com.base.wanandroid.utils.getAgentWeb
 import com.base.wanandroid.utils.html2Spanned
 import com.base.wanandroid.utils.html2String
-import com.download.library.DownloadImpl
 import com.google.android.material.appbar.AppBarLayout
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.NestedScrollAgentWebView

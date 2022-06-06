@@ -15,13 +15,24 @@ import com.base.wanandroid.utils.alphaColor
  */
 class WebContainer : CoordinatorLayout {
 
-    private val mMaskColor by lazy { alphaColor(ContextCompat.getColor(context, R.color.color_web_bg_draw), 0.5f) }
+    private val mMaskColor by lazy {
+        alphaColor(
+            ContextCompat.getColor(
+                context,
+                R.color.color_web_bg_draw
+            ), 1f
+        )
+    }
 
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     override fun dispatchDraw(canvas: Canvas) {
         super.dispatchDraw(canvas)
