@@ -140,4 +140,6 @@ dependencies {
 
     //伸缩布局
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    //垂直选项卡布局 https://github.com/qstumn/VerticalTabLayout
+    implementation 'q.rorbin:VerticalTabLayout:1.2.9'
 }

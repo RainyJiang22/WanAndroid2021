@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentSquareBinding
 import com.base.wanandroid.ui.answer.InquiryAnswerFragment
+import com.base.wanandroid.ui.navigation.NavigationFragment
 import com.base.wanandroid.ui.tree.TreeFragment
 import com.base.wanandroid.utils.bindViewPager2
 import com.base.wanandroid.utils.init
@@ -28,7 +29,7 @@ class SquareFragment : BaseFragment<FragmentSquareBinding, SquareViewModel>() {
         fragments.add(SquareChildFragment())
         fragments.add(InquiryAnswerFragment())
         fragments.add(TreeFragment())
-        fragments.add(SquareChildFragment())
+        fragments.add(NavigationFragment())
     }
 
     override fun onBundle(bundle: Bundle) {

@@ -8,6 +8,7 @@ import com.base.wanandroid.bean.FriendListResponse
 import com.base.wanandroid.bean.HomeListResponse
 import com.base.wanandroid.bean.HotKeyResponse
 import com.base.wanandroid.bean.LoginResponse
+import com.base.wanandroid.bean.NavigationListResponse
 import com.base.wanandroid.bean.TreeListResponse
 import com.base.wanandroid.constant.Constant
 import com.base.wanandroid.network.entity.ApiResponse
@@ -175,7 +176,16 @@ interface WanApi {
     ): Observable<ArticleListResponse>
 
 
+    /**
+     * 问答列表
+     */
     @GET(Constant.URI.InquiryAnswerAPI)
     fun getAnswerList(@Path("page") page: Int): Observable<ArticleListResponse>
 
+
+    /**
+     * 导航tab
+     */
+    @GET(Constant.URI.NAVI)
+    fun getNaviList(): Observable<NavigationListResponse>
 }

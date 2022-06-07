@@ -13,5 +13,5 @@ data class NavigationListResponse(
     @SerializedName("apiResponse")
     val apiResponse: ApiResponse,
     @SerializedName("data")
-    val data: ApiPagerResponse<NavigationResponse>
+    val data: List<NavigationResponse>
 )
