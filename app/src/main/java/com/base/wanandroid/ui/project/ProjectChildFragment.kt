@@ -42,6 +42,8 @@ class ProjectChildFragment : BaseFragment<FragmentChildBinding, ProjectViewModel
     private var cid = 0
     private var isNew = false
 
+    private var first = true
+
     private val articleAdapter by lazy {
         ArticleAdapter(true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
@@ -73,38 +75,42 @@ class ProjectChildFragment : BaseFragment<FragmentChildBinding, ProjectViewModel
         binding?.page?.onRefresh {
             if (isNew) {
                 loadNewProject(index, {
-                    if (it.data.datas.isEmpty()) {
+                    if (first && it.data.datas.isEmpty()) {
                         showEmpty()
-                    }
-                    index += if (isNew && index == 0 || !isNew && index == 1) {
-                        articleAdapter.setList(it.data.datas)
-                        1
                     } else {
-                        if (it.data.datas.isNullOrEmpty()) {
-                            showContent(false)
-                            return@loadNewProject
+                        first = false
+                        index += if (isNew && index == 0 || !isNew && index == 1) {
+                            articleAdapter.setList(it.data.datas)
+                            1
+                        } else {
+                            if (it.data.datas.isNullOrEmpty()) {
+                                showContent(false)
+                                return@loadNewProject
+                            }
+                            articleAdapter.addData(it.data.datas)
+                            1
                         }
-                        articleAdapter.addData(it.data.datas)
-                        1
                     }
                 }, {
                     showError()
                 })
             } else {
                 loadProjectList(index, cid, {
-                    if (it.data.datas.isEmpty()) {
+                    if (first && it.data.datas.isEmpty()) {
                         showEmpty()
-                    }
-                    index += if (isNew && index == 0 || !isNew && index == 1) {
-                        articleAdapter.setList(it.data.datas)
-                        1
                     } else {
-                        if (it.data.datas.isNullOrEmpty()) {
-                            showContent(false)
-                            return@loadProjectList
+                        first = false
+                        index += if (isNew && index == 0 || !isNew && index == 1) {
+                            articleAdapter.setList(it.data.datas)
+                            1
+                        } else {
+                            if (it.data.datas.isNullOrEmpty()) {
+                                showContent(false)
+                                return@loadProjectList
+                            }
+                            articleAdapter.addData(it.data.datas)
+                            1
                         }
-                        articleAdapter.addData(it.data.datas)
-                        1
                     }
                 }, {
                     showError()
