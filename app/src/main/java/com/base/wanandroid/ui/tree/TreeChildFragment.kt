@@ -86,9 +86,10 @@ class TreeChildFragment : BaseFragment<FragmentChildBinding, TreeViewModel>() {
                             articleAdapter.addData(it.data.datas)
                             1
                         }
+                        showContent(true)
                     }
                 }, {
-
+                    showError()
                 }).lifecycleOwner(this@TreeChildFragment)
         }?.autoRefresh()
 
