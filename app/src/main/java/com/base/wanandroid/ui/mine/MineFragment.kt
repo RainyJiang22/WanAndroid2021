@@ -8,8 +8,9 @@ import com.photoroom.editor.base.EmptyViewModel
 /**
  * @author jiangshiyu
  * @date 2022/5/31
+ * 我的界面
  */
-class MineFragment : BaseFragment<FragmentMineBinding,EmptyViewModel>() {
+class MineFragment : BaseFragment<FragmentMineBinding, EmptyViewModel>() {
     override fun onBundle(bundle: Bundle) {
     }
 

@@ -12,6 +12,8 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityWebBinding
+import com.base.wanandroid.history.HistoryRepository
+import com.base.wanandroid.history.bean.HistoryEntity
 import com.base.wanandroid.utils.getAgentWeb
 import com.base.wanandroid.utils.html2Spanned
 import com.base.wanandroid.utils.html2String
@@ -20,6 +22,7 @@ import com.just.agentweb.AgentWeb
 import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
 import com.photoroom.editor.base.EmptyViewModel
+import io.reactivex.schedulers.Schedulers
 
 /**
  * @author jiangshiyu
@@ -33,6 +36,8 @@ class WebActivity : BaseActivity<ActivityWebBinding, EmptyViewModel>() {
     private var shareId = -1
     private var isArticle = true
     private var originId = -1
+
+    private var historySource: HistoryEntity? = null
 
     companion object {
 
@@ -134,6 +139,19 @@ class WebActivity : BaseActivity<ActivityWebBinding, EmptyViewModel>() {
                 this@WebActivity.shareTitle = title.html2String()
                 //设置网页分享URL
                 this@WebActivity.shareUrl = view.url.toString()
+
+                val historyRecordBean = historySource?.copy(
+                    date = System.currentTimeMillis().toString()
+                ) ?: HistoryEntity(
+                    null,
+                    shareTitle,
+                    shareUrl,
+                    System.currentTimeMillis().toString()
+                )
+                HistoryRepository
+                    .saveHistoryRecord(historyRecordBean)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe()
             }
         }
     }
