@@ -3,13 +3,17 @@ package com.base.wanandroid.ui.home
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.LinearLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.BuildConfig
+import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentHomeBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
@@ -47,6 +51,81 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         onRefresh()
         //加载
         onLoadMore()
+
+        //侧滑栏
+        initNavigationView()
+        //抽屉布局
+        initDrawerLayout()
+    }
+
+
+    private fun initDrawerLayout() {
+        binding?.toolbar?.title = getString(R.string.home_name)
+        binding?.drawerLayout?.run {
+            //开关抽屉时导航按钮的旋转动画效果
+            val toggle = ActionBarDrawerToggle(
+                requireActivity(),
+                this,
+                binding?.toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+            )
+            addDrawerListener(toggle)
+            toggle.syncState()
+
+            //侧滑栏
+            this.addDrawerListener(object : DrawerLayout.DrawerListener {
+                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                    val content = binding?.drawerLayout?.getChildAt(0)
+                    val scale = 1 - slideOffset
+                    content?.translationX = drawerView.measuredWidth * (1 - scale)
+                }
+
+                override fun onDrawerOpened(drawerView: View) {
+                }
+
+                override fun onDrawerClosed(drawerView: View) {
+                }
+
+                override fun onDrawerStateChanged(newState: Int) {
+                }
+
+            })
+        }
+
+
+    }
+
+    private fun initNavigationView() {
+
+        binding?.navView?.let {
+
+            it.setNavigationItemSelectedListener { menu ->
+                when (menu.itemId) {
+                    R.id.nav_integral -> {
+                        //TODO 积分页
+                    }
+                    R.id.nav_collect -> {
+                        //TODO 我的收藏页
+                    }
+
+                    R.id.nav_share -> {
+                        //TODO 分享
+
+                    }
+                    R.id.nav_record -> {
+                        //TODO 历史记录
+                    }
+                    R.id.nav_setting -> {
+                        //TODO 设置
+                    }
+                    R.id.nav_exit -> {
+                        //TODO 离开
+                    }
+                }
+                true
+            }
+        }
     }
 
 

@@ -57,4 +57,9 @@
         <!--<item name="navigationIcon">@drawable/ic_menu</item>-->
         <item name="titleTextAppearance">@style/KToolbarTitleAppearance</item>
     </style>
+
+    <style name="CircleStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>
