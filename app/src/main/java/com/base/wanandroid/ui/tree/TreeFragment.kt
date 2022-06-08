@@ -22,7 +22,7 @@ class TreeFragment : BaseFragment<FragmentTreeBinding, TreeViewModel>() {
     //是否初次切换
     private var first = true
 
-    private val treeAdapter by lazy { TreeAdapter() }
+    private val treeAdapter by lazy { TreeAdapter(arrayListOf()) }
 
     override fun onBundle(bundle: Bundle) {
     }

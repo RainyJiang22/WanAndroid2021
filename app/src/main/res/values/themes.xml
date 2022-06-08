@@ -49,4 +49,12 @@
         <!--标题文本颜色，这里注释，为了适配夜间主题自动切换颜色-->
         <!--<item name="android:textColor">@android:color/black</item>-->
     </style>
+
+    <style name="KToolbarStyle" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <!--导航按钮图标，这里注释，在代码中定义ActionBarDrawerToggle-->
+        <!--<item name="navigationIcon">@drawable/ic_menu</item>-->
+        <item name="titleTextAppearance">@style/KToolbarTitleAppearance</item>
+    </style>
 </resources>

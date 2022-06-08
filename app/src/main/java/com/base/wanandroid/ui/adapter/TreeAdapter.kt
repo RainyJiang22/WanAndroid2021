@@ -4,9 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.base.wanandroid.R
+import com.base.wanandroid.ui.tree.TreeActivity
 import com.base.wanandroid.utils.html2Spanned
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.drake.serialize.intent.openActivity
 import com.example.wanAndroid.logic.model.SystemResponse
 import com.google.android.flexbox.FlexboxLayoutManager
 
@@ -14,11 +16,20 @@ import com.google.android.flexbox.FlexboxLayoutManager
  * @author jiangshiyu
  * @date 2022/6/6
  */
-class TreeAdapter : BaseQuickAdapter<SystemResponse, BaseViewHolder>(R.layout.item_system_list) {
+class TreeAdapter(dataList: MutableList<SystemResponse>) :
+    BaseQuickAdapter<SystemResponse, BaseViewHolder>(R.layout.item_system_list, dataList) {
 
     init {
         //默认加载动画
         setAnimationWithDefault(AnimationType.ScaleIn)
+        this.setOnItemClickListener { _, _, position ->
+            //打开体系页面
+            context.openActivity<TreeActivity>(
+                "title" to dataList[position].name,
+                "content" to dataList[position].children.map { it.name },
+                "cid" to dataList[position].children.map { it.id }
+            )
+        }
     }
 
     override fun onItemViewHolderCreated(viewHolder: BaseViewHolder, viewType: Int) {
@@ -41,7 +52,14 @@ class TreeAdapter : BaseQuickAdapter<SystemResponse, BaseViewHolder>(R.layout.it
         holder.getView<RecyclerView>(R.id.rv).adapter = TreeChildAdapter(item.children).run {
             //给子项适配器设置点击事件
             setOnItemClickListener { _, _, position ->
-                //todo 打开体系页面 2022/6/6
+                //打开体系页面
+                context.openActivity<TreeActivity>(
+                    //传递页面标题 子名称集合 子ID集合 索引
+                    "title" to item.name,
+                    "content" to item.children.map { it.name },
+                    "cid" to item.children.map { it.id },
+                    "index" to position
+                )
             }
             this
         }

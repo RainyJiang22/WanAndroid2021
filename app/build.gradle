@@ -142,4 +142,7 @@ dependencies {
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     //垂直选项卡布局 https://github.com/qstumn/VerticalTabLayout
     implementation 'q.rorbin:VerticalTabLayout:1.2.9'
+
+    //序列化数据 https://github.com/liangjingkanji/Serialize
+    implementation 'com.github.liangjingkanji:Serialize:1.2.3'
 }
