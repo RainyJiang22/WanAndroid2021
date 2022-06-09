@@ -31,6 +31,10 @@
             android:name=".ui.tree.TreeActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.history.HistoryRecordActivity"
+            android:exported="false" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -18,10 +18,12 @@ import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentHomeBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.adapter.ImageTitleAdapter
+import com.base.wanandroid.ui.history.HistoryRecordActivity
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
 import com.bumptech.glide.Glide
 import com.drake.brv.PageRefreshLayout
+import com.drake.serialize.intent.openActivity
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.ZoomOutPageTransformer
 import kotlinx.coroutines.launch
@@ -114,7 +116,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
                     }
                     R.id.nav_record -> {
-                        //TODO 历史记录
+                        //历史记录
+                        openActivity<HistoryRecordActivity>()
                     }
                     R.id.nav_setting -> {
                         //TODO 设置
@@ -172,6 +175,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
     private fun onLoadMore() {
         binding?.pageHome?.onLoadMore {
             lifecycleScope.launch {
+                view
                 viewModel.getArticleList(index)
                     .timeout(30, TimeUnit.SECONDS)
                     .compose(
