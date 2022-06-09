@@ -76,4 +76,22 @@
         <item name="titleSize">@dimen/sp_20</item>
         <item name="lineVisible">false</item>
     </style>
+
+    <!--设置栏通用样式-->
+    <style name="SettingBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="bar_leftTextSize">@dimen/sp_16</item>
+        <item name="bar_leftTextColor">?android:attr/textColorPrimary</item>
+        <item name="bar_leftDrawablePadding">@dimen/dp_20</item>
+        <item name="bar_leftDrawableTint">@color/color_drawable_bg_tint</item>
+        <item name="bar_rightTextColor">?android:attr/textColorSecondary</item>
+        <item name="bar_rightDrawable">@drawable/ic_arrows_right</item>
+        <item name="bar_rightDrawableTint">@color/color_ic_bg_tint</item>
+        <item name="bar_lineVisible">false</item>
+    </style>
+
+
 </resources>

@@ -1,4 +1,4 @@
-package com.photoroom.editor.base
+package com.base.wanandroid.base
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

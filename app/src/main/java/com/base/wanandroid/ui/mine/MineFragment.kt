@@ -3,7 +3,7 @@ package com.base.wanandroid.ui.mine
 import android.os.Bundle
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentMineBinding
-import com.photoroom.editor.base.EmptyViewModel
+import com.base.wanandroid.base.EmptyViewModel
 
 /**
  * @author jiangshiyu

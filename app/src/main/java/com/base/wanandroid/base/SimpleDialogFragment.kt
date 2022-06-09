@@ -16,8 +16,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.viewbinding.ViewBinding
 import com.base.wanandroid.utils.binding
-import com.photoroom.editor.base.WindowParam
-import com.photoroom.editor.base.WindowParams
 import java.lang.reflect.ParameterizedType
 
 

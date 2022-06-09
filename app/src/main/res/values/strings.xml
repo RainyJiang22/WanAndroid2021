@@ -22,6 +22,11 @@
     <string name="mine_fragment">我的</string>
     <string name="loading">加载中</string>
 
+
+    <string name="sure">确定</string>
+    <string name="cancel">取消</string>
+
+
     <string name="my_integral">我的积分</string>
     <string name="my_collect">我的收藏</string>
     <string name="my_share">我的分享</string>
@@ -39,4 +44,28 @@
     <string name="clear">清空</string>
     <string name="date">2022\-06\-07 00:00:00</string>
     <string name="delete_succeed">删除成功</string>
+
+    <string name="setting">设置</string>
+    <string name="setting_dark">夜间模式</string>
+    <string name="setting_clear">清除缓存</string>
+    <string name="setting_scan">扫码下载</string>
+    <string name="setting_update">版本更新</string>
+    <string name="setting_web">官方网站</string>
+    <string name="setting_project">项目源码</string>
+    <string name="setting_copyright">版权声明</string>
+    <string name="setting_about">关于我们</string>
+    <string name="setting_cache">0MB</string>
+    <string name="setting_recommend">好用的话推荐给你的小伙伴吧</string>
+    <string name="setting_version">当前版本 %s</string>
+    <string name="setting_site">https://www.wanandroid.com</string>
+    <string name="setting_code">RainyJiang22/WanAndroid2021</string>
+    <string name="setting_tips">仅作个人及非商业用途</string>
+    <string name="setting_desc">一个练习时长一年半的安卓菜鸟程序员</string>
+    <string name="clear_cache">确定清理缓存吗</string>
+    <string name="clear_success">清理成功</string>
+    <string name="setting_repository">https://github.com/RainyJiang22/WanAndroid2021</string>
+    <string name="copyright_content">本APP所使用的所有API均由 玩Android 网站提供，仅供学习交流，不可用于任何商业用途。</string>
+    <string name="qq">3434481891</string>
+    <string name="email">jiangshiyuxs@email.com</string>
+    <string name="github">github.com/RainyJiang22</string>
 </resources>

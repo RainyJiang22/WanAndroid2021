@@ -1,8 +1,6 @@
 package com.base.wanandroid.ui.adapter
 
 import android.os.Build
-import android.text.format.DateFormat
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.AppCompatTextView
 import com.base.wanandroid.R
@@ -10,7 +8,6 @@ import com.base.wanandroid.history.bean.HistoryEntity
 import com.base.wanandroid.utils.html2Spanned
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import java.util.*
 
 /**
  * @author jiangshiyu

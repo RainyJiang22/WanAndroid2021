@@ -35,6 +35,10 @@
             android:name=".ui.history.HistoryRecordActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:exported="false" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -22,7 +22,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
-import com.photoroom.editor.base.EmptyViewModel
+import com.base.wanandroid.base.EmptyViewModel
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*

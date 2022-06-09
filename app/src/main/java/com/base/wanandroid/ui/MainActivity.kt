@@ -12,7 +12,7 @@ import com.base.wanandroid.ui.project.ProjectFragment
 import com.base.wanandroid.ui.square.SquareFragment
 import com.base.wanandroid.utils.replaceFragment
 import com.gyf.immersionbar.ktx.immersionBar
-import com.photoroom.editor.base.EmptyViewModel
+import com.base.wanandroid.base.EmptyViewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding, EmptyViewModel>() {
 

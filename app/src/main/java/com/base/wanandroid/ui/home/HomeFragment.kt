@@ -19,6 +19,7 @@ import com.base.wanandroid.databinding.FragmentHomeBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.adapter.ImageTitleAdapter
 import com.base.wanandroid.ui.history.HistoryRecordActivity
+import com.base.wanandroid.ui.setting.SettingActivity
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
 import com.bumptech.glide.Glide
@@ -112,15 +113,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                     }
 
                     R.id.nav_share -> {
-                        //TODO 分享
-
+                        //TODO 分享文章，内容
                     }
                     R.id.nav_record -> {
                         //历史记录
                         openActivity<HistoryRecordActivity>()
                     }
                     R.id.nav_setting -> {
-                        //TODO 设置
+                        openActivity<SettingActivity>()
                     }
                     R.id.nav_exit -> {
                         //TODO 离开
