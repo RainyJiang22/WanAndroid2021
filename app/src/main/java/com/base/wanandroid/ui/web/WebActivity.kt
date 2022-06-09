@@ -1,5 +1,6 @@
 package com.base.wanandroid.ui.web
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -23,6 +24,8 @@ import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
 import com.photoroom.editor.base.EmptyViewModel
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * @author jiangshiyu
@@ -141,12 +144,12 @@ class WebActivity : BaseActivity<ActivityWebBinding, EmptyViewModel>() {
                 this@WebActivity.shareUrl = view.url.toString()
 
                 val historyRecordBean = historySource?.copy(
-                    date = System.currentTimeMillis().toString()
+                    date = getNowDateTime()
                 ) ?: HistoryEntity(
                     null,
                     shareTitle,
                     shareUrl,
-                    System.currentTimeMillis().toString()
+                    getNowDateTime()
                 )
                 HistoryRepository
                     .saveHistoryRecord(historyRecordBean)
@@ -155,6 +158,14 @@ class WebActivity : BaseActivity<ActivityWebBinding, EmptyViewModel>() {
             }
         }
     }
+
+    //获取当前完整时间
+    @SuppressLint("SimpleDateFormat")
+    fun getNowDateTime(): String {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        return simpleDateFormat.format(Date())
+    }
+
 
     private fun initWebView() {
         val webView = NestedScrollAgentWebView(this)
