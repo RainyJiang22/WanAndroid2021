@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WanAndroid">
         <activity
-            android:name=".mvi.article.ArticleActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +37,14 @@
 
         <activity
             android:name=".ui.setting.SettingActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.user.LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.user.RegisterActivity"
             android:exported="false" />
 
         <provider

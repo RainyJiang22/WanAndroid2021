@@ -62,6 +62,11 @@ public interface Constant {
         //注册
         String REGISTER = "/user/register";
 
+        /**
+         * 用户积分路径
+         */
+        String CoinInfo = "lg/coin/userinfo/json";
+
         //退出
         String LOGOUT = "/user/logout/json";
 

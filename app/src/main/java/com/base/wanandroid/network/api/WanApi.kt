@@ -3,6 +3,7 @@ package com.base.wanandroid.network.api
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.BannerResponse
 import com.base.wanandroid.bean.ClassificationListResponse
+import com.base.wanandroid.bean.CoinInfoResponse
 import com.base.wanandroid.bean.Data
 import com.base.wanandroid.bean.FriendListResponse
 import com.base.wanandroid.bean.HomeListResponse
@@ -10,6 +11,7 @@ import com.base.wanandroid.bean.HotKeyResponse
 import com.base.wanandroid.bean.LoginResponse
 import com.base.wanandroid.bean.NavigationListResponse
 import com.base.wanandroid.bean.TreeListResponse
+import com.base.wanandroid.bean.UserInfoResponse
 import com.base.wanandroid.constant.Constant
 import com.base.wanandroid.network.entity.ApiResponse
 import io.reactivex.Observable
@@ -100,7 +102,7 @@ interface WanApi {
     fun loginWanAndroid(
         @Field("username") username: String,
         @Field("password") password: String
-    ): Observable<LoginResponse>
+    ): Observable<ApiResponse<UserInfoResponse>>
 
     /**
      * 注册
@@ -115,8 +117,14 @@ interface WanApi {
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("repassword") repassowrd: String
-    ): Observable<LoginResponse>
+    ): Observable<ApiResponse<UserInfoResponse>>
 
+
+    /**
+     * 获取个人积分，需要用户登录
+     */
+    @GET(Constant.URI.CoinInfo)
+    fun getCoinInfo(): Observable<ApiResponse<CoinInfoResponse>>
 
     /**
      * 首页Banner
@@ -188,4 +196,5 @@ interface WanApi {
      */
     @GET(Constant.URI.NAVI)
     fun getNaviList(): Observable<NavigationListResponse>
+
 }
