@@ -10,7 +10,12 @@ import com.base.wanandroid.utils.FetchStatus
 
 data class ArticleViewState(
     val fetchStatus: FetchStatus = FetchStatus.NotFetched,
-    val articleList: List<ArticleResponse> = emptyList()
+    val articleList: RefreshData = RefreshData()
+)
+
+data class RefreshData(
+    val currentList: List<ArticleResponse> = emptyList(),
+    val isRefresh: Boolean = false
 )
 
 
@@ -24,8 +29,10 @@ sealed class ArticleViewEvent {
 sealed class ArticleViewAction {
 
     data class ArticleItemClicked(val articleItem: ArticleResponse) : ArticleViewAction()
-    //刷新
+    //上拉刷新
     object OnSwipeRefresh : ArticleViewAction()
+    //下拉加载
+    object OnLoadMore : ArticleViewAction()
     //解析
     object FetchArticle : ArticleViewAction()
 }

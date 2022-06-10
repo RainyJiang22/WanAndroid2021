@@ -33,10 +33,9 @@ class ArticleViewModel(application: Application) : AndroidViewModel(application)
     fun dispatch(viewAction: ArticleViewAction) {
         when (viewAction) {
             is ArticleViewAction.ArticleItemClicked -> articleItemClicked(viewAction.articleItem)
-
-            ArticleViewAction.OnSwipeRefresh -> fetchArticleList()
-
-            ArticleViewAction.FetchArticle -> fetchArticleList()
+            ArticleViewAction.OnSwipeRefresh -> fetchArticleList(isRefresh = false)
+            ArticleViewAction.OnLoadMore -> fetchArticleList(isRefresh = true)
+            ArticleViewAction.FetchArticle -> fetchArticleList(isRefresh = false)
         }
     }
 
@@ -45,7 +44,7 @@ class ArticleViewModel(application: Application) : AndroidViewModel(application)
         _viewEvents.setEvent(ArticleViewEvent.ShowToast(message = articleItem.title))
     }
 
-    private fun fetchArticleList() {
+    private fun fetchArticleList(isRefresh: Boolean) {
         _viewStates.setState {
             //正在加载
             copy(fetchStatus = FetchStatus.Fetching)
@@ -66,7 +65,10 @@ class ArticleViewModel(application: Application) : AndroidViewModel(application)
                     //加载成功
                     page++
                     _viewStates.setState {
-                        copy(fetchStatus = FetchStatus.Fetched, articleList = result.data.datas)
+                        copy(
+                            fetchStatus = FetchStatus.Fetched,
+                            articleList = RefreshData(result.data.datas, isRefresh)
+                        )
                     }
                 }
             }

@@ -1,12 +1,15 @@
 package com.base.wanandroid.mvi.article
 
 import android.os.Bundle
+import androidx.core.view.isEmpty
+import com.base.mvi_core.observeEvent
 import com.base.mvi_core.observeState
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ArticleLayoutBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.FetchStatus
+import com.blankj.utilcode.util.ToastUtils
 
 /**
  * @author jiangshiyu
@@ -33,6 +36,12 @@ class ArticleActivity : BaseActivity<ArticleLayoutBinding, ArticleViewModel>() {
         binding?.rvArticleHome?.adapter = articleAdapter
 
         binding?.srlArticleHome?.setOnRefreshListener {
+            it.finishRefresh(2000)
+            viewModel.dispatch(ArticleViewAction.OnSwipeRefresh)
+        }
+
+        binding?.srlArticleHome?.setOnLoadMoreListener {
+            it.finishLoadMore(2000)
             viewModel.dispatch(ArticleViewAction.OnSwipeRefresh)
         }
 
@@ -42,21 +51,37 @@ class ArticleActivity : BaseActivity<ArticleLayoutBinding, ArticleViewModel>() {
     private fun initViewModel() {
         viewModel.viewStates.run {
             observeState(this@ArticleActivity, ArticleViewState::articleList) {
-                articleAdapter.setDiffNewData(it.toMutableList())
+                if (it.isRefresh) {
+                    articleAdapter.addData(it.currentList)
+                } else {
+                    articleAdapter.setList(it.currentList)
+                }
             }
             observeState(this@ArticleActivity, ArticleViewState::fetchStatus) {
                 when (it) {
                     is FetchStatus.Fetched -> {
-                        binding?.srlArticleHome?.isRefreshing = false
                     }
                     is FetchStatus.NotFetched -> {
-                        binding?.srlArticleHome?.isRefreshing = false
+                        //第一次刷新
+                        binding?.srlArticleHome?.autoRefresh()
                         viewModel.dispatch(ArticleViewAction.FetchArticle)
                     }
                     is FetchStatus.Fetching -> {
-                        binding?.srlArticleHome?.isRefreshing = true
                     }
                 }
+            }
+        }
+
+        viewModel.viewEvents.observeEvent(this) {
+            renderViewEvent(it)
+        }
+    }
+
+
+    private fun renderViewEvent(viewEvent: ArticleViewEvent) {
+        when (viewEvent) {
+            is ArticleViewEvent.ShowToast -> {
+                ToastUtils.showShort(viewEvent.message)
             }
         }
     }
