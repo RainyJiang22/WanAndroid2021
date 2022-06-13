@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AnimationUtils
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
@@ -59,8 +60,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, UserViewModel>() {
                         AppConfig.CoinCount = it.coinInfoResponse?.coinCount.toString()
 
                         binding?.btnLogin?.showSucceed()
-                        finish()
                         setResult(Activity.RESULT_OK)
+                        ActivityCompat.finishAfterTransition(this@LoginActivity)
                     }, {
                         binding?.btnLogin?.showError(2000)
                         //弹出错误信息吐司
