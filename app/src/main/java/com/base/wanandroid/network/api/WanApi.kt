@@ -10,6 +10,7 @@ import com.base.wanandroid.bean.HomeListResponse
 import com.base.wanandroid.bean.HotKeyResponse
 import com.base.wanandroid.bean.LoginResponse
 import com.base.wanandroid.bean.NavigationListResponse
+import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.bean.TreeListResponse
 import com.base.wanandroid.bean.UserInfoResponse
 import com.base.wanandroid.constant.Constant
@@ -196,5 +197,12 @@ interface WanApi {
      */
     @GET(Constant.URI.NAVI)
     fun getNaviList(): Observable<NavigationListResponse>
+
+
+    /**
+     * 退出登录
+     */
+    @GET(Constant.URI.LOGOUT)
+    fun logout(): Observable<NoDataResponse>
 
 }

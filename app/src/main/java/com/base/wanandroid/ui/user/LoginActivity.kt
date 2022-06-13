@@ -1,5 +1,8 @@
 package com.base.wanandroid.ui.user
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.lifecycleScope
@@ -57,6 +60,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, UserViewModel>() {
 
                         binding?.btnLogin?.showSucceed()
                         finish()
+                        setResult(Activity.RESULT_OK)
                     }, {
                         binding?.btnLogin?.showError(2000)
                         //弹出错误信息吐司
@@ -87,5 +91,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, UserViewModel>() {
         }
 
 
+    }
+
+    companion object {
+
+        fun start(context: Context): Intent {
+            return Intent(context, LoginActivity::class.java)
+        }
     }
 }

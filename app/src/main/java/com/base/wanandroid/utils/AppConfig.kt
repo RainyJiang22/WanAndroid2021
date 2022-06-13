@@ -11,7 +11,7 @@ object AppConfig {
 
     var Cookie: HashMap<String, String> by serialLazy(hashMapOf())
 
-    var UserName: String by serialLazy("jacky")
+    var UserName: String by serialLazy("")
 
     var PassWord: String by serialLazy("")
 

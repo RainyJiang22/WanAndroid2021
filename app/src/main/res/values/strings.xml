@@ -80,4 +80,6 @@
     <string name="re_password">重复密码</string>
     <string name="have_account">已有账户，去登陆</string>
     <string name="re_enter_password">两次密码不一致</string>
+    <string name="please_login">请先登录</string>
+    <string name="exited_success">退出登录成功</string>
 </resources>

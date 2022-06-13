@@ -73,6 +73,9 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding, UserViewModel>() 
                         AppConfig.Rank = it.coinInfoResponse?.rank ?: "1"
                         AppConfig.CoinCount = it.coinInfoResponse?.coinCount.toString()
 
+                        finishAfterTransition()
+                        openActivity<LoginActivity>()
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                     }, {
                         //注册按钮显示失败
                         binding?.btnRegister?.showError(2000)

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.BannerResponse
+import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.network.RetrofitHelper
 import io.reactivex.Observable
 
@@ -27,5 +28,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun getBannerData(): Observable<BannerResponse> {
         return RetrofitHelper.get().getBanner()
+    }
+
+
+    /**
+     * 退出
+     */
+    fun loginOut():Observable<NoDataResponse> {
+        return RetrofitHelper.get().logout()
     }
 }

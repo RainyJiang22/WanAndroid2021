@@ -1,10 +1,17 @@
 package com.base.wanandroid.ui.home
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
@@ -20,11 +27,16 @@ import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.adapter.ImageTitleAdapter
 import com.base.wanandroid.ui.history.HistoryRecordActivity
 import com.base.wanandroid.ui.setting.SettingActivity
+import com.base.wanandroid.ui.user.LoginActivity
+import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
+import com.base.wanandroid.widget.Dialog
+import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
 import com.drake.brv.PageRefreshLayout
 import com.drake.serialize.intent.openActivity
+import com.google.android.material.imageview.ShapeableImageView
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.ZoomOutPageTransformer
 import kotlinx.coroutines.launch
@@ -43,18 +55,35 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
         }
     }
 
+
+    private lateinit var startLoginLaunch: ActivityResultLauncher<Intent>
+
     override fun onBundle(bundle: Bundle) {
 
     }
 
     override fun init(savedInstanceState: Bundle?) {
+        initData()
+        startLoginLaunch =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    if (AppConfig.UserName.isNotEmpty()) {
+                        //重建
+                        initData()
+                    }
+                }
+            }
+    }
+
+
+    private fun initData() {
+        //初始化视图
         initView()
         getBannerData()
         //刷新
         onRefresh()
         //加载
         onLoadMore()
-
         //侧滑栏
         initNavigationView()
         //抽屉布局
@@ -103,17 +132,66 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
         binding?.navView?.let {
 
+            //点击头像
+            it.getHeaderView(0).run {
+                //积分排名图标
+                val rankImage = findViewById<ImageView>(R.id.rank_image)
+                //用户头像
+                val headerImage = findViewById<ShapeableImageView>(R.id.header_image)
+                //用户名
+                findViewById<TextView>(R.id.user_text).text =
+                    AppConfig.UserName.ifEmpty { getString(R.string.my_user) }
+                //等级文字
+                findViewById<TextView>(R.id.level_text).text =
+                    AppConfig.Level.ifEmpty { getString(R.string.my_ellipsis) }
+                //排名文字
+                findViewById<TextView>(R.id.rank_text).text =
+                    AppConfig.Rank.ifEmpty { getString(R.string.my_ellipsis) }
+                //积分项设置文本
+                val navMenu = it.menu.findItem(R.id.nav_integral).actionView as TextView
+
+                navMenu.gravity = Gravity.CENTER_VERTICAL
+                navMenu.text = AppConfig.CoinCount.ifEmpty { "" }
+
+                //如果没有登录
+                if (AppConfig.UserName.isEmpty()) {
+                    headerImage.setOnClickListener {
+                        startLoginLaunch.launch(LoginActivity.start(context))
+                    }
+                }
+            }
+
+            //未登录隐藏登出项，登陆可见
+            it.menu.findItem(R.id.nav_exit).isVisible = AppConfig.UserName.isNotEmpty()
+
+
             it.setNavigationItemSelectedListener { menu ->
                 when (menu.itemId) {
                     R.id.nav_integral -> {
-                        //TODO 积分页
+                        if (AppConfig.UserName.isEmpty()) {
+                            ToastUtils.showShort(getString(R.string.please_login))
+                            startLoginLaunch.launch(LoginActivity.start(requireContext()))
+                        } else {
+                            //TODO 积分页
+                        }
                     }
                     R.id.nav_collect -> {
-                        //TODO 我的收藏页
+                        if (AppConfig.UserName.isEmpty()) {
+                            ToastUtils.showShort(getString(R.string.please_login))
+                            startLoginLaunch.launch(LoginActivity.start(requireContext()))
+                        } else {
+                            //TODO 我的收藏页
+                        }
+
                     }
 
                     R.id.nav_share -> {
-                        //TODO 分享文章，内容
+                        if (AppConfig.UserName.isEmpty()) {
+                            ToastUtils.showShort(getString(R.string.please_login))
+                            startLoginLaunch.launch(LoginActivity.start(requireContext()))
+                        } else {
+                            //TODO 分享文章，内容
+                        }
                     }
                     R.id.nav_record -> {
                         //历史记录
@@ -123,7 +201,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                         openActivity<SettingActivity>()
                     }
                     R.id.nav_exit -> {
-                        //TODO 离开
+                        //离开
+                        Dialog.getConfirmDialog(
+                            requireContext(),
+                            getString(R.string.exit_confirm)
+                        ) { _, _ ->
+                            viewModel.loginOut()
+                                .compose(RxTransformer.async())
+                                .subscribe {
+                                    //从存储中清除cookie、个人信息
+                                    AppConfig.Cookie.clear()
+                                    AppConfig.UserName = ""
+                                    AppConfig.PassWord = ""
+                                    AppConfig.Level = ""
+                                    AppConfig.Rank = ""
+                                    AppConfig.CoinCount = ""
+
+                                    initData()
+                                    ToastUtils.showShort(getString(R.string.exited_success))
+                                }.lifecycleOwner(requireActivity())
+                        }.show()
                     }
                 }
                 true
