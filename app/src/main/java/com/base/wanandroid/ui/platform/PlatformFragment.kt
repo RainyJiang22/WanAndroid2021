@@ -33,6 +33,7 @@ class PlatformFragment : BaseFragment<FragmentPlatformBinding, PlatformViewModel
     }
 
     override fun init(savedInstanceState: Bundle?) {
+        binding?.toolbar?.title = getString(R.string.platform_fragment)
         loadPlatformList()
     }
 

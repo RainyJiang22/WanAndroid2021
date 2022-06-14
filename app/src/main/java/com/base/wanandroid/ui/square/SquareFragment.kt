@@ -2,6 +2,7 @@ package com.base.wanandroid.ui.square
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentSquareBinding
 import com.base.wanandroid.ui.answer.InquiryAnswerFragment
@@ -38,10 +39,11 @@ class SquareFragment : BaseFragment<FragmentSquareBinding, SquareViewModel>() {
 
     override fun init(savedInstanceState: Bundle?) {
 
+        binding?.toolbar?.title = getString(R.string.square_fragment)
         binding?.contentLayout?.let {
             it.viewPager.init(this, fragments)
-            it.magicIndicator.bindViewPager2(it.viewPager,classifyList)
-            it.viewPager.offscreenPageLimit =fragments.size
+            it.magicIndicator.bindViewPager2(it.viewPager, classifyList)
+            it.viewPager.offscreenPageLimit = fragments.size
         }
 
     }

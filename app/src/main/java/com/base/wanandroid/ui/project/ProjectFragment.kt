@@ -35,6 +35,7 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding, ProjectViewModel>()
     }
 
     override fun init(savedInstanceState: Bundle?) {
+        binding?.toolbar?.title = getString(R.string.project_fragment)
         loadProjectType()
     }
 

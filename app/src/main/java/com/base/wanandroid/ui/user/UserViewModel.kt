@@ -3,6 +3,7 @@ package com.base.wanandroid.ui.user
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.base.wanandroid.bean.CoinInfoResponse
+import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.bean.UserInfoResponse
 import com.base.wanandroid.network.RetrofitHelper
 import com.base.wanandroid.network.entity.ApiResponse
@@ -65,11 +66,18 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 用户注册
      */
-    fun register(
+    private fun register(
         username: String,
         password: String,
         rePassword: String
     ): Observable<ApiResponse<UserInfoResponse>> {
         return RetrofitHelper.get().registerWanAndroid(username, password, rePassword)
+    }
+
+    /**
+     * 退出
+     */
+    fun loginOut():Observable<NoDataResponse> {
+        return RetrofitHelper.get().logout()
     }
 }
