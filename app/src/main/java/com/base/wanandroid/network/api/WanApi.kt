@@ -4,6 +4,7 @@ import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.BannerResponse
 import com.base.wanandroid.bean.ClassificationListResponse
 import com.base.wanandroid.bean.CoinInfoResponse
+import com.base.wanandroid.bean.CollectListResponse
 import com.base.wanandroid.bean.Data
 import com.base.wanandroid.bean.FriendListResponse
 import com.base.wanandroid.bean.HomeListResponse
@@ -204,5 +205,42 @@ interface WanApi {
      */
     @GET(Constant.URI.LOGOUT)
     fun logout(): Observable<NoDataResponse>
+
+
+    /**
+     * 收藏列表展示
+     */
+    @GET(Constant.URI.COLLECT_LIST)
+    fun getCollectList(@Path("page") page: Int): Observable<CollectListResponse>
+
+
+    /**
+     * 收藏当前文章
+     */
+    @POST(Constant.URI.COLLECT_INNER_ARTICLE)
+    fun collectCurrentArticle(@Path("articleId") articleId: Int): Observable<NoDataResponse>
+
+
+    /**
+     * 取消收藏当前文章
+     */
+    @POST(Constant.URI.UN_COLLECT)
+    @FormUrlEncoded
+    fun unCollectArticle(
+        @Path("id") id: Int,
+        @Field("originId") originId: Int = -1
+    ): Observable<NoDataResponse>
+
+
+    /**
+     * 收藏界面取消收藏文章
+     */
+    @POST(Constant.URI.UserUnCollectArticleAPI)
+    @FormUrlEncoded
+    fun userUnCollectArticle(
+        @Path("id") id: Int,
+        @Field("originId") originId: Int = -1
+    ): Observable<NoDataResponse>
+
 
 }

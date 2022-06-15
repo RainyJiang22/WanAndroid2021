@@ -82,4 +82,5 @@
     <string name="re_enter_password">两次密码不一致</string>
     <string name="please_login">请先登录</string>
     <string name="exited_success">退出登录成功</string>
+    <string name="anonymous">匿名</string>
 </resources>

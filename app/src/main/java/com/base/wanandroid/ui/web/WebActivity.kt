@@ -23,6 +23,7 @@ import com.just.agentweb.AgentWeb
 import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
 import com.base.wanandroid.base.EmptyViewModel
+import com.base.wanandroid.bean.CollectResponse
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
@@ -59,6 +60,9 @@ class WebActivity : BaseActivity<ActivityWebBinding, EmptyViewModel>() {
         /** article key */
         const val CONTENT_ARTICLE_KEY = "article"
 
+        //收藏内容
+        const val CONTENT_DATA_KEY = "data"
+
         /**
          * 从文章打开网页
          *
@@ -68,6 +72,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, EmptyViewModel>() {
          * @param url 文章URL
          * @param article 是否文章(不用填)
          * @param originId 文章原始ID(收藏页面跳转时使用，网页取消收藏时同时从收藏列表中删除)
+         * @param data 收藏数据源
          */
         fun start(
             context: Context,
@@ -75,7 +80,8 @@ class WebActivity : BaseActivity<ActivityWebBinding, EmptyViewModel>() {
             title: String,
             url: String,
             article: Boolean = true,
-            originId: Int = -1
+            originId: Int = -1,
+            data: CollectResponse? = null
         ) {
             Intent(context, WebActivity::class.java).run {
                 putExtra(CONTENT_ID_KEY, id)
@@ -83,6 +89,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, EmptyViewModel>() {
                 putExtra(CONTENT_TITLE_KEY, title)
                 putExtra(CONTENT_URL_KEY, url)
                 putExtra(CONTENT_ARTICLE_KEY, article)
+                putExtra(CONTENT_DATA_KEY, data)
                 context.startActivity(this)
             }
         }

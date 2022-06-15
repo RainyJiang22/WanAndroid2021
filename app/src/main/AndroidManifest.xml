@@ -47,6 +47,10 @@
             android:name=".ui.user.RegisterActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.collect.CollectActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.wanAndroid.ui.provider.FileProvider"

@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,8 @@ import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentHomeBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.adapter.ImageTitleAdapter
+import com.base.wanandroid.ui.collect.CollectActivity
+import com.base.wanandroid.ui.collect.CollectViewModel
 import com.base.wanandroid.ui.history.HistoryRecordActivity
 import com.base.wanandroid.ui.setting.SettingActivity
 import com.base.wanandroid.ui.user.LoginActivity
@@ -40,6 +43,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.ZoomOutPageTransformer
 import kotlinx.coroutines.launch
+import java.lang.reflect.ParameterizedType
 import java.util.concurrent.TimeUnit
 
 /**
@@ -50,7 +54,7 @@ import java.util.concurrent.TimeUnit
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
     private val articleAdapter by lazy {
-        ArticleAdapter(true).apply {
+        ArticleAdapter(this,true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }
@@ -180,7 +184,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
                             ToastUtils.showShort(getString(R.string.please_login))
                             startLoginLaunch.launch(LoginActivity.start(requireContext()))
                         } else {
-                            //TODO 我的收藏页
+                            //我的收藏页
+                            openActivity<CollectActivity>()
                         }
 
                     }

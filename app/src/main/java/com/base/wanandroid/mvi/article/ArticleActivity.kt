@@ -2,14 +2,17 @@ package com.base.wanandroid.mvi.article
 
 import android.os.Bundle
 import androidx.core.view.isEmpty
+import androidx.lifecycle.ViewModelProvider
 import com.base.mvi_core.observeEvent
 import com.base.mvi_core.observeState
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ArticleLayoutBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
+import com.base.wanandroid.ui.collect.CollectViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.FetchStatus
 import com.blankj.utilcode.util.ToastUtils
+import java.lang.reflect.ParameterizedType
 
 /**
  * @author jiangshiyu
@@ -17,8 +20,9 @@ import com.blankj.utilcode.util.ToastUtils
  */
 class ArticleActivity : BaseActivity<ArticleLayoutBinding, ArticleViewModel>() {
 
+
     private val articleAdapter by lazy {
-        ArticleAdapter(true).apply {
+        ArticleAdapter(this, true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }

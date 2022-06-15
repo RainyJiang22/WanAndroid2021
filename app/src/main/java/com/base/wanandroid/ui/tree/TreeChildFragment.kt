@@ -37,7 +37,7 @@ class TreeChildFragment : BaseFragment<FragmentChildBinding, TreeViewModel>() {
 
 
     private val articleAdapter by lazy {
-        ArticleAdapter(true).apply {
+        ArticleAdapter(this, true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }

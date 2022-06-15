@@ -10,6 +10,7 @@ import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentMineBinding
 import com.base.wanandroid.base.EmptyViewModel
+import com.base.wanandroid.ui.collect.CollectActivity
 import com.base.wanandroid.ui.history.HistoryRecordActivity
 import com.base.wanandroid.ui.setting.SettingActivity
 import com.base.wanandroid.ui.user.LoginActivity
@@ -68,7 +69,8 @@ class MineFragment : BaseFragment<FragmentMineBinding, UserViewModel>() {
                     ToastUtils.showShort(getString(R.string.please_login))
                     loginResultLaunch.launch(LoginActivity.start(requireContext()))
                 } else {
-                    //TODO 收藏界面
+                    //收藏界面
+                    openActivity<CollectActivity>()
                 }
             }
             mineShare.setOnClickListener {

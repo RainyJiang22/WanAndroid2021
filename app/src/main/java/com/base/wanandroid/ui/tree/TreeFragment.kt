@@ -4,14 +4,10 @@ import android.os.Bundle
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.base.BaseFragment
-import com.base.wanandroid.databinding.FragmentSquareBinding
 import com.base.wanandroid.databinding.FragmentTreeBinding
-import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.adapter.TreeAdapter
-import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
-import com.drake.brv.PageRefreshLayout
 
 /**
  * @author jiangshiyu

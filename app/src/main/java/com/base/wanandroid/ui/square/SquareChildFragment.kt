@@ -1,7 +1,6 @@
 package com.base.wanandroid.ui.square
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.nekocode.rxlifecycle.LifecycleEvent
@@ -9,7 +8,6 @@ import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.databinding.FragmentChildBinding
-import com.base.wanandroid.databinding.FragmentSquareBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.RxTransformer
@@ -26,7 +24,7 @@ class SquareChildFragment : BaseFragment<FragmentChildBinding, SquareViewModel>(
     private var first = true
 
     private val articleAdapter by lazy {
-        ArticleAdapter(true).apply {
+        ArticleAdapter(this,true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }

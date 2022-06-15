@@ -82,7 +82,15 @@ public interface Constant {
         //收藏站外文章
         String COLLECT_OUT_ARTICLE = "/lg/collect/add/json";
 
-        String UN_COLLECT = "lg/uncollect_originId/{articleId}/json";
+        /**
+         * 取消收藏文章
+         */
+        String UN_COLLECT = "lg/uncollect_originId/{id}/json";
+
+        /**
+         * 收藏页面取消收藏文章路径
+         */
+        String UserUnCollectArticleAPI = "lg/uncollect/{id}/json";
 
 
         // ---------------广场 -----------------
