@@ -1,7 +1,6 @@
 package com.base.wanandroid.ui.platform
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,19 +9,18 @@ import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentChildBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
-import com.base.wanandroid.ui.collect.CollectViewModel
+import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import kotlinx.coroutines.launch
-import java.lang.reflect.ParameterizedType
 
 /**
  * @author jiangshiyu
  * @date 2022/5/31
  */
-class PlatformChildFragment : BaseFragment<FragmentChildBinding, PlatformViewModel>() {
+class PlatformChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel>() {
 
 
     companion object {
@@ -39,7 +37,7 @@ class PlatformChildFragment : BaseFragment<FragmentChildBinding, PlatformViewMod
     }
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this, true).apply {
+        ArticleAdapter(this, viewModel, true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }

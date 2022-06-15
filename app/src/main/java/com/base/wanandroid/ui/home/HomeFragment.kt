@@ -1,33 +1,28 @@
 package com.base.wanandroid.ui.home
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
-import com.base.wanandroid.BuildConfig
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentHomeBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.adapter.ImageTitleAdapter
+import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.collect.CollectActivity
-import com.base.wanandroid.ui.collect.CollectViewModel
 import com.base.wanandroid.ui.history.HistoryRecordActivity
 import com.base.wanandroid.ui.setting.SettingActivity
 import com.base.wanandroid.ui.user.LoginActivity
@@ -43,7 +38,6 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.ZoomOutPageTransformer
 import kotlinx.coroutines.launch
-import java.lang.reflect.ParameterizedType
 import java.util.concurrent.TimeUnit
 
 /**
@@ -51,10 +45,10 @@ import java.util.concurrent.TimeUnit
  * @date 2022/3/7
  * 主页
  */
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this,true).apply {
+        ArticleAdapter(this, viewModel, true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }

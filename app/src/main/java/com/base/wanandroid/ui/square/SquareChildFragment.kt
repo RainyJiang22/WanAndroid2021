@@ -9,6 +9,7 @@ import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.databinding.FragmentChildBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
+import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
@@ -18,13 +19,13 @@ import com.base.wanandroid.utils.lifecycleOwner
  * @date 2022/5/31
  * 广场fragment
  */
-class SquareChildFragment : BaseFragment<FragmentChildBinding, SquareViewModel>() {
+class SquareChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel>() {
 
 
     private var first = true
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this,true).apply {
+        ArticleAdapter(this, viewModel, true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }

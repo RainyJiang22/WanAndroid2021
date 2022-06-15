@@ -1,6 +1,8 @@
 package com.base.wanandroid.ui.collect
 
 import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.R
@@ -9,7 +11,10 @@ import com.base.wanandroid.databinding.ActivityCollectBinding
 import com.base.wanandroid.ui.adapter.CollectAdapter
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
+import com.blankj.utilcode.util.ToastUtils
 import com.drake.brv.PageRefreshLayout
+import com.youth.banner.util.LogUtils
+import kotlinx.coroutines.launch
 
 /**
  * @author jiangshiyu
@@ -38,33 +43,37 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, CollectViewModel>()
     private fun onRefresh() {
         binding?.child?.rv?.adapter = adapter
         binding?.child?.page?.onRefresh {
-            viewModel.getCollectList(index)
-                .compose(RxTransformer.async())
-                .compose(
-                    RxLifecycleCompact.bind(this@CollectActivity)
-                        .disposeObservableWhen(LifecycleEvent.DESTROY)
-                ).subscribe({
-                    if (first && it.data.datas.isEmpty()) {
-                        showEmpty()
-                    } else {
-                        first = false
-                        index += if (index == 0) {
-                            adapter.setList(it.data.datas)
-                            1
+            lifecycleScope.launch {
+                viewModel.getCollectList(index)
+                    .compose(
+                        RxLifecycleCompact.bind(this@CollectActivity)
+                            .disposeObservableWhen(LifecycleEvent.DESTROY)
+                    )
+                    .compose(RxTransformer.async())
+                    .subscribe({
+                        if (first && it.data.datas.isEmpty()) {
+                            showEmpty()
                         } else {
-                            if (it.data.datas.isNullOrEmpty()) {
-                                //没有更多数据，结束动画，显示内容(没有更多数据)
-                                showContent(false)
-                                return@subscribe
+                            first = false
+                            index += if (index == 0) {
+                                adapter.setList(it.data.datas)
+                                1
+                            } else {
+                                if (it.data.datas.isNullOrEmpty()) {
+                                    //没有更多数据，结束动画，显示内容(没有更多数据)
+                                    showContent(false)
+                                    return@subscribe
+                                }
+                                //添加数据
+                                adapter.addData(it.data.datas)
+                                1
                             }
-                            //添加数据
-                            adapter.addData(it.data.datas)
-                            1
                         }
-                    }
-                }, {
-                    showError()
-                }).lifecycleOwner(this@CollectActivity)
+                    }, {
+                        showError()
+                        Log.e("CollectActivity", "onError: ${it.message}")
+                    }).lifecycleOwner(this@CollectActivity)
+            }
         }?.autoRefresh()
     }
 

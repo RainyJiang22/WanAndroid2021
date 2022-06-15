@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.base.wanandroid.R
 import com.base.wanandroid.bean.ArticleResponse
+import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.collect.CollectViewModel
 import com.base.wanandroid.ui.web.WebActivity
 import com.base.wanandroid.utils.RxTransformer
@@ -27,6 +28,7 @@ import com.google.android.material.imageview.ShapeableImageView
  */
 class ArticleAdapter(
     private val lifecycleOwner: LifecycleOwner,
+    private val viewModel: ArticleViewModel?,
     private val showTag: Boolean = false
 ) :
     BaseQuickAdapter<ArticleResponse, BaseViewHolder>(R.layout.item_article_list) {
@@ -67,13 +69,13 @@ class ArticleAdapter(
             .setOnClickListener(object : CollectView.OnClickListener {
                 override fun onClick(v: CollectView) {
                     if (v.isChecked) {
-//                        viewModel.collectCurrentArticle(data[viewHolder.bindingAdapterPosition - headerLayoutCount].id)
-//                            .compose(RxTransformer.async())
-//                            .subscribe()
+                        viewModel?.collectCurrentArticle(data[viewHolder.bindingAdapterPosition - headerLayoutCount].id)
+                            ?.compose(RxTransformer.async())
+                            ?.subscribe()
                     } else {
-//                        viewModel.unCollectArticle(data[viewHolder.bindingAdapterPosition - headerLayoutCount].id)
-//                            .compose(RxTransformer.async())
-//                            .subscribe()
+                        viewModel?.unCollectArticle(data[viewHolder.bindingAdapterPosition - headerLayoutCount].id)
+                            ?.compose(RxTransformer.async())
+                            ?.subscribe()
                     }
                     data[viewHolder.bindingAdapterPosition - headerLayoutCount].collect =
                         v.isChecked
@@ -145,9 +147,16 @@ class ArticleAdapter(
             //页面恢复时接收事件(复用adapter导致多个已打开页面重复接收消息)
             if (event == Lifecycle.Event.ON_RESUME) {
                 //接收消息事件，页面暂停时注销
-                lifecycleOwner.receiveTag(true.toString(), false.toString(), lifeEvent = Lifecycle.Event.ON_PAUSE) {
+                lifecycleOwner.receiveTag(
+                    true.toString(),
+                    false.toString(),
+                    lifeEvent = Lifecycle.Event.ON_PAUSE
+                ) {
                     //根据打开网页的item的位置获取到它的收藏控件对象
-                    val collectView = getViewByPosition(index + headerLayoutCount, R.id.item_article_collect) as CollectView
+                    val collectView = getViewByPosition(
+                        index + headerLayoutCount,
+                        R.id.item_article_collect
+                    ) as CollectView
                     //收藏控件是否选中
                     collectView.isChecked = it.toBoolean()
                     //同时将对应的数据类的收藏字段修改

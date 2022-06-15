@@ -21,5 +21,5 @@ data class ApiPagerResponse<T>(
     @SerializedName("total")
     val total: Int,
     @SerializedName("datas")
-    val datas: List<T>
+    val datas: List<T> = emptyList()
 )

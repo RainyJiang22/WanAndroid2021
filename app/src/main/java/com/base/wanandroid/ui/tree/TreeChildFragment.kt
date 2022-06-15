@@ -8,8 +8,8 @@ import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentChildBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
+import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
-import com.base.wanandroid.ui.project.ProjectChildFragment
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
 import com.drake.brv.PageRefreshLayout
@@ -18,7 +18,7 @@ import com.drake.brv.PageRefreshLayout
  * @author jiangshiyu
  * @date 2022/6/2
  */
-class TreeChildFragment : BaseFragment<FragmentChildBinding, TreeViewModel>() {
+class TreeChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel>() {
 
 
     companion object {
@@ -37,7 +37,7 @@ class TreeChildFragment : BaseFragment<FragmentChildBinding, TreeViewModel>() {
 
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this, true).apply {
+        ArticleAdapter(this, viewModel, true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }

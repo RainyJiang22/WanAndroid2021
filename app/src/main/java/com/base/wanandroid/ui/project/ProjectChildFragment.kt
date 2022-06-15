@@ -1,7 +1,6 @@
 package com.base.wanandroid.ui.project
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.nekocode.rxlifecycle.LifecycleEvent
@@ -10,19 +9,18 @@ import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.databinding.FragmentChildBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
-import com.base.wanandroid.ui.collect.CollectViewModel
+import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
 import com.drake.brv.PageRefreshLayout
-import java.lang.reflect.ParameterizedType
 
 /**
  * @author jiangshiyu
  * @date 2022/5/30
  * 项目体系下子fragment
  */
-class ProjectChildFragment : BaseFragment<FragmentChildBinding, ProjectViewModel>() {
+class ProjectChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel>() {
 
     companion object {
         /**
@@ -48,7 +46,7 @@ class ProjectChildFragment : BaseFragment<FragmentChildBinding, ProjectViewModel
     private var first = true
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this,true).apply {
+        ArticleAdapter(this, viewModel, true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }
@@ -170,7 +168,7 @@ class ProjectChildFragment : BaseFragment<FragmentChildBinding, ProjectViewModel
 
     override fun onResume() {
         super.onResume()
-        if(isNew) {
+        if (isNew) {
             PageRefreshLayout.startIndex = 0
         } else {
             PageRefreshLayout.startIndex = 1
