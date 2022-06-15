@@ -77,8 +77,7 @@ class ArticleAdapter(
                             ?.compose(RxTransformer.async())
                             ?.subscribe()
                     }
-                    data[viewHolder.bindingAdapterPosition - headerLayoutCount].collect =
-                        v.isChecked
+                    data[viewHolder.bindingAdapterPosition - headerLayoutCount].collect = v.isChecked
                 }
 
             })

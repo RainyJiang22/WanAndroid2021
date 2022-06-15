@@ -41,8 +41,8 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, CollectViewModel>()
 
 
     private fun onRefresh() {
-        binding?.child?.rv?.adapter = adapter
-        binding?.child?.page?.onRefresh {
+        binding?.rv?.adapter = adapter
+        binding?.page?.onRefresh {
             lifecycleScope.launch {
                 viewModel.getCollectList(index)
                     .compose(
