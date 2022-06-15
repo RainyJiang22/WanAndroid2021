@@ -3,12 +3,14 @@ package com.base.wanandroid.network.api
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.BannerResponse
 import com.base.wanandroid.bean.ClassificationListResponse
+import com.base.wanandroid.bean.CoinInfoListResponse
 import com.base.wanandroid.bean.CoinInfoResponse
 import com.base.wanandroid.bean.CollectListResponse
 import com.base.wanandroid.bean.Data
 import com.base.wanandroid.bean.FriendListResponse
 import com.base.wanandroid.bean.HomeListResponse
 import com.base.wanandroid.bean.HotKeyResponse
+import com.base.wanandroid.bean.IntegralListResponse
 import com.base.wanandroid.bean.LoginResponse
 import com.base.wanandroid.bean.NavigationListResponse
 import com.base.wanandroid.bean.NoDataResponse
@@ -242,5 +244,18 @@ interface WanApi {
         @Field("originId") originId: Int = -1
     ): Observable<NoDataResponse>
 
+
+    /**
+     * 我的积分列表
+     */
+    @GET(Constant.URI.IntegralListAPI)
+    fun integralList(@Path("page") page: Int): Observable<IntegralListResponse>
+
+
+    /**
+     * 积分排行列表
+     */
+    @GET(Constant.URI.LeaderboardAPI)
+    fun leaderboardList(@Path("page") page: Int): Observable<CoinInfoListResponse>
 
 }

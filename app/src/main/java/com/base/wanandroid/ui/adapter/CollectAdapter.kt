@@ -64,13 +64,13 @@ class CollectAdapter(
                         //收藏页面默认全部选中，点击后直接取消收藏，并移除item
                         lifecycleOwner.lifecycleScope.launch {
                             viewModel.userUnCollectArticle(
-                                data[viewHolder.bindingAdapterPosition].id,
-                                data[viewHolder.bindingAdapterPosition].originId
+                                data[viewHolder.absoluteAdapterPosition].id,
+                                data[viewHolder.absoluteAdapterPosition].originId
                             )
                                 .compose(RxTransformer.async())
                                 .subscribe()
                             delay(300)
-                            removeAt(viewHolder.bindingAdapterPosition)
+                            removeAt(viewHolder.absoluteAdapterPosition)
                         }
                     }
                 }

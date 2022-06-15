@@ -52,7 +52,7 @@ public interface Constant {
         /**
          * 最新项目数据
          */
-        String Project_NEW = "article/listproject/{page}/json";
+        String Project_NEW = "/article/listproject/{page}/json";
 
         //  -------------登录与注册 ------------
 
@@ -85,29 +85,41 @@ public interface Constant {
         /**
          * 取消收藏文章
          */
-        String UN_COLLECT = "lg/uncollect_originId/{id}/json";
+        String UN_COLLECT = "/lg/uncollect_originId/{id}/json";
 
         /**
          * 收藏页面取消收藏文章路径
          */
-        String UserUnCollectArticleAPI = "lg/uncollect/{id}/json";
+        String UserUnCollectArticleAPI = "/lg/uncollect/{id}/json";
 
 
         // ---------------广场 -----------------
 
-        String SQUARE_ARTICLE = "user_article/list/{page}/json";
+        String SQUARE_ARTICLE = "/user_article/list/{page}/json";
 
 
         // ---------------公众号 -----------------
 
         //公众号历史数据
-        String PLATFORM_HISTORY = "wxarticle/list/{cid}/{page}/json";
+        String PLATFORM_HISTORY = "/wxarticle/list/{cid}/{page}/json";
 
         //公众号列表数据
-        String PLATFORM_LIST = "wxarticle/chapters/json";
+        String PLATFORM_LIST = "/wxarticle/chapters/json";
 
         //问答数据路径
-        String InquiryAnswerAPI = "wenda/list/{page}/json";
+        String InquiryAnswerAPI = "/wenda/list/{page}/json";
+
+        // ---------------积分 -----------------
+        /**
+         * 积分获取列表路径
+         */
+        String IntegralListAPI = "/lg/coin/list/{page}/json";
+
+        /**
+         * 积分排行路径
+         */
+        String LeaderboardAPI = "/coin/rank/{page}/json";
+
     }
 
 }

@@ -19,5 +19,5 @@ object AppConfig {
 
     var Rank: String by serialLazy("")
 
-    var CoinCount: String by serialLazy("")
+    var CoinCount: String by serialLazy("10")
 }

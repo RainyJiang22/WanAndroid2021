@@ -51,6 +51,14 @@
             android:name=".ui.collect.CollectActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.integral.IntegralActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.integral.LeaderBoardActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.wanAndroid.ui.provider.FileProvider"

@@ -12,6 +12,8 @@ import com.base.wanandroid.databinding.FragmentMineBinding
 import com.base.wanandroid.base.EmptyViewModel
 import com.base.wanandroid.ui.collect.CollectActivity
 import com.base.wanandroid.ui.history.HistoryRecordActivity
+import com.base.wanandroid.ui.integral.IntegralActivity
+import com.base.wanandroid.ui.integral.LeaderBoardActivity
 import com.base.wanandroid.ui.setting.SettingActivity
 import com.base.wanandroid.ui.user.LoginActivity
 import com.base.wanandroid.ui.user.UserViewModel
@@ -54,14 +56,16 @@ class MineFragment : BaseFragment<FragmentMineBinding, UserViewModel>() {
                 }
             }
             rankImage.setOnClickListener {
-                //TODO 积分排行页
+                //积分排行页
+                openActivity<LeaderBoardActivity>()
             }
             mineIntegral.setOnClickListener {
                 if (AppConfig.UserName.isEmpty()) {
                     ToastUtils.showShort(getString(R.string.please_login))
                     loginResultLaunch.launch(LoginActivity.start(requireContext()))
                 } else {
-                    //TODO 我的积分页
+                    //我的积分页
+                    openActivity<IntegralActivity>()
                 }
             }
             mineCollect.setOnClickListener {

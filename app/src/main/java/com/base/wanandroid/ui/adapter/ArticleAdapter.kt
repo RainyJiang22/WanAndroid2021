@@ -69,15 +69,16 @@ class ArticleAdapter(
             .setOnClickListener(object : CollectView.OnClickListener {
                 override fun onClick(v: CollectView) {
                     if (v.isChecked) {
-                        viewModel?.collectCurrentArticle(data[viewHolder.bindingAdapterPosition - headerLayoutCount].id)
+                        viewModel?.collectCurrentArticle(data[viewHolder.absoluteAdapterPosition - headerLayoutCount].id)
                             ?.compose(RxTransformer.async())
                             ?.subscribe()
                     } else {
-                        viewModel?.unCollectArticle(data[viewHolder.bindingAdapterPosition - headerLayoutCount].id)
+                        viewModel?.unCollectArticle(data[viewHolder.absoluteAdapterPosition - headerLayoutCount].id)
                             ?.compose(RxTransformer.async())
                             ?.subscribe()
                     }
-                    data[viewHolder.bindingAdapterPosition - headerLayoutCount].collect = v.isChecked
+                    data[viewHolder.absoluteAdapterPosition - headerLayoutCount].collect =
+                        v.isChecked
                 }
 
             })

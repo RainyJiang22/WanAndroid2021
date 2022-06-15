@@ -24,6 +24,8 @@ import com.base.wanandroid.ui.adapter.ImageTitleAdapter
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.collect.CollectActivity
 import com.base.wanandroid.ui.history.HistoryRecordActivity
+import com.base.wanandroid.ui.integral.IntegralActivity
+import com.base.wanandroid.ui.integral.LeaderBoardActivity
 import com.base.wanandroid.ui.setting.SettingActivity
 import com.base.wanandroid.ui.user.LoginActivity
 import com.base.wanandroid.utils.AppConfig
@@ -157,6 +159,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
                         startLoginLaunch.launch(LoginActivity.start(context))
                     }
                 }
+
+                rankImage.setOnClickListener {
+                    openActivity<LeaderBoardActivity>()
+                }
             }
 
             //未登录隐藏登出项，登陆可见
@@ -170,7 +176,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
                             ToastUtils.showShort(getString(R.string.please_login))
                             startLoginLaunch.launch(LoginActivity.start(requireContext()))
                         } else {
-                            //TODO 积分页
+                            //积分页
+                            openActivity<IntegralActivity>()
                         }
                     }
                     R.id.nav_collect -> {

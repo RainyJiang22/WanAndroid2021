@@ -83,4 +83,14 @@
     <string name="please_login">请先登录</string>
     <string name="exited_success">退出登录成功</string>
     <string name="anonymous">匿名</string>
+    <string name="integral">1024</string>
+    <string name="integral_reason">签到</string>
+    <string name="integral_desc">2020\-06\-02 00:00:10 签到 ，积分：20 + 20</string>
+    <string name="integral_count">+1024</string>
+    <string name="integral_help">https://www.wanandroid.com/blog/show/2653</string>
+    <string name="integral_rank">999+</string>
+    <string name="integral_name">两年的菜鸡</string>
+    <string name="integral_lv">Lv.%d</string>
+    <string name="integral_my_lv">Lv.%s</string>
+    <string name="leaderboard">积分排行</string>
 </resources>
