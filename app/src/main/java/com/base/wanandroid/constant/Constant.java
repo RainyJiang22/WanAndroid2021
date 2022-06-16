@@ -120,6 +120,19 @@ public interface Constant {
          */
         String LeaderboardAPI = "/coin/rank/{page}/json";
 
+
+        //-------------分享----------------
+        String ShareListAPI = "/user/lg/private_articles/{page}/json";
+
+        /**
+         * 删除分享文章路径
+         */
+        String DeleteShareAPI = "/lg/user_article/delete/{id}/json";
+
+        /**
+         * 分享文章路径
+         */
+        String ShareArticleAPI = "/lg/user_article/add/json";
     }
 
 }

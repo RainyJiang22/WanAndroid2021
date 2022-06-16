@@ -27,6 +27,7 @@ import com.base.wanandroid.ui.history.HistoryRecordActivity
 import com.base.wanandroid.ui.integral.IntegralActivity
 import com.base.wanandroid.ui.integral.LeaderBoardActivity
 import com.base.wanandroid.ui.setting.SettingActivity
+import com.base.wanandroid.ui.share.ShareActivity
 import com.base.wanandroid.ui.user.LoginActivity
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
@@ -196,7 +197,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
                             ToastUtils.showShort(getString(R.string.please_login))
                             startLoginLaunch.launch(LoginActivity.start(requireContext()))
                         } else {
-                            //TODO 分享文章，内容
+                            //分享文章，内容
+                            openActivity<ShareActivity>()
                         }
                     }
                     R.id.nav_record -> {

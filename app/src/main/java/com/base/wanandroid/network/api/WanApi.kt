@@ -14,6 +14,8 @@ import com.base.wanandroid.bean.IntegralListResponse
 import com.base.wanandroid.bean.LoginResponse
 import com.base.wanandroid.bean.NavigationListResponse
 import com.base.wanandroid.bean.NoDataResponse
+import com.base.wanandroid.bean.ShareListResponse
+import com.base.wanandroid.bean.ShareResponse
 import com.base.wanandroid.bean.TreeListResponse
 import com.base.wanandroid.bean.UserInfoResponse
 import com.base.wanandroid.constant.Constant
@@ -258,4 +260,27 @@ interface WanApi {
     @GET(Constant.URI.LeaderboardAPI)
     fun leaderboardList(@Path("page") page: Int): Observable<CoinInfoListResponse>
 
+
+    /**
+     * 分享列表
+     */
+    @GET(Constant.URI.ShareListAPI)
+    fun shareList(@Path("page") page: Int): Observable<ShareListResponse>
+
+
+    /**
+     *删除对应分享文章
+     */
+    @POST(Constant.URI.DeleteShareAPI)
+    fun deleteShareArticle(@Path("id") id: Int): Observable<NoDataResponse>
+
+    /**
+     * 分享文章
+     */
+    @POST(Constant.URI.ShareArticleAPI)
+    @FormUrlEncoded
+    fun shareArticle(
+        @Field("title") title: String,
+        @Field("link") link: String
+    ): Observable<NoDataResponse>
 }

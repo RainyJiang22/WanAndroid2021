@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><!--我的分享页-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/title_bar"
+        style="@style/TitleBar"
+        app:rightIcon="@drawable/ic_add"
+        app:title="@string/my_share" />
+
+    <com.drake.brv.PageRefreshLayout
+        android:id="@+id/page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar"
+        app:srlEnableFooterFollowWhenLoadFinished="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_share_list" />
+    </com.drake.brv.PageRefreshLayout>
+
+</RelativeLayout>
