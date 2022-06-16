@@ -77,6 +77,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
 
 
     //初始化搜索热词
+    @SuppressLint("NotifyDataSetChanged")
     private fun initSearchHot() {
         if (AppConfig.SearchHot.isNullOrEmpty()) {
             lifecycleScope.launch {

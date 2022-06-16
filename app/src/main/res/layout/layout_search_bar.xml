@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_floating_button"
+    android:background="@color/color_accent"
     android:paddingHorizontal="@dimen/dp_10"
     android:paddingTop="@dimen/dp_42"
     android:paddingBottom="@dimen/dp_10">
