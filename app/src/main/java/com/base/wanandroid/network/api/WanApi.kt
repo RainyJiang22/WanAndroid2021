@@ -14,6 +14,7 @@ import com.base.wanandroid.bean.IntegralListResponse
 import com.base.wanandroid.bean.LoginResponse
 import com.base.wanandroid.bean.NavigationListResponse
 import com.base.wanandroid.bean.NoDataResponse
+import com.base.wanandroid.bean.SearchHotResponse
 import com.base.wanandroid.bean.ShareListResponse
 import com.base.wanandroid.bean.ShareResponse
 import com.base.wanandroid.bean.TreeListResponse
@@ -95,7 +96,7 @@ interface WanApi {
     fun getSearchList(
         @Path("page") page: Int,
         @Field("k") k: String
-    ): Observable<HomeListResponse>
+    ): Observable<ArticleListResponse>
 
     /**
      * 登录

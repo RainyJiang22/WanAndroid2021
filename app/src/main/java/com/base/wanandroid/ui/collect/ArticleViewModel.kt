@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.BannerResponse
 import com.base.wanandroid.bean.ClassificationListResponse
+import com.base.wanandroid.bean.HomeListResponse
 import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.bean.TreeListResponse
 import com.base.wanandroid.network.RetrofitHelper
@@ -35,7 +36,7 @@ class ArticleViewModel(application: Application) : AndroidViewModel(application)
     /**
      * 退出
      */
-    fun loginOut():Observable<NoDataResponse> {
+    fun loginOut(): Observable<NoDataResponse> {
         return RetrofitHelper.get().logout()
     }
 
@@ -115,5 +116,12 @@ class ArticleViewModel(application: Application) : AndroidViewModel(application)
      */
     fun unCollectArticle(articleId: Int, originId: Int = -1): Observable<NoDataResponse> {
         return RetrofitHelper.get().unCollectArticle(articleId, originId)
+    }
+
+    /**
+     * 搜索结果
+     */
+    fun getSearchResult(page: Int, key: String): Observable<ArticleListResponse> {
+        return RetrofitHelper.get().getSearchList(page, key)
     }
 }

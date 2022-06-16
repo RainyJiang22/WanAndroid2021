@@ -4,9 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toolbar
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -26,6 +30,7 @@ import com.base.wanandroid.ui.collect.CollectActivity
 import com.base.wanandroid.ui.history.HistoryRecordActivity
 import com.base.wanandroid.ui.integral.IntegralActivity
 import com.base.wanandroid.ui.integral.LeaderBoardActivity
+import com.base.wanandroid.ui.search.SearchActivity
 import com.base.wanandroid.ui.setting.SettingActivity
 import com.base.wanandroid.ui.share.ShareActivity
 import com.base.wanandroid.ui.user.LoginActivity
@@ -93,7 +98,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
 
 
     private fun initDrawerLayout() {
+        setHasOptionsMenu(true)
         binding?.toolbar?.title = getString(R.string.home_name)
+        binding?.toolbar?.inflateMenu(R.menu.menu_toolbar_search)
+        binding?.toolbar?.setOnMenuItemClickListener {
+            if (it.itemId == R.id.search) {
+                openActivity<SearchActivity>()
+            }
+            true
+        }
+
         binding?.drawerLayout?.run {
             //开关抽屉时导航按钮的旋转动画效果
             val toggle = ActionBarDrawerToggle(

@@ -67,6 +67,14 @@
             android:name=".ui.share.ShareArticleActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.search.SearchResultActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.wanAndroid.ui.provider.FileProvider"

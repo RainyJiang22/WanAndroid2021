@@ -73,4 +73,10 @@
             <enum name="progress" value="0x01" />
         </attr>
     </declare-styleable>
+
+    <!-- 缩放的 ImageView -->
+    <declare-styleable name="ScaleImageView">
+        <!-- 缩放比例 -->
+        <attr name="scaleRatio" format="float" />
+    </declare-styleable>
 </resources>

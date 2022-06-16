@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--搜索页面-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/search_bar"
+        layout="@layout/layout_search_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_16">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:text="@string/search_hot"
+            android:textColor="@color/color_drawable_bg_tint"
+            android:textSize="@dimen/sp_18" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_hot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_flow_shape" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/search_history"
+                android:textColor="@color/color_drawable_bg_tint"
+                android:textSize="@dimen/sp_18" />
+
+            <com.base.wanandroid.widget.view.PressAlphaTextView
+                android:id="@+id/clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:gravity="end"
+                android:text="@string/clear"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_search_history_list" />
+
+    </LinearLayout>
+
+</LinearLayout>

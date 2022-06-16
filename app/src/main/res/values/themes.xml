@@ -66,7 +66,7 @@
     <style name="TitleBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/color_floating_button</item>
+        <item name="android:background">@color/color_accent</item>
         <item name="android:paddingTop">@dimen/dp_20</item>
         <item name="leftIcon">@drawable/ic_back</item>
         <item name="leftIconTint">@color/color_ic_bg_tint</item>
