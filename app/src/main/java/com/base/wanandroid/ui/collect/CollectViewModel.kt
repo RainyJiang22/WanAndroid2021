@@ -15,6 +15,18 @@ class CollectViewModel(application: Application) : AndroidViewModel(application)
 
 
     /**
+     * 登录后操作
+     */
+    fun collectList(userName: String, password: String, page: Int): Observable<CollectData> {
+        return RetrofitHelper.get().loginWanAndroid(userName, password)
+            .flatMap { user ->
+                getCollectList(page).map {
+                    CollectData(user.data, it.data)
+                }
+            }
+    }
+
+    /**
      * 收藏列表
      */
     fun getCollectList(page: Int): Observable<CollectListResponse> {

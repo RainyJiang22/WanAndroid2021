@@ -9,6 +9,7 @@ import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityCollectBinding
 import com.base.wanandroid.ui.adapter.CollectAdapter
+import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
 import com.blankj.utilcode.util.ToastUtils
@@ -36,6 +37,7 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, CollectViewModel>()
             finishAfterTransition()
         }
         binding?.titleBar?.title = getString(R.string.my_collect)
+        PageRefreshLayout.startIndex = 0
         onRefresh()
     }
 
@@ -44,28 +46,28 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, CollectViewModel>()
         binding?.rv?.adapter = adapter
         binding?.page?.onRefresh {
             lifecycleScope.launch {
-                viewModel.getCollectList(index)
+                viewModel.collectList(AppConfig.UserName, AppConfig.PassWord, index)
                     .compose(
                         RxLifecycleCompact.bind(this@CollectActivity)
                             .disposeObservableWhen(LifecycleEvent.DESTROY)
                     )
                     .compose(RxTransformer.async())
                     .subscribe({
-                        if (first && it.data.datas.isEmpty()) {
+                        if (first && it.collectList.datas.isEmpty()) {
                             showEmpty()
                         } else {
                             first = false
                             index += if (index == 0) {
-                                adapter.setList(it.data.datas)
+                                adapter.setList(it.collectList.datas)
                                 1
                             } else {
-                                if (it.data.datas.isNullOrEmpty()) {
+                                if (it.collectList.datas.isNullOrEmpty()) {
                                     //没有更多数据，结束动画，显示内容(没有更多数据)
                                     showContent(false)
                                     return@subscribe
                                 }
                                 //添加数据
-                                adapter.addData(it.data.datas)
+                                adapter.addData(it.collectList.datas)
                                 1
                             }
                         }
@@ -79,6 +81,5 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, CollectViewModel>()
 
     override fun onResume() {
         super.onResume()
-        PageRefreshLayout.startIndex = 0
     }
 }
