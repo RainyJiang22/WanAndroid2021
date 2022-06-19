@@ -11,6 +11,7 @@ import com.base.wanandroid.databinding.ActivityLeaderboardBinding
 import com.base.wanandroid.ui.adapter.LeaderBoardAdapter
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.lifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -78,11 +79,12 @@ class LeaderBoardActivity : BaseActivity<ActivityLeaderboardBinding, IntegralVie
                                 1
                             }
                         }
+                        showContent(true)
                     }, {
                         showError()
-                    })
-            }
+                    }).lifecycleOwner(this@LeaderBoardActivity)
 
+            }
 
         }?.autoRefresh()
     }
