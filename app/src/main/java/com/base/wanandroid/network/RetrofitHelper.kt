@@ -2,6 +2,7 @@ package com.base.wanandroid.network
 
 import com.base.wanandroid.constant.Constant
 import com.base.wanandroid.network.api.WanApi
+import com.base.wanandroid.utils.MyCookie
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -27,6 +28,7 @@ object RetrofitHelper {
 
     private fun getClient(): OkHttpClient {
         return OkHttpClient.Builder()
+            .cookieJar(MyCookie())
             .retryOnConnectionFailure(true)
             .connectTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)

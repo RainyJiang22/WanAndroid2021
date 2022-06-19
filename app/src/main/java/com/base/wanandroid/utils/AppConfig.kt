@@ -10,6 +10,7 @@ import com.drake.serialize.serialize.serialLazy
  */
 object AppConfig {
 
+    //登录后返回的cookie
     var Cookie: HashMap<String, String> by serialLazy(hashMapOf())
 
     var UserName: String by serialLazy("")
