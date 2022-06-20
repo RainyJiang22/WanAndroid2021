@@ -1,6 +1,7 @@
 package com.base.wanandroid.ui.user
 
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.lifecycleScope
 import cn.nekocode.rxlifecycle.LifecycleEvent
@@ -67,8 +68,9 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding, UserViewModel>() 
                 viewModel.getRegisterUserInfo(username, etPassword, etRePassword)
                     .compose(RxTransformer.async())
                     .subscribe({
+                        Log.d("Collect", "init: $it")
                         AppConfig.UserName = it.userInfoResponse?.username ?: "Jacky"
-                        AppConfig.PassWord = etPassword
+                        AppConfig.PassWord = it.userInfoResponse?.password.toString()
                         AppConfig.Level = it.coinInfoResponse?.level.toString()
                         AppConfig.Rank = it.coinInfoResponse?.rank ?: "1"
                         AppConfig.CoinCount = it.coinInfoResponse?.coinCount.toString()

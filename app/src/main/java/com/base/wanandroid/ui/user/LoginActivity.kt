@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
@@ -52,9 +53,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, UserViewModel>() {
                 viewModel.getLoginUserInfo(editName, editPassword)
                     .compose(RxTransformer.async())
                     .subscribe({
-
+                        Log.d("Collect", "init: $it")
                         AppConfig.UserName = it.userInfoResponse?.username ?: "Jacky"
-                        AppConfig.PassWord = editPassword
+                        AppConfig.PassWord = it.userInfoResponse?.password.toString()
                         AppConfig.Level = it.coinInfoResponse?.level.toString()
                         AppConfig.Rank = it.coinInfoResponse?.rank ?: "1"
                         AppConfig.CoinCount = it.coinInfoResponse?.coinCount.toString()

@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.base.wanandroid.bean.CoinInfoResponse
 import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.bean.UserInfoResponse
+import com.base.wanandroid.bean.base.BaseResponse
 import com.base.wanandroid.network.RetrofitHelper
 import com.base.wanandroid.network.entity.ApiResponse
 import com.base.wanandroid.ui.user.data.UserInfo
@@ -51,7 +52,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private fun login(
         username: String,
         password: String
-    ): Observable<ApiResponse<UserInfoResponse>> {
+    ): Observable<BaseResponse<UserInfoResponse>> {
         return RetrofitHelper.get().loginWanAndroid(username, password)
     }
 
@@ -70,7 +71,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
         username: String,
         password: String,
         rePassword: String
-    ): Observable<ApiResponse<UserInfoResponse>> {
+    ): Observable<BaseResponse<UserInfoResponse>> {
         return RetrofitHelper.get().registerWanAndroid(username, password, rePassword)
     }
 

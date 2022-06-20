@@ -3,7 +3,9 @@ package com.base.wanandroid.ui.collect
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.base.wanandroid.bean.CollectListResponse
+import com.base.wanandroid.bean.CollectResponse
 import com.base.wanandroid.bean.NoDataResponse
+import com.base.wanandroid.bean.base.ApiPagerResponse
 import com.base.wanandroid.network.RetrofitHelper
 import io.reactivex.Observable
 
@@ -21,7 +23,7 @@ class CollectViewModel(application: Application) : AndroidViewModel(application)
         return RetrofitHelper.get().loginWanAndroid(userName, password)
             .flatMap { user ->
                 getCollectList(page).map {
-                    CollectData(user.data, it.data)
+                    CollectData(user.data, it)
                 }
             }
     }
@@ -29,7 +31,7 @@ class CollectViewModel(application: Application) : AndroidViewModel(application)
     /**
      * 收藏列表
      */
-    fun getCollectList(page: Int): Observable<CollectListResponse> {
+    fun getCollectList(page: Int): Observable<ApiPagerResponse<CollectResponse>> {
         return RetrofitHelper.get().getCollectList(page)
     }
 

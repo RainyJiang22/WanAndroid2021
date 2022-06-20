@@ -6,6 +6,7 @@ import com.base.wanandroid.bean.ClassificationListResponse
 import com.base.wanandroid.bean.CoinInfoListResponse
 import com.base.wanandroid.bean.CoinInfoResponse
 import com.base.wanandroid.bean.CollectListResponse
+import com.base.wanandroid.bean.CollectResponse
 import com.base.wanandroid.bean.Data
 import com.base.wanandroid.bean.FriendListResponse
 import com.base.wanandroid.bean.HomeListResponse
@@ -19,6 +20,8 @@ import com.base.wanandroid.bean.ShareListResponse
 import com.base.wanandroid.bean.ShareResponse
 import com.base.wanandroid.bean.TreeListResponse
 import com.base.wanandroid.bean.UserInfoResponse
+import com.base.wanandroid.bean.base.ApiPagerResponse
+import com.base.wanandroid.bean.base.BaseResponse
 import com.base.wanandroid.constant.Constant
 import com.base.wanandroid.network.entity.ApiResponse
 import io.reactivex.Observable
@@ -109,7 +112,7 @@ interface WanApi {
     fun loginWanAndroid(
         @Field("username") username: String,
         @Field("password") password: String
-    ): Observable<ApiResponse<UserInfoResponse>>
+    ): Observable<BaseResponse<UserInfoResponse>>
 
     /**
      * 注册
@@ -124,7 +127,7 @@ interface WanApi {
         @Field("username") username: String,
         @Field("password") password: String,
         @Field("repassword") repassowrd: String
-    ): Observable<ApiResponse<UserInfoResponse>>
+    ): Observable<BaseResponse<UserInfoResponse>>
 
 
     /**
@@ -216,7 +219,7 @@ interface WanApi {
      * 收藏列表展示
      */
     @GET(Constant.URI.COLLECT_LIST)
-    fun getCollectList(@Path("page") page: Int): Observable<CollectListResponse>
+    fun getCollectList(@Path("page") page: Int): Observable<ApiPagerResponse<CollectResponse>>
 
 
     /**

@@ -43,6 +43,7 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, CollectViewModel>()
 
 
     private fun onRefresh() {
+        Log.e("CollectActivity", "username:${AppConfig.UserName},password:${AppConfig.PassWord}")
         binding?.rv?.adapter = adapter
         binding?.page?.onRefresh {
             lifecycleScope.launch {
@@ -73,7 +74,7 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, CollectViewModel>()
                         }
                     }, {
                         showError()
-                        Log.e("CollectActivity", "onError: ${it.message}")
+                        Log.e("CollectActivity", "onError: $it,${it.message}")
                     }).lifecycleOwner(this@CollectActivity)
             }
         }?.autoRefresh()
