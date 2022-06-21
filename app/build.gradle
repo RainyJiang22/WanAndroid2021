@@ -16,7 +16,7 @@ android {
         multiDexEnabled true
         targetSdk config.targetSdk
         versionCode 1000
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,7 +50,7 @@ android {
             signingConfig signingConfigs.release
         }
         release {
-            buildConfigField "boolean", "LOG_ENABLE", "true"
+            buildConfigField "boolean", "LOG_ENABLE", "false"
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release

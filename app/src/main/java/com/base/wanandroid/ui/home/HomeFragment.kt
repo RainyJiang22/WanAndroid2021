@@ -3,6 +3,7 @@ package com.base.wanandroid.ui.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
@@ -278,7 +279,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
                         //设置文章数据
                         articleAdapter.setList(it.data.datas.toMutableList())
                     }, {
-                        showEmpty()
+                        Log.e(TAG, "onRefresh: ${it.message}")
+                        showError()
                     }).lifecycleOwner(this@HomeFragment)
                 index += 1
                 showContent(true)
@@ -313,7 +315,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
                         index += 1
                         showContent(true)
                     }, {
-                        showEmpty()
+                        Log.e(TAG, "onLoadMore:${it.message} ")
+                        showError()
                     }).lifecycleOwner(this@HomeFragment)
 
             }
@@ -351,6 +354,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
                 }
 
             }, {
+                Log.e(TAG, "getBannerData: ${it.message}")
                 it.printStackTrace()
             }).lifecycleOwner(this)
     }
