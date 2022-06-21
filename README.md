@@ -27,13 +27,38 @@ Kotlin版WanAndroid客户端,项目中集成了很多优秀的开源库和UI组�
 - [x] 积分及排名页
 - [x] 历史记录页
 
-
 ## 待开发计划
+
 - v1.0.0(已开发完成)
 
 - v1.0.1
+
 1. 完成离线数据功能
 2. 完成换肤功能
+3. Fix1.0.0的bug
+
+## 主要使用的开源框架
+
+- [协程](https://github.com/Kotlin/kotlinx.coroutines)
+- [Gson解析](https://github.com/google/gson)
+- [网络请求](https://github.com/liangjingkanji/Net)
+- [序列化数据](https://github.com/liangjingkanji/Serialize)
+- [消息事件](https://github.com/liangjingkanji/Channel)
+- [RecyclerView](https://github.com/liangjingkanji/BRV)
+- [Adapter](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+- [侧滑返回](https://github.com/goweii/SwipeBack)
+- [Retrofit](https://github.com/square/retrofit)
+- [okhttp](https://github.com/square/okhttp)
+- [Glide](https://github.com/bumptech/glide)
+- [LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)
+- [UnpeekLiveData](https://github.com/KunMinX/UnPeek-LiveData)
+- [AgentWeb](https://github.com/Justson/AgentWeb)
+- [FlowLayout](https://github.com/hongyangAndroid/FlowLayout)
+- [BGABanner-Android](https://github.com/bingoogolapple/BGABanner-Android)
+- [leakcanary](https://github.com/square/leakcanary)
+- [AndroidAutoSize](https://github.com/JessYanCoding/AndroidAutoSize)
+
+**还用到了很多开源框架就不写上了，感谢所有优秀的开源项目**
 
 ## License
 

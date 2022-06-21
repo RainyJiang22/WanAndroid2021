@@ -85,6 +85,7 @@ class IntegralActivity : BaseActivity<ActivityIntegralBinding, IntegralViewModel
                                 1
                             }
                         }
+                        showContent(true)
                     }, {
                         showError()
                     })

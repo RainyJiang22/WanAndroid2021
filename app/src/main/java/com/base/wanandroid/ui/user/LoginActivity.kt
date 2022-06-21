@@ -48,14 +48,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, UserViewModel>() {
             lifecycleScope.launch {
                 delay(1500)
 
-                val editName = binding?.etUsername.toString()
-                val editPassword = binding?.etPassword.toString()
+                val editName = binding?.etUsername?.text.toString()
+                val editPassword = binding?.etPassword?.text.toString()
                 viewModel.getLoginUserInfo(editName, editPassword)
                     .compose(RxTransformer.async())
                     .subscribe({
-                        Log.d("Collect", "init: $it")
                         AppConfig.UserName = it.userInfoResponse?.username ?: "Jacky"
-                        AppConfig.PassWord = it.userInfoResponse?.password.toString()
+                        AppConfig.PassWord = editPassword
                         AppConfig.Level = it.coinInfoResponse?.level.toString()
                         AppConfig.Rank = it.coinInfoResponse?.rank ?: "1"
                         AppConfig.CoinCount = it.coinInfoResponse?.coinCount.toString()

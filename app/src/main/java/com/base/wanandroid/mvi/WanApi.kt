@@ -7,6 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import java.util.concurrent.TimeUnit
 
 /**
  * @author jiangshiyu
@@ -18,7 +19,10 @@ interface WanApi {
         fun create(): WanApi {
             val okHttpClient = OkHttpClient()
                 .newBuilder()
-
+                .retryOnConnectionFailure(true)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
                 .build()
 
             return Retrofit.Builder()
