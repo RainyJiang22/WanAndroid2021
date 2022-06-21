@@ -39,13 +39,7 @@ class CollectAdapter(
             //跳转文章网页打开链接，传递文章id标题链接及收藏与否，外加一个收藏文章原始id，同时将数据类传递过去
             data[position].run {
                 WebActivity.start(
-                    context,
-                    id,
-                    title,
-                    link,
-                    true,
-                    originId = originId,
-                    data = this
+                    context, id, title, link, true, originId = originId, data = this
                 )
             }
         }

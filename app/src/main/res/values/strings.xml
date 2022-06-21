@@ -111,4 +111,12 @@
     <string name="search_tip">输入关键字搜索</string>
     <string name="search_hot">热门搜索(目前搜索最多的关键词)</string>
     <string name="search_history">搜索历史(保留最近前十条搜索记录)</string>
+
+    <!--网页-->
+    <string name="web_share">分享</string>
+    <string name="web_refresh">刷新</string>
+    <string name="web_browser">用浏览器打开</string>
+    <string name="web_share_url">%1$s分享【%2$s】：%3$s</string>
+    <string name="text_plan">text/plain</string>
+
 </resources>
