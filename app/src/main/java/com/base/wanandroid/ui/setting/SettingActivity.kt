@@ -2,11 +2,13 @@ package com.base.wanandroid.ui.setting
 
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivitySettingBinding
 import com.base.wanandroid.base.EmptyViewModel
 import com.base.wanandroid.ui.web.WebActivity
+import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.CacheDataUtil
 import com.base.wanandroid.widget.Dialog
 import com.blankj.utilcode.util.ToastUtils
@@ -24,6 +26,19 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, EmptyViewModel>() {
 
         binding?.titleBar?.leftView?.setOnClickListener {
             finishAfterTransition()
+        }
+
+        binding?.settingDark?.isChecked = AppConfig.DarkTheme
+        binding?.settingDark?.setOnCheckedChangeListener { _, isChecked ->
+            AppConfig.DarkTheme = if (isChecked) {
+                //全局设置夜间模式
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                true
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                false
+            }
+
         }
 
         binding?.settingClear?.setRightText(CacheDataUtil.getTotalCacheSize(this))

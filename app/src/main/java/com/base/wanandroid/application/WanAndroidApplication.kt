@@ -3,11 +3,13 @@ package com.base.wanandroid.application
 import android.app.Application
 import android.content.Context
 import android.graphics.pdf.PdfDocument
+import androidx.appcompat.app.AppCompatDelegate
 import com.base.wanandroid.R
 import com.base.wanandroid.application.initializer.CommonProcessInitializer
 import com.base.wanandroid.application.initializer.DelegateInitializer
 import com.base.wanandroid.application.initializer.MainProcessInitializer
 import com.base.wanandroid.application.initializer.StubProcessInitializer
+import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.AppUtils
 import com.drake.brv.PageRefreshLayout
 import com.drake.statelayout.StateConfig
@@ -37,6 +39,11 @@ class WanAndroidApplication : Application() {
         }
         mInitializer?.appCreate(this)
 
+        //应用主题切换
+        when (AppConfig.DarkTheme) {
+            true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
 
         //全局缺省页配置
         StateConfig.apply {

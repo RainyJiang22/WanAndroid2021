@@ -10,6 +10,9 @@ import com.drake.serialize.serialize.serialLazy
  */
 object AppConfig {
 
+    //夜间主题
+    var DarkTheme: Boolean by serialLazy(false)
+
     //登录后返回的cookie
     var Cookie: HashMap<String, String> by serialLazy(hashMapOf())
 
