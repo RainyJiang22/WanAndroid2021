@@ -25,14 +25,34 @@ android {
         viewBinding true
     }
 
+
+    signingConfigs {
+        release {
+            storeFile file("../wanandroid.jks")
+            storePassword "wanandroid"
+            keyAlias "wanandroid"
+            keyPassword "wanandroid"
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def fileName = "WanAndroid" + "_" + variant.buildType.name + '_vc' + variant.versionCode + '_' + new Date().format('yyyy_MM_dd_HH_mm_ss')
+            outputFileName = fileName
+        }
+    }
+
     buildTypes {
         debug {
             buildConfigField "boolean", "LOG_ENABLE", "true"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         release {
             buildConfigField "boolean", "LOG_ENABLE", "true"
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
