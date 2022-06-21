@@ -37,6 +37,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             def fileName = "WanAndroid" + "_" + variant.buildType.name + '_vc' + variant.versionCode + '_' + new Date().format('yyyy_MM_dd_HH_mm_ss')
+            fileName += ".apk"
             outputFileName = fileName
         }
     }
