@@ -6,6 +6,7 @@ import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.BannerResponse
 import com.base.wanandroid.bean.ClassificationListResponse
 import com.base.wanandroid.bean.NoDataResponse
+import com.base.wanandroid.bean.ShareListResponse
 import com.base.wanandroid.bean.TreeListResponse
 import com.base.wanandroid.network.RetrofitHelper
 import com.base.wanandroid.utils.RxCacheManager
@@ -168,5 +169,17 @@ class ArticleViewModel(application: Application) : AndroidViewModel(application)
      */
     fun getSearchResult(page: Int, key: String): Observable<ArticleListResponse> {
         return RetrofitHelper.get().getSearchList(page, key)
+    }
+
+
+    /**
+     * 根据作者名称查询
+     */
+    fun searchAuthorByName(page: Int, name: String): Observable<ArticleListResponse> {
+        return RetrofitHelper.get().searchArticleByName(page, name)
+    }
+
+    fun searchAuthorById(userId: Int, page: Int): Observable<ShareListResponse> {
+        return RetrofitHelper.get().searchArticleById(page, userId)
     }
 }

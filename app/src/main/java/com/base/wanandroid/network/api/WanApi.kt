@@ -287,4 +287,25 @@ interface WanApi {
         @Field("title") title: String,
         @Field("link") link: String
     ): Observable<NoDataResponse>
+
+
+    /**
+     * 按照作者昵称搜索文章路径
+     */
+    @GET(Constant.URI.SearchArticleByNameAPI)
+    fun searchArticleByName(
+        @Path("page") page: Int,
+        @Path("name") name: String
+    ): Observable<ArticleListResponse>
+
+
+    /**
+     * 分享人搜索
+     */
+    @GET(Constant.URI.SearchArticleByIdAPI)
+    fun searchArticleById(
+        @Path("userId") userId: Int,
+        @Path("page") page: Int
+    ): Observable<ShareListResponse>
+
 }

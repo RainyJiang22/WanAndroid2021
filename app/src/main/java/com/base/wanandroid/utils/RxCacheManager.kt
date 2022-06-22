@@ -19,8 +19,7 @@ object RxCacheManager {
             .appVersion(BuildConfig.VERSION_CODE)
             .diskDir(
                 File(
-                    WanAndroidApplication.getApplication()!!.getCacheDir()
-                        .getPath() + File.separator + "widget_cache"
+                    WanAndroidApplication.getApplication()!!.cacheDir.path + File.separator + "android_cache"
                 )
             )
             .diskConverter(GsonDiskConverter())

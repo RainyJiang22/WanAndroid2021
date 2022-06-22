@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.base.wanandroid.R
 import com.base.wanandroid.bean.ArticleResponse
+import com.base.wanandroid.ui.author.AuthorActivity
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.collect.CollectViewModel
 import com.base.wanandroid.ui.web.WebActivity
@@ -19,6 +20,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.drake.channel.receiveTag
+import com.drake.serialize.intent.openActivity
 import com.google.android.material.imageview.ShapeableImageView
 
 
@@ -53,7 +55,12 @@ class ArticleAdapter(
         this.setOnItemChildClickListener { _, view, position ->
             when (view.id) {
                 R.id.item_article_author -> {
-                    //todo 打开文章作者页面
+                    //打开文章作者页面
+                    context.openActivity<AuthorActivity>(
+                        //传递name和userId
+                        "name" to data[position].run { author.ifEmpty { shareUser } },
+                        "userId" to data[position].run { userId }
+                    )
                 }
             }
         }

@@ -133,6 +133,17 @@ public interface Constant {
          * 分享文章路径
          */
         String ShareArticleAPI = "/lg/user_article/add/json";
+
+        /**
+         * 按照作者昵称搜索文章路径
+         */
+        String SearchArticleByNameAPI = "/article/list/{page}/json?author={name}";
+
+        /**
+         * 分享人对应列表数据路径
+         */
+        String SearchArticleByIdAPI = "/user/{userId}/share_articles/{page}/json";
+
     }
 
 }
