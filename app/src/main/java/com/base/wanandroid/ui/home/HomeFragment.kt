@@ -277,7 +277,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
                     .compose(RxTransformer.async())
                     .subscribe({
                         //设置文章数据
-                        articleAdapter.setList(it.data.datas.toMutableList())
+                        articleAdapter.setList(it.data.data.datas.toMutableList())
                     }, {
                         Log.e(TAG, "onRefresh: ${it.message}")
                         showError()
@@ -305,12 +305,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
                     )
                     .compose(RxTransformer.async())
                     .subscribe({
-                        if (it.data.datas.isNullOrEmpty()) {
+                        if (it.data.data.datas.isNullOrEmpty()) {
                             //没有更多内容
                             showContent(false)
                             return@subscribe
                         }
-                        articleAdapter.addData(it.data.datas)
+                        articleAdapter.addData(it.data.data.datas)
                         //翻页
                         index += 1
                         showContent(true)

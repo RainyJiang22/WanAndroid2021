@@ -138,7 +138,7 @@ class ProjectChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel
             )
             .compose(RxTransformer.async())
             .subscribe({
-                onNext(it)
+                onNext(it.data)
             }, {
                 onError()
             }).lifecycleOwner(this)
@@ -160,7 +160,7 @@ class ProjectChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel
             )
             .compose(RxTransformer.async())
             .subscribe({
-                onNext(it)
+                onNext(it.data)
             }, {
                 onError()
             }).lifecycleOwner(this)

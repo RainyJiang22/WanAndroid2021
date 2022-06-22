@@ -77,18 +77,18 @@ class PlatformChildFragment : BaseFragment<FragmentChildBinding, ArticleViewMode
                     )
                     .compose(RxTransformer.async())
                     .subscribe({
-                        if (first && it.data.datas.isEmpty()) {
+                        if (first && it.data.data.datas.isEmpty()) {
                             showEmpty()
                         } else {
                             first = false
                             index += if (index == 1) {
-                                articleAdapter.setList(it.data.datas)
+                                articleAdapter.setList(it.data.data.datas)
                                 1
                             } else {
-                                if (it.data.datas.isNullOrEmpty()) {
+                                if (it.data.data.datas.isNullOrEmpty()) {
                                     showContent(false)
                                 } else {
-                                    articleAdapter.addData(it.data.datas)
+                                    articleAdapter.addData(it.data.data.datas)
                                 }
                                 1
                             }
