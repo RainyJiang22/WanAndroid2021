@@ -14,6 +14,20 @@
         <!-- Customize your theme here. -->
     </style>
 
+
+    <!--闪屏页主题-->
+    <style name="Theme.WanAndroid.SplashTheme">
+        <item name="android:windowBackground">@mipmap/ic_launcher_round</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowDisablePreview">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
     <style name="bottom_tab_title_active">
         <item name="android:textSize">11sp</item>
     </style>
