@@ -13,7 +13,7 @@ import com.base.wanandroid.history.dao.HistoryDao;
  * @date 2022/6/8
  */
 
-@Database(version = 1, entities = {HistoryEntity.class})
+@Database(version = 1, entities = {HistoryEntity.class}, exportSchema = false)
 public abstract class WanAndroidDB extends RoomDatabase {
 
     public abstract HistoryDao historyDao();
@@ -23,7 +23,7 @@ public abstract class WanAndroidDB extends RoomDatabase {
     public synchronized static WanAndroidDB getInstance() {
         if (sInstance == null) {
             sInstance = Room.databaseBuilder(WanAndroidApplication.getApplication(),
-                    WanAndroidDB.class,"wan-android-app")
+                    WanAndroidDB.class, "wan-android-app")
                     .build();
         }
         return sInstance;
