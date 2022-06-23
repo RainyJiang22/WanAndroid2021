@@ -7,16 +7,27 @@ import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.application.WanAndroidApplication
 import com.base.wanandroid.base.BaseActivity
+import com.base.wanandroid.bean.ArticleListResponse
+import com.base.wanandroid.bean.ArticleResponse
+import com.base.wanandroid.bean.ShareListResponse
+import com.base.wanandroid.bean.ShareResponse
+import com.base.wanandroid.bean.base.ApiBaseResponse
+import com.base.wanandroid.bean.base.ApiPagerResponse
+import com.base.wanandroid.bean.base.ApiResponse
+import com.base.wanandroid.constant.Constant.URI.SearchArticleById
+import com.base.wanandroid.constant.Constant.URI.SearchArticleByName
 import com.base.wanandroid.databinding.ActivityAuthorBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
+import com.base.wanandroid.utils.BASE_URL
 import com.base.wanandroid.utils.GenerateAvatarURL
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.widget.layout.XCollapsingToolbarLayout
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.Get
+import com.drake.net.utils.scope
 import com.drake.net.utils.scopeNetLife
 import com.drake.serialize.intent.bundle
 import java.io.File
@@ -39,6 +50,11 @@ class AuthorActivity : BaseActivity<ActivityAuthorBinding, ArticleViewModel>() {
         }
     }
 
+    /** 按照作者昵称搜索文章 数据集 */
+    private lateinit var dataByName: ApiBaseResponse<ApiPagerResponse<ArticleResponse>>
+
+    /** 分享人对应列表数据 数据集 */
+    private lateinit var dataByID: ApiBaseResponse<ShareResponse>
 
     override fun onBundle(bundle: Bundle) {
 
@@ -98,59 +114,50 @@ class AuthorActivity : BaseActivity<ActivityAuthorBinding, ArticleViewModel>() {
 
     private fun onRefresh() {
         binding?.page?.onRefresh {
-            if (userId == -1) {
-                viewModel.searchAuthorByName(index, name)
-                    .compose(
-                        RxLifecycleCompact.bind(this@AuthorActivity)
-                            .disposeObservableWhen(LifecycleEvent.DESTROY)
-                    )
-                    .compose(RxTransformer.async())
-                    .subscribe {
-                        if (first && it.data.datas.isEmpty()) {
-                            showEmpty()
+            scope {
+                if (userId == -1) {
+                    dataByName =
+                        Get<ApiBaseResponse<ApiPagerResponse<ArticleResponse>>>("/${SearchArticleByName}/$index/json?author=$name").await()
+                    if (first && dataByName.data.datas.isEmpty()) {
+                        showEmpty()
+                    } else {
+                        first = false
+                        index += if (index == 0) {
+                            adapter.setList(dataByName.data.datas)
+                            1
                         } else {
-                            first = false
-                            index += if (index == 0) {
-                                adapter.setList(it.data.datas)
-                                1
-                            } else {
-                                if (it.data.datas.isNullOrEmpty()) {
-                                    showContent(false)
-                                    return@subscribe
-                                }
-                                adapter.addData(it.data.datas)
-                                1
+                            if (dataByName.data.datas.isNullOrEmpty()) {
+                                showContent(false)
+                                return@scope
                             }
+                            adapter.addData(dataByName.data.datas)
+                            1
                         }
-                        showContent(true)
-                    }.lifecycleOwner(this@AuthorActivity)
-            } else {
-                viewModel.searchAuthorById(userId, index)
-                    .compose(
-                        RxLifecycleCompact.bind(this@AuthorActivity)
-                            .disposeObservableWhen(LifecycleEvent.DESTROY)
-                    )
-                    .compose(RxTransformer.async())
-                    .subscribe {
-                        if (first && it.data.shareArticles.datas.isEmpty()) {
-                            showEmpty()
+                    }
+                    showContent(true)
+                } else {
+                    dataByID =
+                        Get<ApiBaseResponse<ShareResponse>>("${BASE_URL}/${SearchArticleById}/$userId/share_articles/$index/json").await()
+                    if (first && dataByID.data.shareArticles.datas.isEmpty()) {
+                        showEmpty()
+                    } else {
+                        first = false
+                        index += if (index == 0) {
+                            adapter.setList(dataByID.data.shareArticles.datas)
+                            1
                         } else {
-                            first = false
-                            index += if (index == 0) {
-                                adapter.setList(it.data.shareArticles.datas)
-                                1
-                            } else {
-                                if (it.data.shareArticles.datas.isNullOrEmpty()) {
-                                    showContent(false)
-                                    return@subscribe
-                                }
-                                adapter.addData(it.data.shareArticles.datas)
-                                1
+                            if (dataByID.data.shareArticles.datas.isNullOrEmpty()) {
+                                showContent(false)
+                                return@scope
                             }
+                            adapter.addData(dataByID.data.shareArticles.datas)
+                            1
                         }
-                        showContent(true)
-                    }.lifecycleOwner(this@AuthorActivity)
+                    }
+                    showContent(true)
+                }
             }
+
         }?.autoRefresh()
     }
 }

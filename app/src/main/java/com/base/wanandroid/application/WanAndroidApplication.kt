@@ -9,13 +9,19 @@ import com.base.wanandroid.application.initializer.CommonProcessInitializer
 import com.base.wanandroid.application.initializer.DelegateInitializer
 import com.base.wanandroid.application.initializer.MainProcessInitializer
 import com.base.wanandroid.application.initializer.StubProcessInitializer
+import com.base.wanandroid.network.GsonConvert
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.AppUtils
+import com.base.wanandroid.utils.BASE_URL
+import com.base.wanandroid.utils.MyCookie
 import com.drake.brv.PageRefreshLayout
+import com.drake.net.NetConfig
+import com.drake.net.okhttp.setConverter
 import com.drake.statelayout.StateConfig
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * @author jiangshiyu
@@ -43,6 +49,13 @@ class WanAndroidApplication : Application() {
         when (AppConfig.DarkTheme) {
             true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
+        NetConfig.initialize(BASE_URL) {
+            //设置Gson解析方式
+            setConverter(GsonConvert())
+            //设置cookie管理器
+            cookieJar(MyCookie())
         }
 
         //全局缺省页配置
