@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.base.wanandroid.R
 import com.base.wanandroid.bean.ArticleResponse
+import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.ui.author.AuthorActivity
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.collect.CollectViewModel
@@ -20,6 +21,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.drake.channel.receiveTag
+import com.drake.net.Post
+import com.drake.net.utils.scopeNetLife
 import com.drake.serialize.intent.openActivity
 import com.google.android.material.imageview.ShapeableImageView
 
@@ -76,15 +79,15 @@ class ArticleAdapter(
             .setOnClickListener(object : CollectView.OnClickListener {
                 override fun onClick(v: CollectView) {
                     if (v.isChecked) {
-                        viewModel?.collectCurrentArticle(data[viewHolder.absoluteAdapterPosition - headerLayoutCount].id)
-                            ?.compose(RxTransformer.async())
-                            ?.subscribe()
+                        lifecycleOwner.scopeNetLife {
+                            Post<NoDataResponse>("/lg/collect/${data[viewHolder.adapterPosition - headerLayoutCount].id}/json").await()
+                        }
                     } else {
-                        viewModel?.unCollectArticle(data[viewHolder.absoluteAdapterPosition - headerLayoutCount].id)
-                            ?.compose(RxTransformer.async())
-                            ?.subscribe()
+                        lifecycleOwner.scopeNetLife {
+                            Post<NoDataResponse>("/lg/uncollect_originId/${data[viewHolder.adapterPosition - headerLayoutCount].id}/json").await()
+                        }
                     }
-                    data[viewHolder.absoluteAdapterPosition - headerLayoutCount].collect =
+                    data[viewHolder.adapterPosition - headerLayoutCount].collect =
                         v.isChecked
                 }
 

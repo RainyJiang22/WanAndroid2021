@@ -7,6 +7,9 @@ import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
+import com.base.wanandroid.bean.CollectResponse
+import com.base.wanandroid.bean.base.ApiBaseResponse
+import com.base.wanandroid.bean.base.ApiPagerResponse
 import com.base.wanandroid.databinding.ActivityCollectBinding
 import com.base.wanandroid.ui.adapter.CollectAdapter
 import com.base.wanandroid.utils.AppConfig
@@ -14,6 +17,8 @@ import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
 import com.blankj.utilcode.util.ToastUtils
 import com.drake.brv.PageRefreshLayout
+import com.drake.net.Get
+import com.drake.net.utils.scope
 import com.youth.banner.util.LogUtils
 import kotlinx.coroutines.launch
 
@@ -28,6 +33,8 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, CollectViewModel>()
 
     private var first = true
 
+    private lateinit var collectData: ApiBaseResponse<ApiPagerResponse<CollectResponse>>
+
 
     override fun onBundle(bundle: Bundle) {
     }
@@ -38,45 +45,39 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, CollectViewModel>()
         }
         binding?.titleBar?.title = getString(R.string.my_collect)
         PageRefreshLayout.startIndex = 0
+        binding?.rv?.adapter = adapter
         onRefresh()
     }
 
 
     private fun onRefresh() {
-        Log.e("CollectActivity", "username:${AppConfig.UserName},password:${AppConfig.PassWord}")
-        binding?.rv?.adapter = adapter
+
         binding?.page?.onRefresh {
-            lifecycleScope.launch {
-                viewModel.collectList(AppConfig.UserName, AppConfig.PassWord, index)
-                    .compose(
-                        RxLifecycleCompact.bind(this@CollectActivity)
-                            .disposeObservableWhen(LifecycleEvent.DESTROY)
-                    )
-                    .compose(RxTransformer.async())
-                    .subscribe({
-                        if (first && it.collectList.datas.isEmpty()) {
-                            showEmpty()
-                        } else {
-                            first = false
-                            index += if (index == 0) {
-                                adapter.setList(it.collectList.datas)
-                                1
-                            } else {
-                                if (it.collectList.datas.isNullOrEmpty()) {
-                                    //没有更多数据，结束动画，显示内容(没有更多数据)
-                                    showContent(false)
-                                    return@subscribe
-                                }
-                                //添加数据
-                                adapter.addData(it.collectList.datas)
-                                1
-                            }
+
+            scope {
+                collectData =
+                    Get<ApiBaseResponse<ApiPagerResponse<CollectResponse>>>("/lg/collect/list/$index/json").await()
+                if (first && collectData.data.datas.isEmpty()) {
+                    showEmpty()
+                } else {
+                    first = false
+                    index += if (index == 0) {
+                        adapter.setList(collectData.data.datas)
+                        1
+                    } else {
+                        if (collectData.data.datas.isNullOrEmpty()) {
+                            //没有更多数据，结束动画，显示内容(没有更多数据)
+                            showContent(false)
+                            return@scope
                         }
-                    }, {
-                        showError()
-                        Log.e("CollectActivity", "onError: $it,${it.message}")
-                    }).lifecycleOwner(this@CollectActivity)
+                        //添加数据
+                        adapter.addData(collectData.data.datas)
+                        1
+                    }
+                }
+                showContent(true)
             }
+
         }?.autoRefresh()
     }
 
