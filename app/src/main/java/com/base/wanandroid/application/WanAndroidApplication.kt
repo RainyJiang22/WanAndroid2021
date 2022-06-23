@@ -83,6 +83,10 @@ class WanAndroidApplication : Application() {
     companion object {
         private var sContext: Context? = null
 
+
+        //根据昵称生成头像API
+        const val apiKey = "MDgWZ4B65I9G3K"
+
         @JvmStatic
         fun getApplication(): Context? {
             return sContext

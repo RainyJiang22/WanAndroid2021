@@ -1,19 +1,25 @@
 package com.base.wanandroid.ui.author
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
+import com.base.wanandroid.application.WanAndroidApplication
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityAuthorBinding
 import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
+import com.base.wanandroid.utils.GenerateAvatarURL
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.widget.layout.XCollapsingToolbarLayout
 import com.drake.brv.PageRefreshLayout
+import com.drake.net.Get
+import com.drake.net.utils.scopeNetLife
 import com.drake.serialize.intent.bundle
+import java.io.File
 
 /**
  * @author jiangshiyu
@@ -50,8 +56,27 @@ class AuthorActivity : BaseActivity<ActivityAuthorBinding, ArticleViewModel>() {
         }
         binding?.headerText?.text = name
         binding?.rv?.adapter = adapter
+
+        //生成头像
+        loadHeaderImage()
         initCollapsingToolbar()
         onRefresh()
+    }
+
+    private fun loadHeaderImage() {
+        scopeNetLife {
+            val mAvatar =
+                Get<File>("${GenerateAvatarURL}/$name.png?apikey=${WanAndroidApplication.apiKey}") {
+                    setDownloadDir(WanAndroidApplication.getApplication()!!.filesDir)
+                    setDownloadMd5Verify()
+                    setDownloadFileNameDecode()
+                    setDownloadTempFile()
+                }.await()
+            //文件解码bitmap
+            val mBitmap = BitmapFactory.decodeFile(mAvatar.path)
+            //设置头像
+            binding?.headerImage?.setImageBitmap(mBitmap)
+        }
     }
 
     /** 折叠工具栏回调方法 */

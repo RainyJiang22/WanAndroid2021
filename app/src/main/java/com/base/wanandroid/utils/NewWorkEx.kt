@@ -10,6 +10,9 @@ import androidx.lifecycle.MutableLiveData
 
 const val BASE_URL = "https://www.wanandroid.com"
 
+//根据昵称生成头像API
+const val GenerateAvatarURL = "https://api.multiavatar.com"
+
 //LCE -> loading/content/error
 sealed class PageState<out T> {
     data class Success<T>(val data: T) : PageState<T>()
