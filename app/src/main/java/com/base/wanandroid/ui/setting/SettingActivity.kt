@@ -7,11 +7,15 @@ import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivitySettingBinding
 import com.base.wanandroid.base.EmptyViewModel
+import com.base.wanandroid.ui.scan.ScanActivity
 import com.base.wanandroid.ui.web.WebActivity
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.CacheDataUtil
 import com.base.wanandroid.widget.Dialog
 import com.blankj.utilcode.util.ToastUtils
+import com.drake.serialize.intent.openActivity
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 
 /**
  * @author jiangshiyu
@@ -52,7 +56,12 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, EmptyViewModel>() {
         }
 
         binding?.settingScan?.setOnClickListener {
-            //TODO 2022/6/9 扫码
+            //扫码
+            XXPermissions.with(this).permission(Permission.CAMERA).request { _, all ->
+                if (all) {
+                    openActivity<ScanActivity>()
+                }
+            }
         }
 
         //版本号

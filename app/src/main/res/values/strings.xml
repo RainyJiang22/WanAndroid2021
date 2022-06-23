@@ -118,5 +118,10 @@
     <string name="web_browser">用浏览器打开</string>
     <string name="web_share_url">%1$s分享【%2$s】：%3$s</string>
     <string name="text_plan">text/plain</string>
+    <string name="scan_tip">将二维码/条码放入框中，即可自动扫描</string>
+    <string name="identify_error">未识别到二维码</string>
+    <string name="identify_succeed">识别成功</string>
+    <string name="open_camera_failed">打开相机失败</string>
+    <string name="open_flash">打开闪光灯</string>
 
 </resources>
