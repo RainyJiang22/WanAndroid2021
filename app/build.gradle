@@ -167,4 +167,7 @@ dependencies {
 
     //权限请求 https://github.com/getActivity/XXPermissions
     implementation 'com.github.getActivity:XXPermissions:13.5'
+
+    //今日诗词 https://github.com/xenv/jinrishici-sdk-android
+    implementation 'com.jinrishici:android-sdk:1.5'
 }
