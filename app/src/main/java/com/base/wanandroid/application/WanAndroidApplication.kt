@@ -14,6 +14,8 @@ import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.AppUtils
 import com.base.wanandroid.utils.BASE_URL
 import com.base.wanandroid.utils.MyCookie
+import com.base.wanandroid.widget.refresh.MyClassicFooter
+import com.base.wanandroid.widget.refresh.MyClassicHeader
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.NetConfig
 import com.drake.net.okhttp.setConverter
@@ -74,11 +76,10 @@ class WanAndroidApplication : Application() {
 
         //初始化SmartRefreshLayout构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-            layout.setPrimaryColorsId(R.color.color_accent, R.color.white)
-            ClassicsHeader(context)
+            MyClassicHeader(context)
         }
         SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
-            ClassicsFooter(context).setDrawableSize(20f)
+            MyClassicFooter(context)
         }
 
 
