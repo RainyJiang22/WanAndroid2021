@@ -13,6 +13,7 @@ import com.base.wanandroid.history.HistoryRepository
 import com.base.wanandroid.ui.adapter.HistoryRecordAdapter
 import com.base.wanandroid.ui.web.WebActivity
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
 import com.blankj.utilcode.util.ToastUtils
 import com.example.wanAndroid.widget.decoration.SpaceItemDecoration
@@ -63,6 +64,7 @@ class HistoryRecordActivity : BaseActivity<ActivityHistoryRecordBinding, History
             it.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             it.addItemDecoration(SpaceItemDecoration(this))
             it.adapter = historyRecordAdapter
+            binding?.fab?.let { it1 -> it.initFloatBtn(it1) }
         }
         historyRecordAdapter.setOnItemClickListener { _, _, position ->
             val item = historyRecordAdapter.data[position]

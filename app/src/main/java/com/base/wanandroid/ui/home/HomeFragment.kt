@@ -37,6 +37,7 @@ import com.base.wanandroid.ui.share.ShareActivity
 import com.base.wanandroid.ui.user.LoginActivity
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.widget.Dialog
 import com.blankj.utilcode.util.ToastUtils
@@ -253,9 +254,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, ArticleViewModel>() {
 
 
     private fun initView() {
-        binding?.rvHomeList?.also {
-            it.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            it.adapter = articleAdapter
+        binding?.rvHomeList?.apply {
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            adapter = articleAdapter
+            binding?.fab?.let { initFloatBtn(it) }
         }
     }
 

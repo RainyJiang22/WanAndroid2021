@@ -23,6 +23,7 @@ import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.BASE_URL
 import com.base.wanandroid.utils.GenerateAvatarURL
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.widget.layout.XCollapsingToolbarLayout
 import com.drake.brv.PageRefreshLayout
@@ -71,7 +72,12 @@ class AuthorActivity : BaseActivity<ActivityAuthorBinding, ArticleViewModel>() {
             PageRefreshLayout.startIndex = 1
         }
         binding?.headerText?.text = name
-        binding?.rv?.adapter = adapter
+        binding?.let {
+            it.rv.apply {
+                this.adapter = adapter
+                this.initFloatBtn(it.fab)
+            }
+        }
 
         //生成头像
         loadHeaderImage()

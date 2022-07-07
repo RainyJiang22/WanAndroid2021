@@ -12,6 +12,7 @@ import com.base.wanandroid.ui.web.WebActivity
 import com.base.wanandroid.utils.AnimatorUtil
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.initFloatBtn
 import com.drake.brv.PageRefreshLayout
 import com.example.wanAndroid.widget.decoration.RecyclerViewItemDecoration
 import kotlinx.coroutines.launch
@@ -52,6 +53,7 @@ class IntegralActivity : BaseActivity<ActivityIntegralBinding, IntegralViewModel
         binding?.rv?.apply {
             adapter = integralAdapter
             addItemDecoration(RecyclerViewItemDecoration(this@IntegralActivity))
+            binding?.fab?.let { initFloatBtn(it) }
         }
         PageRefreshLayout.startIndex = 0
         onRefresh()

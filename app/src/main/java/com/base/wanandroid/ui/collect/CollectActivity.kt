@@ -14,6 +14,7 @@ import com.base.wanandroid.databinding.ActivityCollectBinding
 import com.base.wanandroid.ui.adapter.CollectAdapter
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
 import com.blankj.utilcode.util.ToastUtils
 import com.drake.brv.PageRefreshLayout
@@ -45,7 +46,12 @@ class CollectActivity : BaseActivity<ActivityCollectBinding, CollectViewModel>()
         }
         binding?.titleBar?.title = getString(R.string.my_collect)
         PageRefreshLayout.startIndex = 0
-        binding?.rv?.adapter = adapter
+        binding?.let {
+            it.rv.apply {
+                this.adapter = adapter
+                this.initFloatBtn(it.fab)
+            }
+        }
         onRefresh()
     }
 

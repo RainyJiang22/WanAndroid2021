@@ -12,6 +12,7 @@ import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityShareBinding
 import com.base.wanandroid.ui.adapter.ShareAdapter
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.widget.layout.SwipeItemLayout
 import com.drake.brv.PageRefreshLayout
 import com.example.wanAndroid.widget.decoration.SpaceItemDecoration
@@ -67,6 +68,7 @@ class ShareActivity : BaseActivity<ActivityShareBinding, ShareViewModel>() {
             addItemDecoration(SpaceItemDecoration(this@ShareActivity))
             //设置RecycleView的侧滑监听器
             addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this@ShareActivity))
+            binding?.fab?.let { initFloatBtn(it) }
         }
     }
 

@@ -11,6 +11,7 @@ import com.base.wanandroid.databinding.ActivityLeaderboardBinding
 import com.base.wanandroid.ui.adapter.LeaderBoardAdapter
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +47,10 @@ class LeaderBoardActivity : BaseActivity<ActivityLeaderboardBinding, IntegralVie
             binding?.integralMe?.visibility = View.GONE
         }
         PageRefreshLayout.startIndex = 1
-        binding?.rv?.adapter = adapter
+        binding?.rv?.apply {
+            this.adapter = adapter
+            binding?.fab?.let { initFloatBtn(it) }
+        }
         onRefresh()
     }
 

@@ -2,7 +2,8 @@ package com.base.wanandroid.mvi.repository
 
 import com.base.wanandroid.bean.ArticleResponse
 import com.base.wanandroid.bean.base.ApiPagerResponse
-import com.base.wanandroid.mvi.WanApi
+import com.base.wanandroid.mvi.network.WanApi
+import com.base.wanandroid.mvi.network.WanWrapper
 import com.base.wanandroid.utils.PageState
 import kotlinx.coroutines.delay
 
@@ -26,7 +27,7 @@ class ArticleRepository {
     suspend fun getArticleList(page: Int): PageState<ApiPagerResponse<ArticleResponse>> {
         val articleListResult = try {
             delay(2000)
-            WanApi.create().getArticleList(page)
+            WanWrapper.create().getArticleList(page)
         } catch (e: Exception) {
             return PageState.Error(e)
         }

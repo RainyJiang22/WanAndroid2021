@@ -10,6 +10,7 @@ import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
 import com.drake.brv.PageRefreshLayout
 import com.drake.serialize.intent.bundle
@@ -40,7 +41,10 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, ArticleVi
         //标题栏返回按钮关闭页面
         binding?.titleBar?.leftView?.setOnClickListener { finish() }
         //设置RecycleView的Adapter
-        binding?.child?.rv?.adapter = articleAdapter
+        binding?.child?.rv?.apply {
+            adapter = articleAdapter
+            binding?.fab?.let { initFloatBtn(it) }
+        }
         onRefresh()
     }
 
