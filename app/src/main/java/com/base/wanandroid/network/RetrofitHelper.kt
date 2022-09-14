@@ -1,5 +1,6 @@
 package com.base.wanandroid.network
 
+import com.base.wanandroid.application.WanAndroidApplication
 import com.base.wanandroid.constant.Constant
 import com.base.wanandroid.network.api.WanApi
 import com.base.wanandroid.utils.MyCookie

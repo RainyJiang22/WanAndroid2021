@@ -170,4 +170,8 @@ dependencies {
 
     //今日诗词 https://github.com/xenv/jinrishici-sdk-android
     implementation 'com.jinrishici:android-sdk:1.5'
+
+
+    implementation 'com.github.RainyJiang22.Android-OpenSource-Practice:monitor:v1.0.1'
+    
 }
