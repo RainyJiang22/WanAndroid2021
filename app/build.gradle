@@ -173,5 +173,7 @@ dependencies {
 
 
     implementation 'com.github.RainyJiang22.Android-OpenSource-Practice:monitor:v1.0.1'
+
+    implementation 'com.github.hegaojian:JetpackMvvm:1.2.7'
     
 }
