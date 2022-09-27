@@ -46,7 +46,7 @@ class AuthorActivity : BaseActivity<ActivityAuthorBinding, ArticleViewModel>() {
     private var first = false
 
     private val adapter: ArticleAdapter by lazy {
-        ArticleAdapter(this, viewModel).apply {
+        ArticleAdapter(this).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }

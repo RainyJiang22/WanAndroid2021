@@ -8,10 +8,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 import java.lang.reflect.ParameterizedType
 
 
-abstract class BaseSheetDialogFragment<V : ViewBinding, VM : AndroidViewModel> : BottomSheetDialogFragment() {
+abstract class BaseSheetDialogFragment<V : ViewBinding, VM : BaseViewModel> : BottomSheetDialogFragment() {
     var binding: V? = null
 
     val viewModel: VM by lazy {

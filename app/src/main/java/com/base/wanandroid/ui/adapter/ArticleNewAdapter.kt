@@ -4,8 +4,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import com.base.wanandroid.R
-import com.base.wanandroid.bean.ArticleResponse
 import com.base.wanandroid.bean.NoDataResponse
+import com.base.wanandroid.data.ArticleResponse
 import com.base.wanandroid.ui.author.AuthorActivity
 import com.base.wanandroid.ui.web.WebActivity
 import com.base.wanandroid.utils.html2Spanned
@@ -25,7 +25,7 @@ import com.google.android.material.imageview.ShapeableImageView
  * @author jiangshiyu
  * @date 2022/3/9
  */
-class ArticleAdapter(
+class ArticleNewAdapter(
     private val lifecycleOwner: LifecycleOwner,
     private val showTag: Boolean = false
 ) :

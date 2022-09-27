@@ -24,7 +24,7 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, ArticleVi
 
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this, viewModel, true).apply {
+        ArticleAdapter(this, true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }

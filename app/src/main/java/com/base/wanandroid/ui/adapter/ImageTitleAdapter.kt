@@ -9,6 +9,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.base.wanandroid.R
 import com.base.wanandroid.bean.BannerData
+import com.base.wanandroid.data.BannerResponse
 import com.base.wanandroid.ui.web.WebActivity
 import com.bumptech.glide.RequestManager
 import com.youth.banner.adapter.BannerAdapter
@@ -20,9 +21,9 @@ import com.youth.banner.adapter.BannerAdapter
 class ImageTitleAdapter(
     val context: Context,
     val glide: RequestManager,
-    dataList: List<BannerData>
+    dataList: List<BannerResponse>
 ) :
-    BannerAdapter<BannerData, ImageTitleAdapter.ImageTittleHolder>(dataList) {
+    BannerAdapter<BannerResponse, ImageTitleAdapter.ImageTittleHolder>(dataList) {
 
 
     inner class ImageTittleHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -38,7 +39,7 @@ class ImageTitleAdapter(
 
     override fun onBindView(
         holder: ImageTittleHolder?,
-        data: BannerData?,
+        data: BannerResponse?,
         position: Int,
         size: Int
     ) {

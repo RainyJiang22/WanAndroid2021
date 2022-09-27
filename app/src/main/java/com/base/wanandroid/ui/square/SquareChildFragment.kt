@@ -25,7 +25,7 @@ class SquareChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel>
     private var first = true
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this, viewModel, true).apply {
+        ArticleAdapter(this, true).apply {
             this.setDiffCallback(ArticleDiffCallBack())
         }
     }

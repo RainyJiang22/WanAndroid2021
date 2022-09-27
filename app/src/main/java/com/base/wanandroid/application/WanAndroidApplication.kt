@@ -47,42 +47,6 @@ class WanAndroidApplication : Application() {
         }
         mInitializer?.appCreate(this)
 
-        //应用主题切换
-        when (AppConfig.DarkTheme) {
-            true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-
-        NetConfig.initialize(BASE_URL) {
-            //设置Gson解析方式
-            setConverter(GsonConvert())
-            //设置cookie管理器
-            cookieJar(MyCookie())
-        }
-
-        //全局缺省页配置
-        StateConfig.apply {
-            emptyLayout = R.layout.layout_empty
-            loadingLayout = R.layout.layout_loading
-            errorLayout = R.layout.layout_error
-            //重试
-            setRetryIds(R.id.msg)
-        }
-
-        //全局分页索引
-        PageRefreshLayout.startIndex = 0
-        //全局预加载索引
-        PageRefreshLayout.preloadIndex = 3
-
-        //初始化SmartRefreshLayout构建器
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
-            MyClassicHeader(context)
-        }
-        SmartRefreshLayout.setDefaultRefreshFooterCreator { context, layout ->
-            MyClassicFooter(context)
-        }
-
-
     }
 
     private fun newStubProcessInitializer(): DelegateInitializer {
