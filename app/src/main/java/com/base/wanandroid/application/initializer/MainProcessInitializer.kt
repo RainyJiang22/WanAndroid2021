@@ -19,6 +19,7 @@ import com.drake.statelayout.StateConfig
 import com.kingja.loadsir.callback.SuccessCallback
 import com.kingja.loadsir.core.LoadSir
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import com.tencent.mmkv.MMKV
 
 /**
  * @author jiangshiyu
@@ -27,6 +28,7 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
 class MainProcessInitializer : DelegateInitializer() {
 
     override fun onAppCreate(appContext: Application) {
+        MMKV.initialize(appContext)
         //应用主题切换
         when (AppConfig.DarkTheme) {
             true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

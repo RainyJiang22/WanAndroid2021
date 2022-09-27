@@ -15,6 +15,7 @@ import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseFragment1
 import com.base.wanandroid.databinding.FragmentHomeBinding
 import com.base.wanandroid.ext.init
+import com.base.wanandroid.ext.initFooter
 import com.base.wanandroid.ext.loadListData
 import com.base.wanandroid.ext.loadServiceInit
 import com.base.wanandroid.ext.showLoading
@@ -34,6 +35,7 @@ import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.viewmodel.request.RequestHomeViewModel
 import com.base.wanandroid.viewmodel.state.HomeViewModel
 import com.base.wanandroid.widget.Dialog
+import com.base.wanandroid.widget.recyclerview.DefineLoadMoreView
 import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -41,6 +43,7 @@ import com.bumptech.glide.Glide
 import com.drake.serialize.intent.openActivity
 import com.google.android.material.imageview.ShapeableImageView
 import com.kingja.loadsir.core.LoadService
+import com.yanzhenjie.recyclerview.SwipeRecyclerView
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.ZoomOutPageTransformer
 import me.hgj.jetpackmvvm.ext.parseState
@@ -62,6 +65,9 @@ class HomeFragment : BaseFragment1<HomeViewModel, FragmentHomeBinding>() {
     //请求数据ViewModel
     private val requestHomeViewModel: RequestHomeViewModel by viewModels()
 
+    //加载更多view
+    private lateinit var footView: DefineLoadMoreView
+
     //界面状态管理者
     private lateinit var loadSir: LoadService<Any>
 
@@ -81,6 +87,9 @@ class HomeFragment : BaseFragment1<HomeViewModel, FragmentHomeBinding>() {
             it.addItemDecoration(
                 SpaceItemDecoration(0, ConvertUtils.dp2px(8f), false)
             )
+            footView = it.initFooter {
+                requestHomeViewModel.getHomeData(false)
+            }
             it.initFloatBtn(mViewBind.fab)
         }
 

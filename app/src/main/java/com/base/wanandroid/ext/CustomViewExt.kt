@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.base.wanandroid.R
 import com.base.wanandroid.network.state.ListDataUiState
+import com.base.wanandroid.utils.SettingUtil
 import com.base.wanandroid.utils.randomColor
 import com.base.wanandroid.widget.loadcallback.EmptyCallBack
 import com.base.wanandroid.widget.loadcallback.ErrorCallBack
 import com.base.wanandroid.widget.loadcallback.LoadingCallBack
+import com.base.wanandroid.widget.recyclerview.DefineLoadMoreView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
@@ -137,4 +139,23 @@ fun <T> loadListData(
             recyclerView.loadMoreError(0, data.errMessage)
         }
     }
+}
+
+fun SwipeRecyclerView.initFooter(loadmoreListener: SwipeRecyclerView.LoadMoreListener): DefineLoadMoreView {
+    val footerView = DefineLoadMoreView(appContext)
+    //给尾部设置颜色
+    footerView.setLoadViewColor(SettingUtil.getOneColorStateList(appContext))
+    //设置尾部点击回调
+    footerView.setmLoadMoreListener(SwipeRecyclerView.LoadMoreListener {
+        footerView.onLoading()
+        loadmoreListener.onLoadMore()
+    })
+    this.run {
+        //添加加载更多尾部
+        addFooterView(footerView)
+        setLoadMoreView(footerView)
+        //设置加载更多回调
+        setLoadMoreListener(loadmoreListener)
+    }
+    return footerView
 }
