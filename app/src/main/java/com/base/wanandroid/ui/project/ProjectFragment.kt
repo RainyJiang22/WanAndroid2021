@@ -1,75 +1,93 @@
 package com.base.wanandroid.ui.project
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
-import cn.nekocode.rxlifecycle.LifecycleEvent
-import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
-import com.base.wanandroid.R
-import com.base.wanandroid.base.BaseFragment
+import com.base.wanandroid.base.BaseFragment1
 import com.base.wanandroid.databinding.FragmentProjectBinding
-import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.ext.loadServiceInit
+import com.base.wanandroid.ext.setErrorText
+import com.base.wanandroid.ext.showError
+import com.base.wanandroid.ext.showLoading
 import com.base.wanandroid.utils.bindViewPager2
 import com.base.wanandroid.utils.init
-import com.base.wanandroid.utils.lifecycleOwner
+import com.base.wanandroid.widget.loadcallback.ErrorCallBack
+import com.kingja.loadsir.core.LoadService
+import me.hgj.jetpackmvvm.ext.parseState
+import okhttp3.internal.notify
+import kotlin.math.log
 
 /**
  * @author jiangshiyu
  * @date 2022/3/7
  */
-class ProjectFragment : BaseFragment<FragmentProjectBinding, ProjectViewModel>() {
+class ProjectFragment : BaseFragment1<ProjectViewModel, FragmentProjectBinding>() {
 
     companion object {
-        const val TAG = "TreeFragment"
+        const val TAG = "ProjectFragment"
 
     }
 
-    /** 分类集合 */
+    //界面状态管理
+    private lateinit var loadSir: LoadService<Any>
+
+    /** 标题分类集合 */
     private val classifyList: ArrayList<String> by lazy { arrayListOf() }
 
     //子项目体系fragment集合
     private val fragments: ArrayList<Fragment> by lazy { arrayListOf() }
 
 
-    override fun onBundle(bundle: Bundle) {
+    override fun initView(savedInstanceState: Bundle?) {
+        super.initView(savedInstanceState)
+        loadSir = loadServiceInit(mViewBind.contentLayout.viewPager) {
+            //重试操作
+            loadSir.showLoading()
+            mViewModel.getProjectTitleData()
+        }
+
+        mViewBind.contentLayout.let {
+            it.viewPager.init(this, fragments)
+            it.magicIndicator.bindViewPager2(it.viewPager, classifyList)
+        }
 
     }
 
-    override fun init(savedInstanceState: Bundle?) {
-        binding?.toolbar?.title = getString(R.string.project_fragment)
-        loadProjectType()
+
+    override fun lazyLoadData() {
+        super.lazyLoadData()
+        loadSir.showLoading()
+        mViewModel.getProjectTitleData()
     }
 
-    /**
-     * 加载项目体系
-     */
-    private fun loadProjectType() {
-        viewModel.getProjectType()
-            .compose(
-                RxLifecycleCompact.bind(this).disposeObservableWhen(
-                    LifecycleEvent.DESTROY_VIEW
-                )
-            )
-            .compose(RxTransformer.async())
-            .subscribe { classify ->
-                //最新项目tab
-                classifyList.add(getString(R.string.new_project))
-                //所有分类tab加上
-                classifyList.addAll(classify.data.map { it.name })
-
-                //先创建最新项目的fragment
+    @SuppressLint("NotifyDataSetChanged")
+    override fun createObserver() {
+        super.createObserver()
+        mViewModel.titleData.observe(viewLifecycleOwner) { data ->
+            parseState(data, {
+                fragments.clear()
+                classifyList.clear()
+                classifyList.add("最新项目")
+                classifyList.addAll(it.map { it.name })
                 fragments.add(ProjectChildFragment.newInstance(0, true))
-
-                classify.data.forEach {
-                    fragments.add(ProjectChildFragment.newInstance(it.id, false))
+                it.forEach { classify ->
+                    fragments.add(ProjectChildFragment.newInstance(classify.id, false))
                 }
-                //初始化
-                binding?.contentLayout?.let {
-                    it.viewPager.init(this, fragments)
-                    it.magicIndicator.bindViewPager2(it.viewPager, classifyList)
-                    it.viewPager.offscreenPageLimit = fragments.size
+                mViewBind.contentLayout.apply {
+                    magicIndicator.navigator.notifyDataSetChanged()
+                    viewPager.adapter?.notifyDataSetChanged()
+                    viewPager.offscreenPageLimit = fragments.size
+                    loadSir.showSuccess()
                 }
-            }.lifecycleOwner(this)
 
+            }, {
+                Log.e(TAG, "the error is ${it.errorMsg}")
+                //失败
+                loadSir.showCallback(ErrorCallBack::class.java)
+                loadSir.setErrorText(it.errorMsg)
+            })
+        }
     }
 
 }

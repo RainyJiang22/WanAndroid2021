@@ -6,21 +6,36 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.base.BaseFragment
+import com.base.wanandroid.base.BaseFragment1
 import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.databinding.FragmentChildBinding
+import com.base.wanandroid.databinding.FragmentProjectChildBinding
+import com.base.wanandroid.ext.init
+import com.base.wanandroid.ext.initFooter
+import com.base.wanandroid.ext.loadListData
+import com.base.wanandroid.ext.loadServiceInit
+import com.base.wanandroid.ext.showLoading
 import com.base.wanandroid.ui.adapter.ArticleAdapter
+import com.base.wanandroid.ui.adapter.ArticleNewAdapter
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
+import com.base.wanandroid.ui.home.ArticleDiffNewCallBack
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
+import com.base.wanandroid.widget.recyclerview.DefineLoadMoreView
+import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
+import com.blankj.utilcode.util.ConvertUtils
 import com.drake.brv.PageRefreshLayout
+import com.kingja.loadsir.core.LoadService
+import com.yanzhenjie.recyclerview.SwipeRecyclerView
 
 /**
  * @author jiangshiyu
  * @date 2022/5/30
  * 项目体系下子fragment
  */
-class ProjectChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel>() {
+class ProjectChildFragment : BaseFragment1<ProjectViewModel, FragmentProjectChildBinding>() {
 
     companion object {
         /**
@@ -40,138 +55,58 @@ class ProjectChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel
         }
     }
 
-    private var cid = 0
-    private var isNew = false
-
-    private var first = true
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this, true).apply {
-            this.setDiffCallback(ArticleDiffCallBack())
+        ArticleNewAdapter(this, true).apply {
+            this.setDiffCallback(ArticleDiffNewCallBack())
         }
     }
 
-    override fun onBundle(bundle: Bundle) {
+    private lateinit var loadSir: LoadService<Any>
 
-    }
+    private lateinit var footView: DefineLoadMoreView
 
-    override fun init(savedInstanceState: Bundle?) {
+    //项目对应的cid
+    private var cid = 0
+
+    //是否是最新项目
+    private var isNew = false
+
+
+    override fun initView(savedInstanceState: Bundle?) {
         arguments?.let {
             cid = it.getInt("cid")
             isNew = it.getBoolean("isNew")
         }
-        initAdapter()
-    }
-
-    private fun initAdapter() {
-        binding?.rv?.also {
-            it.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            it.adapter = articleAdapter
+        //状态页配置
+        loadSir = loadServiceInit(mViewBind.swipeRefresh) {
+            loadSir.showLoading()
+            mViewModel.getProjectData(true, cid, isNew)
         }
-        onRefresh()
-    }
 
-
-    private fun onRefresh() {
-        binding?.page?.onRefresh {
-            if (isNew) {
-                loadNewProject(index, {
-                    if (first && it.data.datas.isEmpty()) {
-                        showEmpty()
-                    } else {
-                        first = false
-                        index += if (isNew && index == 0 || !isNew && index == 1) {
-                            articleAdapter.setList(it.data.datas)
-                            1
-                        } else {
-                            if (it.data.datas.isNullOrEmpty()) {
-                                showContent(false)
-                                return@loadNewProject
-                            }
-                            articleAdapter.addData(it.data.datas)
-                            1
-                        }
-                    }
-                }, {
-                    showError()
-                })
-            } else {
-                loadProjectList(index, cid, {
-                    if (first && it.data.datas.isEmpty()) {
-                        showEmpty()
-                    } else {
-                        first = false
-                        index += if (isNew && index == 0 || !isNew && index == 1) {
-                            articleAdapter.setList(it.data.datas)
-                            1
-                        } else {
-                            if (it.data.datas.isNullOrEmpty()) {
-                                showContent(false)
-                                return@loadProjectList
-                            }
-                            articleAdapter.addData(it.data.datas)
-                            1
-                        }
-                    }
-                }, {
-                    showError()
-                })
+        mViewBind.rvList.init(LinearLayoutManager(context), articleAdapter).let {
+            it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f)))
+            footView = it.initFooter {
+                //加载更多请求数据
+                mViewModel.getProjectData(false, cid, isNew)
             }
-            showContent(true)
-        }?.autoRefresh()
+            it.initFloatBtn(mViewBind.fab)
+        }
+
+        //初始化swipeRefreshLayout
+        mViewBind.swipeRefresh.init {
+            mViewModel.getProjectData(true, cid, isNew)
+        }
     }
 
-
-    /**
-     * 加载最新项目体系数据
-     */
-    private fun loadNewProject(
-        page: Int,
-        onNext: (data: ArticleListResponse) -> Unit,
-        onError: () -> Unit
-    ) {
-        viewModel.getNewProject(page)
-            .compose(
-                RxLifecycleCompact.bind(this).disposeObservableWhen(
-                    LifecycleEvent.DESTROY_VIEW
-                )
-            )
-            .compose(RxTransformer.async())
-            .subscribe({
-                onNext(it.data)
-            }, {
-                onError()
-            }).lifecycleOwner(this)
+    override fun lazyLoadData() {
+        loadSir.showLoading()
+        mViewModel.getProjectData(true, cid, isNew)
     }
 
-    /**
-     * 加载项目体系数据
-     */
-    private fun loadProjectList(
-        page: Int, cid: Int,
-        onNext: (data: ArticleListResponse) -> Unit,
-        onError: () -> Unit
-    ) {
-        viewModel.getProjectList(page, cid)
-            .compose(
-                RxLifecycleCompact.bind(this).disposeObservableWhen(
-                    LifecycleEvent.DESTROY_VIEW
-                )
-            )
-            .compose(RxTransformer.async())
-            .subscribe({
-                onNext(it.data)
-            }, {
-                onError()
-            }).lifecycleOwner(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (isNew) {
-            PageRefreshLayout.startIndex = 0
-        } else {
-            PageRefreshLayout.startIndex = 1
+    override fun createObserver() {
+        mViewModel.projectDataState.observe(viewLifecycleOwner) {
+            loadListData(it, articleAdapter, loadSir, mViewBind.rvList, mViewBind.swipeRefresh)
         }
     }
 

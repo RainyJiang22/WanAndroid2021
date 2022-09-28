@@ -18,8 +18,10 @@ import com.drake.net.okhttp.setConverter
 import com.drake.statelayout.StateConfig
 import com.kingja.loadsir.callback.SuccessCallback
 import com.kingja.loadsir.core.LoadSir
+import com.rainy.easybus.EventBusInitializer
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.tencent.mmkv.MMKV
+import org.greenrobot.eventbus.EventBus
 
 /**
  * @author jiangshiyu
@@ -72,6 +74,7 @@ class MainProcessInitializer : DelegateInitializer() {
             .setDefaultCallback(SuccessCallback::class.java)//设置默认加载状态页
             .commit()
 
+        EventBusInitializer.init(appContext)
     }
 
 

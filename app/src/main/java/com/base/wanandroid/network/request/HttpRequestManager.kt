@@ -40,5 +40,20 @@ class HttpRequestManager {
     }
 
 
+    /**
+     * 获取项目标题数据
+     */
+    suspend fun getProjectData(
+        pageNo: Int,
+        cid: Int = 0,
+        isNew: Boolean = false
+    ): ApiResponse<ApiPagerResponse<ArrayList<ArticleResponse>>> {
+        return if (isNew) {
+            apiService.getProjecNewData(pageNo)
+        } else {
+            apiService.getProjecDataByType(pageNo, cid)
+        }
+    }
+
 
 }

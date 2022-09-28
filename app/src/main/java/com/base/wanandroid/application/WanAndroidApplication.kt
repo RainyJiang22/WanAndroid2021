@@ -2,28 +2,11 @@ package com.base.wanandroid.application
 
 import android.app.Application
 import android.content.Context
-import android.graphics.pdf.PdfDocument
-import androidx.appcompat.app.AppCompatDelegate
-import com.base.wanandroid.R
 import com.base.wanandroid.application.initializer.CommonProcessInitializer
 import com.base.wanandroid.application.initializer.DelegateInitializer
 import com.base.wanandroid.application.initializer.MainProcessInitializer
 import com.base.wanandroid.application.initializer.StubProcessInitializer
-import com.base.wanandroid.network.GsonConvert
-import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.AppUtils
-import com.base.wanandroid.utils.BASE_URL
-import com.base.wanandroid.utils.MyCookie
-import com.base.wanandroid.widget.refresh.MyClassicFooter
-import com.base.wanandroid.widget.refresh.MyClassicHeader
-import com.drake.brv.PageRefreshLayout
-import com.drake.net.NetConfig
-import com.drake.net.okhttp.setConverter
-import com.drake.statelayout.StateConfig
-import com.scwang.smart.refresh.footer.ClassicsFooter
-import com.scwang.smart.refresh.header.ClassicsHeader
-import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * @author jiangshiyu
@@ -69,7 +52,6 @@ class WanAndroidApplication : Application() {
         fun getApplication(): Context? {
             return sContext
         }
-
         private var mInitializer: CommonProcessInitializer? = null
     }
 }

@@ -137,7 +137,11 @@ fun ViewGroup.inflate(@LayoutRes layoutId: Int, attachToRoot: Boolean = true): V
  * @param isUserInputEnabled 是否允许滑动
  * @return ViewPager2
  */
-fun ViewPager2.init(fragment: Fragment, fragments: ArrayList<Fragment>, isUserInputEnabled: Boolean = true): ViewPager2 {
+fun ViewPager2.init(
+    fragment: Fragment,
+    fragments: ArrayList<Fragment>,
+    isUserInputEnabled: Boolean = true
+): ViewPager2 {
     //是否可滑动
     this.isUserInputEnabled = isUserInputEnabled
     //设置适配器
@@ -156,7 +160,11 @@ fun ViewPager2.init(fragment: Fragment, fragments: ArrayList<Fragment>, isUserIn
  * @param isUserInputEnabled 是否允许滑动
  * @return ViewPager2
  */
-fun ViewPager2.init(activity: FragmentActivity, fragments: ArrayList<Fragment>, isUserInputEnabled: Boolean = true): ViewPager2 {
+fun ViewPager2.init(
+    activity: FragmentActivity,
+    fragments: ArrayList<Fragment>,
+    isUserInputEnabled: Boolean = true
+): ViewPager2 {
     //是否可滑动
     this.isUserInputEnabled = isUserInputEnabled
     //设置适配器
@@ -176,7 +184,11 @@ fun ViewPager2.init(activity: FragmentActivity, fragments: ArrayList<Fragment>, 
  * @param mStringList 用作标题的字符串集合
  * @param action 子项行为，可空
  */
-fun MagicIndicator.bindViewPager2(viewPager: ViewPager2, mStringList: List<String> = arrayListOf(), action: (index: Int) -> Unit = {}) {
+fun MagicIndicator.bindViewPager2(
+    viewPager: ViewPager2,
+    mStringList: List<String> = arrayListOf(),
+    action: (index: Int) -> Unit = {}
+) {
     val commonNavigator = CommonNavigator(context)
     commonNavigator.adapter = object : CommonNavigatorAdapter() {
 
@@ -225,7 +237,11 @@ fun MagicIndicator.bindViewPager2(viewPager: ViewPager2, mStringList: List<Strin
             action.invoke(position)
         }
 
-        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             this@bindViewPager2.onPageScrolled(position, positionOffset, positionOffsetPixels)
         }
@@ -273,14 +289,6 @@ fun RecyclerView.initFloatBtn(floatBtn: FloatingActionButton) {
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
-            if (dy > 0 && floatBtn.visibility == View.VISIBLE) {
-                //rv向下滚动时隐藏
-                floatBtn.hide()
-            } else if (dy < 0 && floatBtn.visibility != View.VISIBLE) {
-                //rv向上滚动时显示
-                floatBtn.show()
-
-            }
             //rv滚动到顶部的时候，需要把向上返回顶部的按钮隐藏
             if (!canScrollVertically(-1)) {
                 floatBtn.hide()
