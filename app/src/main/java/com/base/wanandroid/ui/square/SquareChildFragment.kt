@@ -2,98 +2,69 @@ package com.base.wanandroid.ui.square
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import cn.nekocode.rxlifecycle.LifecycleEvent
-import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
-import com.base.wanandroid.base.BaseFragment
-import com.base.wanandroid.bean.ArticleListResponse
-import com.base.wanandroid.databinding.FragmentChildBinding
-import com.base.wanandroid.ui.adapter.ArticleAdapter
-import com.base.wanandroid.ui.collect.ArticleViewModel
-import com.base.wanandroid.ui.home.ArticleDiffCallBack
-import com.base.wanandroid.utils.RxTransformer
-import com.base.wanandroid.utils.lifecycleOwner
+import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.databinding.FragmentProjectChildBinding
+import com.base.wanandroid.ext.init
+import com.base.wanandroid.ext.initFooter
+import com.base.wanandroid.ext.loadListData
+import com.base.wanandroid.ext.loadServiceInit
+import com.base.wanandroid.ext.showLoading
+import com.base.wanandroid.ui.adapter.ArticleNewAdapter
+import com.base.wanandroid.ui.home.ArticleDiffNewCallBack
+import com.base.wanandroid.utils.initFloatBtn
+import com.base.wanandroid.widget.recyclerview.DefineLoadMoreView
+import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
+import com.blankj.utilcode.util.ConvertUtils
+import com.kingja.loadsir.core.LoadService
 
 /**
  * @author jiangshiyu
  * @date 2022/5/31
  * 广场fragment
  */
-class SquareChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel>() {
+class SquareChildFragment : BaseFragment1<SquareViewModel, FragmentProjectChildBinding>() {
 
+    //界面状态管理
+    private lateinit var loadSir: LoadService<Any>
 
-    private var first = true
+    private lateinit var footView: DefineLoadMoreView
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this, true).apply {
-            this.setDiffCallback(ArticleDiffCallBack())
+        ArticleNewAdapter(this, true).apply {
+            this.setDiffCallback(ArticleDiffNewCallBack())
         }
     }
 
-    override fun onBundle(bundle: Bundle) {
 
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
-        initAdapter()
-    }
-
-    private fun initAdapter() {
-        binding?.rv?.also {
-            it.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            it.adapter = articleAdapter
+    override fun initView(savedInstanceState: Bundle?) {
+        loadSir = loadServiceInit(mViewBind.swipeRefresh) {
+            loadSir.showLoading()
+            mViewModel.getSquareData(true)
         }
-        onRefresh()
+        mViewBind.rvList.init(LinearLayoutManager(context), articleAdapter).let {
+            it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f)))
+            footView = it.initFooter {
+                mViewModel.getSquareData(false)
+            }
+            //初始化FloatingActionButton
+            it.initFloatBtn(mViewBind.fab)
+        }
+
+        mViewBind.swipeRefresh.init {
+            mViewModel.getSquareData(true)
+        }
+    }
+
+    override fun lazyLoadData() {
+        //请求loading
+        loadSir.showLoading()
+        mViewModel.getSquareData(true)
     }
 
 
-    private fun onRefresh() {
-        binding?.page?.onRefresh {
-
-            loadSquareList(index, {
-                if (first && it.data.datas.isEmpty()) {
-                    showEmpty()
-                } else {
-                    first = false
-                    index += if (index == 0) {
-                        articleAdapter.setList(it.data.datas)
-                        1
-                    } else {
-                        if (it.data.datas.isNullOrEmpty()) {
-                            showContent(false)
-                            return@loadSquareList
-                        }
-                        articleAdapter.addData(it.data.datas)
-                        1
-                    }
-                    showContent(true)
-                }
-            }, {
-                showError()
-            })
-
-        }?.autoRefresh()
-    }
-
-    /**
-     * 加载广场列表数据
-     */
-    private fun loadSquareList(
-        page: Int,
-        onNext: (data: ArticleListResponse) -> Unit,
-        onError: () -> Unit
-    ) {
-        viewModel.getSquareList(page)
-            .compose(
-                RxLifecycleCompact.bind(this).disposeObservableWhen(
-                    LifecycleEvent.DESTROY_VIEW
-                )
-            )
-            .compose(RxTransformer.async())
-            .subscribe({
-                onNext(it)
-            }, {
-                onError()
-            }).lifecycleOwner(this)
+    override fun createObserver() {
+        mViewModel.plazaDataState.observe(viewLifecycleOwner) {
+            loadListData(it, articleAdapter, loadSir, mViewBind.rvList, mViewBind.swipeRefresh)
+        }
     }
 }

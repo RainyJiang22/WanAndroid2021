@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.base.wanandroid.base.BaseActivity
+import com.base.wanandroid.base.BaseActivity1
 import com.base.wanandroid.databinding.ActivityTreeBinding
 import com.base.wanandroid.utils.bindViewPager2
 import com.base.wanandroid.utils.init
@@ -14,7 +15,7 @@ import com.drake.serialize.intent.bundle
  * @date 2022/6/8
  * 体系activity
  */
-class TreeActivity : BaseActivity<ActivityTreeBinding, TreeViewModel>() {
+class TreeActivity : BaseActivity1<TreeViewModel, ActivityTreeBinding>() {
 
 
     /** Serialize界面传递参数: title */
@@ -31,34 +32,17 @@ class TreeActivity : BaseActivity<ActivityTreeBinding, TreeViewModel>() {
 
     private val fragments: ArrayList<Fragment> by lazy { arrayListOf() }
 
-
-    override fun onBundle(bundle: Bundle) {
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
-
-        binding?.toolbar?.apply {
-            title = this@TreeActivity.title
-            //使用toolBar并使其外观与功能和actionBar一致
-            setSupportActionBar(this)
-            //使用默认导航按钮
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            //点击导航按钮关闭当前页面
-            setNavigationOnClickListener { finish() }
-            //拦截导航按钮长按吐司
-            navigationContentDescription = ""
-        }
+    override fun initView(savedInstanceState: Bundle?) {
         if (content.isEmpty()) return
         cid.forEach {
             fragments.add(TreeChildFragment.newInstance(it))
         }
-        binding?.contentLayout?.let {
+        mViewBind.contentLayout.let {
             it.viewPager.init(this@TreeActivity, fragments)
             it.magicIndicator.bindViewPager2(it.viewPager, content)
             it.viewPager.offscreenPageLimit = fragments.size
             it.viewPager.currentItem = index
         }
-
-
     }
+
 }

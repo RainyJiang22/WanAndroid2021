@@ -6,19 +6,34 @@ import androidx.recyclerview.widget.RecyclerView
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.base.BaseFragment
+import com.base.wanandroid.base.BaseFragment1
 import com.base.wanandroid.databinding.FragmentChildBinding
+import com.base.wanandroid.databinding.FragmentProjectChildBinding
+import com.base.wanandroid.ext.init
+import com.base.wanandroid.ext.initFooter
+import com.base.wanandroid.ext.loadListData
+import com.base.wanandroid.ext.loadServiceInit
+import com.base.wanandroid.ext.showLoading
 import com.base.wanandroid.ui.adapter.ArticleAdapter
+import com.base.wanandroid.ui.adapter.ArticleNewAdapter
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
+import com.base.wanandroid.ui.home.ArticleDiffNewCallBack
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
+import com.base.wanandroid.widget.recyclerview.DefineLoadMoreView
+import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
+import com.blankj.utilcode.util.ConvertUtils
 import com.drake.brv.PageRefreshLayout
+import com.kingja.loadsir.core.LoadService
+import com.kingja.loadsir.core.LoadSir
 
 /**
  * @author jiangshiyu
  * @date 2022/6/2
  */
-class TreeChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel>() {
+class TreeChildFragment : BaseFragment1<TreeViewModel, FragmentProjectChildBinding>() {
 
 
     companion object {
@@ -33,70 +48,52 @@ class TreeChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel>()
     }
 
     private var cid = 0
-    private var first = true
+
+    private lateinit var loadSir: LoadService<Any>
+
+    private lateinit var footView: DefineLoadMoreView
 
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this, true).apply {
-            this.setDiffCallback(ArticleDiffCallBack())
+        ArticleNewAdapter(this, true).apply {
+            this.setDiffCallback(ArticleDiffNewCallBack())
         }
     }
 
-    override fun onBundle(bundle: Bundle) {
-
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
         arguments?.let {
             cid = it.getInt("cid")
         }
-        initAdapter()
-    }
 
-    private fun initAdapter() {
-        binding?.rv?.also {
-            it.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            it.adapter = articleAdapter
+        loadSir = loadServiceInit(mViewBind.swipeRefresh) {
+            loadSir.showLoading()
+            mViewModel.getSystemChildData(true, cid)
         }
-        onRefresh()
-    }
 
-    private fun onRefresh() {
+        mViewBind.rvList.init(LinearLayoutManager(context), articleAdapter).let {
+            it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f)))
+            footView = it.initFooter {
+                mViewModel.getSystemChildData(false, cid)
+            }
+            //初始化FloatingActionButton
+            it.initFloatBtn(mViewBind.fab)
+        }
 
-        binding?.page?.onRefresh {
-            viewModel.getTreeArticleList(cid, index)
-                .compose(
-                    RxLifecycleCompact.bind(this@TreeChildFragment)
-                        .disposeObservableWhen(LifecycleEvent.DESTROY_VIEW)
-                )
-                .compose(RxTransformer.async())
-                .subscribe({
-                    if (first && it.data.data.datas.isEmpty()) {
-                        showEmpty()
-                    } else {
-                        first = false
-                        index += if (index == 0) {
-                            articleAdapter.setList(it.data.data.datas)
-                            1
-                        } else {
-                            if (it.data.data.datas.isNullOrEmpty()) {
-                                showContent(false)
-                                return@subscribe
-                            }
-                            articleAdapter.addData(it.data.data.datas)
-                            1
-                        }
-                        showContent(true)
-                    }
-                }, {
-                    showError()
-                }).lifecycleOwner(this@TreeChildFragment)
-        }?.autoRefresh()
+        mViewBind.swipeRefresh.init {
+            mViewModel.getSystemChildData(true, cid)
+        }
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        PageRefreshLayout.startIndex = 0
+    override fun lazyLoadData() {
+        //设置界面 加载中
+        loadSir.showLoading()
+        mViewModel.getSystemChildData(true, cid)
+    }
+
+    override fun createObserver() {
+       mViewModel.systemChildDataState.observe(viewLifecycleOwner) {
+           loadListData(it, articleAdapter, loadSir, mViewBind.rvList, mViewBind.swipeRefresh)
+       }
     }
 }

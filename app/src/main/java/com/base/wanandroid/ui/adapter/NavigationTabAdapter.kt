@@ -3,7 +3,7 @@ package com.base.wanandroid.ui.adapter
 import androidx.core.content.ContextCompat
 import com.base.wanandroid.R
 import com.base.wanandroid.application.WanAndroidApplication
-import com.base.wanandroid.bean.NavigationResponse
+import com.base.wanandroid.data.NavigationResponse
 import q.rorbin.verticaltablayout.adapter.TabAdapter
 import q.rorbin.verticaltablayout.widget.ITabView
 

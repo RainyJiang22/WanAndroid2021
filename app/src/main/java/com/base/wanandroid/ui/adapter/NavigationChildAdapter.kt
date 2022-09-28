@@ -1,7 +1,7 @@
 package com.base.wanandroid.ui.adapter
 
 import com.base.wanandroid.R
-import com.base.wanandroid.bean.ArticleResponse
+import com.base.wanandroid.data.ArticleResponse
 import com.base.wanandroid.ui.web.WebActivity
 import com.base.wanandroid.utils.randomColor
 import com.chad.library.adapter.base.BaseQuickAdapter

@@ -4,7 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.base.wanandroid.R
-import com.base.wanandroid.bean.NavigationResponse
+import com.base.wanandroid.data.NavigationResponse
 import com.base.wanandroid.utils.html2Spanned
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder

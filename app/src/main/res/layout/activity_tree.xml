@@ -4,17 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <!--自定义工具栏-->
-        <com.base.wanandroid.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="@style/KToolbarStyle"
-            android:layout_marginTop="@dimen/dp_20"
-            app:layout_scrollFlags="scroll|enterAlways" />
-    </com.google.android.material.appbar.AppBarLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

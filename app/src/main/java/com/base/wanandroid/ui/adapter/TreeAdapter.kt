@@ -4,12 +4,12 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.base.wanandroid.R
+import com.base.wanandroid.data.SystemResponse
 import com.base.wanandroid.ui.tree.TreeActivity
 import com.base.wanandroid.utils.html2Spanned
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.drake.serialize.intent.openActivity
-import com.example.wanAndroid.logic.model.SystemResponse
 import com.google.android.flexbox.FlexboxLayoutManager
 
 /**

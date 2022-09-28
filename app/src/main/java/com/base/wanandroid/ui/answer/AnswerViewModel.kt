@@ -6,13 +6,13 @@ import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.network.RetrofitHelper
 import io.reactivex.Observable
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 /**
  * @author jiangshiyu
  * @date 2022/6/6
  */
-class AnswerViewModel(application: Application) : AndroidViewModel(application) {
-
+class AnswerViewModel: BaseViewModel() {
 
     /**
      * 获取问答列表
