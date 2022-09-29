@@ -1,26 +1,27 @@
 package com.base.wanandroid.ui.platform
 
 import android.os.Bundle
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import cn.nekocode.rxlifecycle.LifecycleEvent
-import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
-import com.base.wanandroid.base.BaseFragment
-import com.base.wanandroid.databinding.FragmentChildBinding
-import com.base.wanandroid.ui.adapter.ArticleAdapter
-import com.base.wanandroid.ui.collect.ArticleViewModel
-import com.base.wanandroid.ui.home.ArticleDiffCallBack
-import com.base.wanandroid.utils.RxTransformer
-import com.base.wanandroid.utils.lifecycleOwner
-import com.drake.brv.PageRefreshLayout
-import kotlinx.coroutines.launch
+import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.databinding.FragmentProjectChildBinding
+import com.base.wanandroid.ext.init
+import com.base.wanandroid.ext.initFooter
+import com.base.wanandroid.ext.loadListData
+import com.base.wanandroid.ext.loadServiceInit
+import com.base.wanandroid.ext.showLoading
+import com.base.wanandroid.ui.adapter.ArticleNewAdapter
+import com.base.wanandroid.ui.home.ArticleDiffNewCallBack
+import com.base.wanandroid.utils.initFloatBtn
+import com.base.wanandroid.widget.recyclerview.DefineLoadMoreView
+import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
+import com.blankj.utilcode.util.ConvertUtils
+import com.kingja.loadsir.core.LoadService
 
 /**
  * @author jiangshiyu
  * @date 2022/5/31
  */
-class PlatformChildFragment : BaseFragment<FragmentChildBinding, ArticleViewModel>() {
+class PlatformChildFragment : BaseFragment1<PlatformViewModel, FragmentProjectChildBinding>() {
 
 
     companion object {
@@ -37,74 +38,50 @@ class PlatformChildFragment : BaseFragment<FragmentChildBinding, ArticleViewMode
     }
 
     private val articleAdapter by lazy {
-        ArticleAdapter(this, true).apply {
-            this.setDiffCallback(ArticleDiffCallBack())
+        ArticleNewAdapter(this, true).apply {
+            this.setDiffCallback(ArticleDiffNewCallBack())
         }
     }
 
-    private var first = true
+    private lateinit var loadSir: LoadService<Any>
+
+    private lateinit var footView: DefineLoadMoreView
 
     private var cid = 0
 
-    override fun onBundle(bundle: Bundle) {
-    }
 
-    override fun init(savedInstanceState: Bundle?) {
-
+    override fun initView(savedInstanceState: Bundle?) {
         arguments?.let {
             //项目id
             cid = it.getInt("cid")
         }
-        initAdapter()
-    }
 
-    private fun initAdapter() {
-        binding?.rv?.also {
-            it.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            it.adapter = articleAdapter
+        loadSir = loadServiceInit(mViewBind.swipeRefresh) {
+            loadSir.showLoading()
+            mViewModel.getPlatformData(true, cid)
         }
-        onRefresh()
-    }
-
-
-    private fun onRefresh() {
-        binding?.page?.onRefresh {
-            lifecycleScope.launch {
-                viewModel.getPlatFormHistory(cid, index)
-                    .compose(
-                        RxLifecycleCompact.bind(this@PlatformChildFragment)
-                            .disposeObservableWhen(LifecycleEvent.DESTROY_VIEW)
-                    )
-                    .compose(RxTransformer.async())
-                    .subscribe({
-                        if (first && it.data.data.datas.isEmpty()) {
-                            showEmpty()
-                        } else {
-                            first = false
-                            index += if (index == 1) {
-                                articleAdapter.setList(it.data.data.datas)
-                                1
-                            } else {
-                                if (it.data.data.datas.isNullOrEmpty()) {
-                                    showContent(false)
-                                } else {
-                                    articleAdapter.addData(it.data.data.datas)
-                                }
-                                1
-                            }
-                        }
-                    }, {
-                        showError()
-                    }).lifecycleOwner(this@PlatformChildFragment)
-
+        mViewBind.rvList.init(LinearLayoutManager(context), articleAdapter).let {
+            it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f)))
+            footView = it.initFooter {
+                mViewModel.getPlatformData(false, cid)
             }
-            showContent(true)
-        }?.autoRefresh()
+            //初始化FloatingActionButton
+            it.initFloatBtn(mViewBind.fab)
+        }
+
+        mViewBind.swipeRefresh.init {
+            mViewModel.getPlatformData(true, cid)
+        }
     }
 
+    override fun lazyLoadData() {
+        loadSir.showLoading()
+        mViewModel.getPlatformData(true, cid)
+    }
 
-    override fun onResume() {
-        super.onResume()
-        PageRefreshLayout.startIndex = 1
+    override fun createObserver() {
+        mViewModel.platformDataState.observe(viewLifecycleOwner) {
+            loadListData(it, articleAdapter, loadSir, mViewBind.rvList, mViewBind.swipeRefresh)
+        }
     }
 }

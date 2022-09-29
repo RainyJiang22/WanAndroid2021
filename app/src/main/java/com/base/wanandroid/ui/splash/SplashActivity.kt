@@ -7,6 +7,7 @@ import android.view.animation.Animation
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.base.BaseActivity
+import com.base.wanandroid.base.BaseActivity1
 import com.base.wanandroid.databinding.ActivitySplashBinding
 import com.base.wanandroid.ui.MainActivity
 import com.base.wanandroid.ui.user.UserViewModel
@@ -21,15 +22,11 @@ import com.drake.serialize.intent.openActivity
  * 闪屏页
  */
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : BaseActivity<ActivitySplashBinding, UserViewModel>() {
+class SplashActivity : BaseActivity1<UserViewModel, ActivitySplashBinding>() {
 
     private val alphaAnimation: AlphaAnimation by lazy { AlphaAnimation(0.3F, 1.0F) }
 
-    override fun onBundle(bundle: Bundle) {
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
-
+    override fun initView(savedInstanceState: Bundle?) {
         alphaAnimation.run {
             duration = 1200
             setAnimationListener(object : Animation.AnimationListener {
@@ -41,7 +38,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, UserViewModel>() {
 
                 override fun onAnimationStart(p0: Animation?) {
                     /** 先登陆，获取cookie */
-                    viewModel.getLoginUserInfo(AppConfig.UserName, AppConfig.PassWord)
+                    mViewModel.getLoginUserInfo(AppConfig.UserName, AppConfig.PassWord)
                         .compose(
                             RxLifecycleCompact.bind(this@SplashActivity)
                                 .disposeObservableWhen(LifecycleEvent.DESTROY)
@@ -52,9 +49,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, UserViewModel>() {
             })
         }
 
-
-        binding?.layoutSplash?.startAnimation(alphaAnimation)
-
+        mViewBind.layoutSplash.startAnimation(alphaAnimation)
     }
 
     private fun handleToMain() {

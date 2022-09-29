@@ -7,9 +7,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import com.base.wanandroid.R
-import com.base.wanandroid.base.BaseFragment
+import com.base.wanandroid.base.BaseFragment1
 import com.base.wanandroid.databinding.FragmentMineBinding
-import com.base.wanandroid.base.EmptyViewModel
 import com.base.wanandroid.ui.collect.CollectActivity
 import com.base.wanandroid.ui.history.HistoryRecordActivity
 import com.base.wanandroid.ui.integral.IntegralActivity
@@ -30,16 +29,13 @@ import com.drake.serialize.intent.openActivity
  * @date 2022/5/31
  * 我的界面
  */
-class MineFragment : BaseFragment<FragmentMineBinding, UserViewModel>() {
+class MineFragment : BaseFragment1<UserViewModel,FragmentMineBinding>() {
 
 
     private lateinit var loginResultLaunch: ActivityResultLauncher<Intent>
 
 
-    override fun onBundle(bundle: Bundle) {
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
 
         loginResultLaunch =
@@ -50,7 +46,7 @@ class MineFragment : BaseFragment<FragmentMineBinding, UserViewModel>() {
                     }
                 }
             }
-        binding?.apply {
+        mViewBind.apply {
             if (AppConfig.UserName.isEmpty()) {
                 headerImage.setOnClickListener {
                     loginResultLaunch.launch(LoginActivity.start(requireContext()))
@@ -97,7 +93,7 @@ class MineFragment : BaseFragment<FragmentMineBinding, UserViewModel>() {
                     requireContext(),
                     getString(R.string.exit_confirm)
                 ) { _, _ ->
-                    viewModel.loginOut()
+                    mViewModel.loginOut()
                         .compose(RxTransformer.async())
                         .subscribe {
                             //从存储中清除cookie、个人信息
@@ -116,11 +112,8 @@ class MineFragment : BaseFragment<FragmentMineBinding, UserViewModel>() {
         }
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        binding?.apply {
-            toolbar.title = getString(R.string.mine_fragment)
+    override fun lazyLoadData() {
+        mViewBind.apply {
             //用户名
             userText.text = AppConfig.UserName.ifEmpty { getString(R.string.my_user) }
             //等级文字
@@ -131,4 +124,5 @@ class MineFragment : BaseFragment<FragmentMineBinding, UserViewModel>() {
             mineIntegral.setRightText(AppConfig.CoinCount.ifEmpty { "" })
         }
     }
+
 }

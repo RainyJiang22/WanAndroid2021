@@ -1,26 +1,18 @@
 package com.base.wanandroid.ui.tree
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import cn.nekocode.rxlifecycle.LifecycleEvent
-import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
-import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.base.BaseFragment1
 import com.base.wanandroid.databinding.FragmentProjectChildBinding
-import com.base.wanandroid.databinding.FragmentTreeBinding
 import com.base.wanandroid.ext.init
 import com.base.wanandroid.ext.loadServiceInit
 import com.base.wanandroid.ext.showError
 import com.base.wanandroid.ext.showLoading
 import com.base.wanandroid.ui.adapter.TreeAdapter
-import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.initFloatBtn
-import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
 import com.blankj.utilcode.util.ConvertUtils
 import com.kingja.loadsir.core.LoadService
-import com.kingja.loadsir.core.LoadSir
 
 /**
  * @author jiangshiyu

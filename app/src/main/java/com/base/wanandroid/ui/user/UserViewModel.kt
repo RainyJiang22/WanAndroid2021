@@ -10,12 +10,13 @@ import com.base.wanandroid.network.RetrofitHelper
 import com.base.wanandroid.network.entity.ApiResponse
 import com.base.wanandroid.ui.user.data.UserInfo
 import io.reactivex.Observable
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 /**
  * @author jiangshiyu
  * @date 2022/6/10
  */
-class UserViewModel(application: Application) : AndroidViewModel(application) {
+class UserViewModel : BaseViewModel() {
 
 
     /**
@@ -78,7 +79,7 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * 退出
      */
-    fun loginOut():Observable<NoDataResponse> {
+    fun loginOut(): Observable<NoDataResponse> {
         return RetrofitHelper.get().logout()
     }
 }

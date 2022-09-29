@@ -1,9 +1,6 @@
 package com.base.wanandroid.ui.square
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.base.wanandroid.R
-import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.base.BaseFragment1
 import com.base.wanandroid.databinding.FragmentSquareBinding
 import com.base.wanandroid.ui.answer.InquiryAnswerFragment

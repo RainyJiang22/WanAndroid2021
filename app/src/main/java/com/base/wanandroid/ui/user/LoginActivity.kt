@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.base.wanandroid.R
-import com.base.wanandroid.base.BaseActivity
+import com.base.wanandroid.base.BaseActivity1
 import com.base.wanandroid.databinding.ActivityLoginBinding
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.InputTextManager
@@ -25,32 +25,30 @@ import kotlinx.coroutines.launch
  * @date 2022/6/10
  * 登录页面
  */
-class LoginActivity : BaseActivity<ActivityLoginBinding, UserViewModel>() {
-    override fun onBundle(bundle: Bundle) {
-    }
+class LoginActivity : BaseActivity1<UserViewModel, ActivityLoginBinding>() {
 
-    override fun init(savedInstanceState: Bundle?) {
-        binding?.titleBar?.leftView?.setOnClickListener {
+    override fun initView(savedInstanceState: Bundle?) {
+        mViewBind.titleBar.leftView?.setOnClickListener {
             finishAfterTransition()
         }
 
-        binding?.btnLogin?.let {
+        mViewBind.btnLogin.let {
             InputTextManager.with(this)
-                .addView(binding?.etUsername)
-                .addView(binding?.etPassword)
+                .addView(mViewBind.etUsername)
+                .addView(mViewBind.etPassword)
                 .setMain(it)
                 .build()
         }
 
 
-        binding?.btnLogin?.setOnClickListener {
+        mViewBind.btnLogin.setOnClickListener {
             hideSoftKeyboard(this)
             lifecycleScope.launch {
                 delay(1500)
 
-                val editName = binding?.etUsername?.text.toString()
-                val editPassword = binding?.etPassword?.text.toString()
-                viewModel.getLoginUserInfo(editName, editPassword)
+                val editName = mViewBind?.etUsername?.text.toString()
+                val editPassword = mViewBind?.etPassword?.text.toString()
+                mViewModel.getLoginUserInfo(editName, editPassword)
                     .compose(RxTransformer.async())
                     .subscribe({
                         AppConfig.UserName = it.userInfoResponse?.username ?: "Jacky"
@@ -59,22 +57,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, UserViewModel>() {
                         AppConfig.Rank = it.coinInfoResponse?.rank ?: "1"
                         AppConfig.CoinCount = it.coinInfoResponse?.coinCount.toString()
 
-                        binding?.btnLogin?.showSucceed()
+                        mViewBind.btnLogin.showSucceed()
                         setResult(Activity.RESULT_OK)
                         ActivityCompat.finishAfterTransition(this@LoginActivity)
                     }, {
-                        binding?.btnLogin?.showError(2000)
+                        mViewBind.btnLogin.showError(2000)
                         //弹出错误信息吐司
                         ToastUtils.showShort(it.message)
                         //账号输入框加载动画效果
-                        binding?.etUsername?.startAnimation(
+                        mViewBind.etUsername.startAnimation(
                             AnimationUtils.loadAnimation(
                                 this@LoginActivity,
                                 R.anim.shake_anim
                             )
                         )
                         //密码输入框加载动画效果
-                        binding?.etPassword?.startAnimation(
+                        mViewBind.etPassword.startAnimation(
                             AnimationUtils.loadAnimation(
                                 this@LoginActivity,
                                 R.anim.shake_anim
@@ -85,13 +83,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, UserViewModel>() {
         }
 
         //注册文本点击事件
-        binding?.tvRegister?.setOnClickListener {
+        mViewBind.tvRegister.setOnClickListener {
             openActivity<RegisterActivity>()
             finishAfterTransition()
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
-
-
     }
 
     companion object {

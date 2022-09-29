@@ -2,33 +2,20 @@ package com.base.wanandroid.ui.project
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import cn.nekocode.rxlifecycle.LifecycleEvent
-import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
-import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.base.BaseFragment1
-import com.base.wanandroid.bean.ArticleListResponse
-import com.base.wanandroid.databinding.FragmentChildBinding
 import com.base.wanandroid.databinding.FragmentProjectChildBinding
 import com.base.wanandroid.ext.init
 import com.base.wanandroid.ext.initFooter
 import com.base.wanandroid.ext.loadListData
 import com.base.wanandroid.ext.loadServiceInit
 import com.base.wanandroid.ext.showLoading
-import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.adapter.ArticleNewAdapter
-import com.base.wanandroid.ui.collect.ArticleViewModel
-import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.ui.home.ArticleDiffNewCallBack
-import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.initFloatBtn
-import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.widget.recyclerview.DefineLoadMoreView
 import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
 import com.blankj.utilcode.util.ConvertUtils
-import com.drake.brv.PageRefreshLayout
 import com.kingja.loadsir.core.LoadService
-import com.yanzhenjie.recyclerview.SwipeRecyclerView
 
 /**
  * @author jiangshiyu
