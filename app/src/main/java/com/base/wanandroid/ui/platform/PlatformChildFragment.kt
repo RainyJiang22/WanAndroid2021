@@ -2,7 +2,7 @@ package com.base.wanandroid.ui.platform
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentProjectChildBinding
 import com.base.wanandroid.ext.init
 import com.base.wanandroid.ext.initFooter
@@ -21,7 +21,7 @@ import com.kingja.loadsir.core.LoadService
  * @author jiangshiyu
  * @date 2022/5/31
  */
-class PlatformChildFragment : BaseFragment1<PlatformViewModel, FragmentProjectChildBinding>() {
+class PlatformChildFragment : BaseFragment<PlatformViewModel, FragmentProjectChildBinding>() {
 
 
     companion object {

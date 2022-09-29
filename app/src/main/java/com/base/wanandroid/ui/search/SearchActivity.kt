@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  * @author jiangshiyu
  * @date 2022/6/16
  */
-class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
+class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>() {
 
 
     private val hotAdapter: SearchHotAdapter by lazy { SearchHotAdapter() }
@@ -29,15 +29,13 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
     private val historyAdapter: SearchHistoryAdapter by lazy { SearchHistoryAdapter() }
 
 
-    override fun onBundle(bundle: Bundle) {}
+    override fun initView(savedInstanceState: Bundle?) {
 
-    override fun init(savedInstanceState: Bundle?) {
-
-        binding?.searchBar?.back?.setOnClickListener {
+        mViewBind.searchBar.back.setOnClickListener {
             finishAfterTransition()
         }
 
-        binding?.clear?.setOnClickListener {
+        mViewBind.clear.setOnClickListener {
             AppConfig.SearchHistory = arrayListOf()
             historyAdapter.setList(arrayListOf())
         }
@@ -46,42 +44,41 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
         initSearchHistory()
 
         //输入框监听软键盘操作
-        binding?.searchBar?.searchText?.setOnEditorActionListener { _, actionId, _ ->
+        mViewBind.searchBar.searchText.setOnEditorActionListener { _, actionId, _ ->
             //当点击软键盘的搜索键时搜索输入框中内容
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 //文本为空不执行操作
-                if (binding?.searchBar?.searchText?.text.isNullOrBlank()) {
+                if (mViewBind.searchBar.searchText.text.isNullOrBlank()) {
                     return@setOnEditorActionListener false
                 } else {
                     openActivity<SearchResultActivity>(
-                        "key" to binding?.searchBar?.searchText?.text.toString().trim()
+                        "key" to mViewBind.searchBar.searchText.text.toString().trim()
                     )
-                    updateKey(binding?.searchBar?.searchText?.text.toString().trim())
+                    updateKey(mViewBind.searchBar.searchText.text.toString().trim())
                 }
             }
             return@setOnEditorActionListener false
         }
         //搜索图标跳转搜索结果Activity传递参数并更新搜索记录
-        binding?.searchBar?.search?.setOnClickListener {
-            if (binding?.searchBar?.searchText?.text.isNullOrBlank()) {
+        mViewBind.searchBar.search.setOnClickListener {
+            if (mViewBind.searchBar.searchText.text.isNullOrBlank()) {
                 return@setOnClickListener
             } else {
                 openActivity<SearchResultActivity>(
-                    "key" to binding?.searchBar?.searchText?.text.toString().trim()
+                    "key" to mViewBind.searchBar.searchText.text.toString().trim()
                 )
-                updateKey(binding?.searchBar?.searchText?.text.toString().trim())
+                updateKey(mViewBind.searchBar.searchText.text.toString().trim())
             }
         }
-
     }
 
 
     //初始化搜索热词
     @SuppressLint("NotifyDataSetChanged")
     private fun initSearchHot() {
-        if (AppConfig.SearchHot.isNullOrEmpty()) {
+        if (AppConfig.SearchHot.isEmpty()) {
             lifecycleScope.launch {
-                viewModel.getHotKeyList()
+                mViewModel.getHotKeyList()
                     .compose(
                         RxLifecycleCompact.bind(this@SearchActivity)
                             .disposeObservableWhen(LifecycleEvent.DESTROY)
@@ -99,7 +96,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
         }
 
         //初始化热门搜索RecyclerView
-        binding?.rvHot?.run {
+        mViewBind.rvHot.run {
             //使用伸缩布局
             layoutManager = FlexboxLayoutManager(context)
             //避免item改变重新绘制rv
@@ -127,7 +124,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
             //搜索过则给adapter设置数据
             historyAdapter.setList(AppConfig.SearchHistory)
         }
-        binding?.rvHistory?.adapter = historyAdapter.run {
+        mViewBind.rvHistory.adapter = historyAdapter.run {
             //点击历史记录item跳转搜索结果Activity传递参数并更新搜索记录
             setOnItemClickListener { _, _, position ->
                 openActivity<SearchResultActivity>("key" to this.data[position])
@@ -175,7 +172,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>() {
             //同时添加到adapter
             historyAdapter.addData(0, keyStr)
             //滚动到rv顶部
-            binding?.rvHistory?.scrollToPosition(0)
+            mViewBind.rvHistory.scrollToPosition(0)
             //改变序列化对象内的字段要求重新赋值
             AppConfig.SearchHistory = this
         }

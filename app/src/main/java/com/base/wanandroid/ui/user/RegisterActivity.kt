@@ -1,13 +1,10 @@
 package com.base.wanandroid.ui.user
 
 import android.os.Bundle
-import android.util.Log
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.lifecycleScope
-import cn.nekocode.rxlifecycle.LifecycleEvent
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
-import com.base.wanandroid.base.BaseActivity1
 import com.base.wanandroid.databinding.ActivityRegisterBinding
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.InputTextManager
@@ -22,7 +19,7 @@ import kotlinx.coroutines.launch
  * @author jiangshiyu
  * @date 2022/6/10
  */
-class RegisterActivity : BaseActivity1<UserViewModel, ActivityRegisterBinding>() {
+class RegisterActivity : BaseActivity<UserViewModel, ActivityRegisterBinding>() {
 
 
     override fun initView(savedInstanceState: Bundle?) {

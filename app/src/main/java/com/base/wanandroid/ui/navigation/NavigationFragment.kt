@@ -3,7 +3,7 @@ package com.base.wanandroid.ui.navigation
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentNavigationBinding
 import com.base.wanandroid.ext.init
 import com.base.wanandroid.ext.loadServiceInit
@@ -19,7 +19,7 @@ import q.rorbin.verticaltablayout.widget.TabView
  * @author jiangshiyu
  * @date 2022/6/6
  */
-class NavigationFragment : BaseFragment1<NavigationViewModel, FragmentNavigationBinding>() {
+class NavigationFragment : BaseFragment<NavigationViewModel, FragmentNavigationBinding>() {
 
 
     /** 是否选中标签 */

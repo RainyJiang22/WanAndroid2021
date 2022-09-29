@@ -2,7 +2,7 @@ package com.base.wanandroid.ui.tree
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentProjectChildBinding
 import com.base.wanandroid.ext.init
 import com.base.wanandroid.ext.loadServiceInit
@@ -18,7 +18,7 @@ import com.kingja.loadsir.core.LoadService
  * @author jiangshiyu
  * @date 2022/6/2
  */
-class TreeFragment : BaseFragment1<TreeViewModel, FragmentProjectChildBinding>() {
+class TreeFragment : BaseFragment<TreeViewModel, FragmentProjectChildBinding>() {
 
 
     private val treeAdapter by lazy { TreeAdapter(arrayListOf()) }

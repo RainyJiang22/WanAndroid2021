@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
  * @date 2022/6/15
  * 我的积分页
  */
-class IntegralActivity : BaseActivity<ActivityIntegralBinding, IntegralViewModel>() {
+class IntegralActivity : BaseActivity<IntegralViewModel, ActivityIntegralBinding>() {
 
 
     private var first = true
@@ -33,15 +33,12 @@ class IntegralActivity : BaseActivity<ActivityIntegralBinding, IntegralViewModel
         }
     }
 
-    override fun onBundle(bundle: Bundle) {
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
 
         //带动画显示个人积分
-        binding?.myIntegral?.let { AnimatorUtil.doIntAnim(it, AppConfig.CoinCount.toInt(), 1000) }
+        mViewBind.myIntegral.let { AnimatorUtil.doIntAnim(it, AppConfig.CoinCount.toInt(), 1000) }
 
-        binding?.titleBar?.apply {
+        mViewBind.titleBar.apply {
             leftView?.setOnClickListener {
                 finishAfterTransition()
             }
@@ -50,19 +47,19 @@ class IntegralActivity : BaseActivity<ActivityIntegralBinding, IntegralViewModel
             }
         }
 
-        binding?.rv?.apply {
+        mViewBind.rv.apply {
             adapter = integralAdapter
             addItemDecoration(RecyclerViewItemDecoration(this@IntegralActivity))
-            binding?.fab?.let { initFloatBtn(it) }
+            initFloatBtn(mViewBind.fab)
         }
         PageRefreshLayout.startIndex = 0
         onRefresh()
     }
 
     private fun onRefresh() {
-        binding?.page?.onRefresh {
+        mViewBind.page.onRefresh {
             lifecycleScope.launch {
-                viewModel.getIntegralList(index)
+                mViewModel.getIntegralList(index)
                     .compose(
                         RxLifecycleCompact.bind(this@IntegralActivity)
                             .disposeObservableWhen(LifecycleEvent.DESTROY)
@@ -77,7 +74,7 @@ class IntegralActivity : BaseActivity<ActivityIntegralBinding, IntegralViewModel
                                 integralAdapter.setList(it.data.datas)
                                 1
                             } else {
-                                if (it.data.datas.isNullOrEmpty()) {
+                                if (it.data.datas.isEmpty()) {
                                     //没有更多数据，结束动画，显示内容(没有更多数据)
                                     showContent(false)
                                     return@subscribe
@@ -92,7 +89,7 @@ class IntegralActivity : BaseActivity<ActivityIntegralBinding, IntegralViewModel
                         showError()
                     })
             }
-        }?.autoRefresh()
+        }.autoRefresh()
 
     }
 

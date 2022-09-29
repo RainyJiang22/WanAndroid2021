@@ -14,51 +14,46 @@ import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
 import com.drake.brv.PageRefreshLayout
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * @author jiangshiyu
  * @date 2022/6/15
  * 积分排行页
  */
-class LeaderBoardActivity : BaseActivity<ActivityLeaderboardBinding, IntegralViewModel>() {
+class LeaderBoardActivity : BaseActivity<IntegralViewModel, ActivityLeaderboardBinding>() {
 
     private var first = true
 
     private val adapter by lazy { LeaderBoardAdapter() }
 
-    override fun onBundle(bundle: Bundle) {
 
-    }
+    override fun initView(savedInstanceState: Bundle?) {
 
-    override fun init(savedInstanceState: Bundle?) {
-
-        binding?.titleBar?.leftView?.setOnClickListener {
+        mViewBind.titleBar.leftView?.setOnClickListener {
             finishAfterTransition()
         }
         if (AppConfig.UserName.isNotEmpty()) {
-            binding?.integralMyRank?.text = AppConfig.Rank
-            binding?.integralMyName?.text = AppConfig.UserName
-            binding?.integralMyLv?.text = getString(R.string.integral_my_lv, AppConfig.Level)
-            binding?.integralMyCount?.text = AppConfig.CoinCount
+            mViewBind.integralMyRank.text = AppConfig.Rank
+            mViewBind.integralMyName.text = AppConfig.UserName
+            mViewBind.integralMyLv.text = getString(R.string.integral_my_lv, AppConfig.Level)
+            mViewBind.integralMyCount.text = AppConfig.CoinCount
         } else {
-            binding?.integralMe?.visibility = View.GONE
+            mViewBind.integralMe.visibility = View.GONE
         }
         PageRefreshLayout.startIndex = 1
-        binding?.rv?.apply {
+        mViewBind.rv.apply {
             this.adapter = adapter
-            binding?.fab?.let { initFloatBtn(it) }
+            mViewBind.fab.let { initFloatBtn(it) }
         }
         onRefresh()
     }
 
-    private fun onRefresh() {
 
-        binding?.page?.onRefresh {
+    private fun onRefresh() {
+        mViewBind.page.onRefresh {
             lifecycleScope.launch {
-                viewModel.getLeaderBoardList(index)
+                mViewModel.getLeaderBoardList(index)
                     .compose(
                         RxLifecycleCompact.bind(this@LeaderBoardActivity)
                             .disposeObservableWhen(LifecycleEvent.DESTROY)
@@ -73,7 +68,7 @@ class LeaderBoardActivity : BaseActivity<ActivityLeaderboardBinding, IntegralVie
                                 adapter.setList(it.data.datas)
                                 1
                             } else {
-                                if (it.data.datas.isNullOrEmpty()) {
+                                if (it.data.datas.isEmpty()) {
                                     //没有更多数据，结束动画，显示内容(没有更多数据)
                                     showContent(false)
                                     return@subscribe
@@ -90,7 +85,7 @@ class LeaderBoardActivity : BaseActivity<ActivityLeaderboardBinding, IntegralVie
 
             }
 
-        }?.autoRefresh()
+        }.autoRefresh()
     }
 
 

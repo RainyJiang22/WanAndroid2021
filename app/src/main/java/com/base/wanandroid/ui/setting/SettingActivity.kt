@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import com.base.wanandroid.R
-import com.base.wanandroid.base.BaseActivity1
+import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivitySettingBinding
 import com.base.wanandroid.ui.scan.ScanActivity
 import com.base.wanandroid.ui.web.WebActivity
@@ -21,7 +21,7 @@ import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
  * @author jiangshiyu
  * @date 2022/6/9
  */
-class SettingActivity : BaseActivity1<BaseViewModel, ActivitySettingBinding>() {
+class SettingActivity : BaseActivity<BaseViewModel, ActivitySettingBinding>() {
 
 
     override fun initView(savedInstanceState: Bundle?) {

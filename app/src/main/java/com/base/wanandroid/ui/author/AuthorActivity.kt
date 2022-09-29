@@ -3,17 +3,12 @@ package com.base.wanandroid.ui.author
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
-import cn.nekocode.rxlifecycle.LifecycleEvent
-import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.application.WanAndroidApplication
 import com.base.wanandroid.base.BaseActivity
-import com.base.wanandroid.bean.ArticleListResponse
 import com.base.wanandroid.bean.ArticleResponse
-import com.base.wanandroid.bean.ShareListResponse
 import com.base.wanandroid.bean.ShareResponse
 import com.base.wanandroid.bean.base.ApiBaseResponse
 import com.base.wanandroid.bean.base.ApiPagerResponse
-import com.base.wanandroid.bean.base.ApiResponse
 import com.base.wanandroid.constant.Constant.URI.SearchArticleById
 import com.base.wanandroid.constant.Constant.URI.SearchArticleByName
 import com.base.wanandroid.databinding.ActivityAuthorBinding
@@ -22,9 +17,7 @@ import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.utils.BASE_URL
 import com.base.wanandroid.utils.GenerateAvatarURL
-import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.initFloatBtn
-import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.widget.layout.XCollapsingToolbarLayout
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.Get
@@ -38,7 +31,7 @@ import java.io.File
  * @date 2022/6/22
  * 作者页
  */
-class AuthorActivity : BaseActivity<ActivityAuthorBinding, ArticleViewModel>() {
+class AuthorActivity : BaseActivity<ArticleViewModel,ActivityAuthorBinding>() {
 
     private val name: String by bundle()
     private val userId: Int by bundle()
@@ -57,22 +50,18 @@ class AuthorActivity : BaseActivity<ActivityAuthorBinding, ArticleViewModel>() {
     /** 分享人对应列表数据 数据集 */
     private lateinit var dataByID: ApiBaseResponse<ShareResponse>
 
-    override fun onBundle(bundle: Bundle) {
 
-
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
         //标题栏返回按钮关闭页面
-        binding?.titleBar?.leftView?.setOnClickListener { finishAfterTransition() }
+        mViewBind.titleBar.leftView?.setOnClickListener { finishAfterTransition() }
         //是否作者(userid为-1)
         if (userId == -1) {
             PageRefreshLayout.startIndex = 0
         } else {
             PageRefreshLayout.startIndex = 1
         }
-        binding?.headerText?.text = name
-        binding?.let {
+        mViewBind.headerText.text = name
+        mViewBind.let {
             it.rv.apply {
                 this.adapter = adapter
                 this.initFloatBtn(it.fab)
@@ -97,29 +86,29 @@ class AuthorActivity : BaseActivity<ActivityAuthorBinding, ArticleViewModel>() {
             //文件解码bitmap
             val mBitmap = BitmapFactory.decodeFile(mAvatar.path)
             //设置头像
-            binding?.headerImage?.setImageBitmap(mBitmap)
+            mViewBind.headerImage.setImageBitmap(mBitmap)
         }
     }
 
     /** 折叠工具栏回调方法 */
     private fun initCollapsingToolbar() {
-        binding?.collapsingToolbar?.setOnScrimsListener(object :
+        mViewBind.collapsingToolbar.setOnScrimsListener(object :
             XCollapsingToolbarLayout.OnScrimsListener {
             override fun onScrimsStateChange(layout: XCollapsingToolbarLayout?, shown: Boolean) {
                 //工具栏折叠时设置标题，隐藏用户名，否则不设置标题，显示用户名
                 if (shown) {
-                    binding?.titleBar?.title = name
-                    binding?.headerText?.visibility = View.INVISIBLE
+                    mViewBind.titleBar.title = name
+                    mViewBind.headerText.visibility = View.INVISIBLE
                 } else {
-                    binding?.titleBar?.title = ""
-                    binding?.headerText?.visibility = View.VISIBLE
+                    mViewBind.titleBar.title = ""
+                    mViewBind.headerText.visibility = View.VISIBLE
                 }
             }
         })
     }
 
     private fun onRefresh() {
-        binding?.page?.onRefresh {
+        mViewBind.page.onRefresh {
             scope {
                 if (userId == -1) {
                     dataByName =
@@ -152,7 +141,7 @@ class AuthorActivity : BaseActivity<ActivityAuthorBinding, ArticleViewModel>() {
                             adapter.setList(dataByID.data.shareArticles.datas)
                             1
                         } else {
-                            if (dataByID.data.shareArticles.datas.isNullOrEmpty()) {
+                            if (dataByID.data.shareArticles.datas.isEmpty()) {
                                 showContent(false)
                                 return@scope
                             }
@@ -164,6 +153,6 @@ class AuthorActivity : BaseActivity<ActivityAuthorBinding, ArticleViewModel>() {
                 }
             }
 
-        }?.autoRefresh()
+        }.autoRefresh()
     }
 }

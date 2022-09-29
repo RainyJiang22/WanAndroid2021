@@ -1,9 +1,6 @@
 package com.base.wanandroid.ui.history
 
-import android.app.Dialog
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.base.wanandroid.R
@@ -23,7 +20,8 @@ import com.example.wanAndroid.widget.decoration.SpaceItemDecoration
  * @date 2022/6/9
  * 历史记录页面
  */
-class HistoryRecordActivity : BaseActivity<ActivityHistoryRecordBinding, HistoryRecordViewModel>() {
+class HistoryRecordActivity :
+    BaseActivity<HistoryRecordViewModel, ActivityHistoryRecordBinding>() {
 
 
     private val historyRecordAdapter by lazy {
@@ -32,13 +30,9 @@ class HistoryRecordActivity : BaseActivity<ActivityHistoryRecordBinding, History
         }
     }
 
-    override fun onBundle(bundle: Bundle) {
-    }
 
-    override fun init(savedInstanceState: Bundle?) {
-
-
-        binding?.titleBar?.let {
+    override fun initView(savedInstanceState: Bundle?) {
+        mViewBind.titleBar.let {
 
             it.leftView.setOnClickListener {
                 finishAfterTransition()
@@ -60,18 +54,18 @@ class HistoryRecordActivity : BaseActivity<ActivityHistoryRecordBinding, History
     }
 
     private fun initData() {
-        binding?.rv?.let {
+        mViewBind.rv.let {
             it.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             it.addItemDecoration(SpaceItemDecoration(this))
             it.adapter = historyRecordAdapter
-            binding?.fab?.let { it1 -> it.initFloatBtn(it1) }
+            mViewBind.fab.let { it1 -> it.initFloatBtn(it1) }
         }
         historyRecordAdapter.setOnItemClickListener { _, _, position ->
             val item = historyRecordAdapter.data[position]
             WebActivity.start(this, item.url)
         }
 
-        viewModel.historyRecordList
+        mViewModel.historyRecordList
             .compose(RxTransformer.async())
             .subscribe {
                 historyRecordAdapter.setDiffNewData(it.toMutableList())

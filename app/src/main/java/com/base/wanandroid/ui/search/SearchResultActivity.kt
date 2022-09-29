@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
  * @author jiangshiyu
  * @date 2022/6/16
  */
-class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, ArticleViewModel>() {
+class SearchResultActivity : BaseActivity<ArticleViewModel,ActivitySearchResultBinding>() {
 
 
     private val articleAdapter by lazy {
@@ -32,27 +32,25 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, ArticleVi
     private var first = true
     private val key: String by bundle()
 
-    override fun onBundle(bundle: Bundle) {
-    }
 
-    override fun init(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
         PageRefreshLayout.startIndex = 0
-        binding?.titleBar?.title = key
+        mViewBind.titleBar.title = key
         //标题栏返回按钮关闭页面
-        binding?.titleBar?.leftView?.setOnClickListener { finish() }
+        mViewBind.titleBar.leftView?.setOnClickListener { finish() }
         //设置RecycleView的Adapter
-        binding?.child?.rv?.apply {
+        mViewBind.child.rv.apply {
             adapter = articleAdapter
-            binding?.fab?.let { initFloatBtn(it) }
+            initFloatBtn(mViewBind.fab)
         }
         onRefresh()
     }
 
 
     private fun onRefresh() {
-        binding?.child?.page?.onRefresh {
+        mViewBind.child.page.onRefresh {
             lifecycleScope.launch {
-                viewModel.getSearchResult(index, key)
+                mViewModel.getSearchResult(index, key)
                     .compose(
                         RxLifecycleCompact.bind(this@SearchResultActivity)
                             .disposeObservableWhen(LifecycleEvent.DESTROY)
@@ -67,7 +65,7 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, ArticleVi
                                 articleAdapter.setList(it.data.datas)
                                 1
                             } else {
-                                if (it.data.datas.isNullOrEmpty()) {
+                                if (it.data.datas.isEmpty()) {
                                     showContent(false)
                                 } else {
                                     articleAdapter.addData(it.data.datas)
@@ -81,7 +79,7 @@ class SearchResultActivity : BaseActivity<ActivitySearchResultBinding, ArticleVi
                     }).lifecycleOwner(this@SearchResultActivity)
 
             }
-        }?.autoRefresh()
+        }.autoRefresh()
 
     }
 }

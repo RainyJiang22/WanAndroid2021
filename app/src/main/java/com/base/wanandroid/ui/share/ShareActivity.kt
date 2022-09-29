@@ -23,38 +23,33 @@ import kotlinx.coroutines.launch
  * @date 2022/6/16
  * 我的分享
  */
-class ShareActivity : BaseActivity<ActivityShareBinding, ShareViewModel>() {
+class ShareActivity : BaseActivity<ShareViewModel,ActivityShareBinding>() {
 
 
-    private val adapter by lazy { ShareAdapter(this, viewModel) }
+    private val adapter by lazy { ShareAdapter(this, mViewModel) }
 
     private var first = true
 
     private lateinit var startShareLauncher: ActivityResultLauncher<Intent>
 
-    override fun onBundle(bundle: Bundle) {
 
-
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
-
+    override fun initView(savedInstanceState: Bundle?) {
         startShareLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == Activity.RESULT_OK) {
-                    binding?.page?.refresh()
+                    mViewBind.page.refresh()
                 }
             }
 
-        binding?.titleBar?.let {
+        mViewBind.titleBar.let {
             it.leftView.setOnClickListener { finishAfterTransition() }
             it.rightView.setOnClickListener {
                 startShareLauncher.launch(Intent(this, ShareArticleActivity::class.java))
             }
         }
-        binding?.titleBar?.leftView?.setOnClickListener { finish() }
+        mViewBind.titleBar.leftView?.setOnClickListener { finish() }
         //标题栏右侧图标打开分享文章页面，获取返回结果，增加一条数据
-        binding?.titleBar?.rightView?.setOnClickListener {
+        mViewBind.titleBar.rightView?.setOnClickListener {
             startShareLauncher.launch(Intent(this, ShareArticleActivity::class.java))
         }
         PageRefreshLayout.startIndex = 1
@@ -62,20 +57,21 @@ class ShareActivity : BaseActivity<ActivityShareBinding, ShareViewModel>() {
         onRefresh()
     }
 
+
     private fun initAdapter() {
-        binding?.rv?.apply {
+        mViewBind.rv.apply {
             this.adapter = adapter
             addItemDecoration(SpaceItemDecoration(this@ShareActivity))
             //设置RecycleView的侧滑监听器
             addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this@ShareActivity))
-            binding?.fab?.let { initFloatBtn(it) }
+            initFloatBtn(mViewBind.fab)
         }
     }
 
     private fun onRefresh() {
-        binding?.page?.onRefresh {
+        mViewBind.page.onRefresh {
             lifecycleScope.launch {
-                viewModel.getShareList(index)
+                mViewModel.getShareList(index)
                     .compose(
                         RxLifecycleCompact.bind(this@ShareActivity)
                             .disposeObservableWhen(LifecycleEvent.DESTROY)
@@ -94,7 +90,7 @@ class ShareActivity : BaseActivity<ActivityShareBinding, ShareViewModel>() {
                                 //翻页
                                 1
                             } else { //上拉加载更多
-                                if (it.data.shareArticles.datas.isNullOrEmpty()) {
+                                if (it.data.shareArticles.datas.isEmpty()) {
                                     //没有更多数据，结束动画，显示内容(没有更多数据)
                                     showContent(false)
                                     return@subscribe
@@ -110,7 +106,7 @@ class ShareActivity : BaseActivity<ActivityShareBinding, ShareViewModel>() {
                         showError(it.message)
                     })
             }
-        }?.autoRefresh()
+        }.autoRefresh()
     }
 
 

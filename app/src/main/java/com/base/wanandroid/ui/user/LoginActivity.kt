@@ -4,12 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.base.wanandroid.R
-import com.base.wanandroid.base.BaseActivity1
+import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityLoginBinding
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.InputTextManager
@@ -25,7 +24,7 @@ import kotlinx.coroutines.launch
  * @date 2022/6/10
  * 登录页面
  */
-class LoginActivity : BaseActivity1<UserViewModel, ActivityLoginBinding>() {
+class LoginActivity : BaseActivity<UserViewModel, ActivityLoginBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
         mViewBind.titleBar.leftView?.setOnClickListener {

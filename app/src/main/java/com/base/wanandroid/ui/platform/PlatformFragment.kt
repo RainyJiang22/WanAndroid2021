@@ -3,21 +3,13 @@ package com.base.wanandroid.ui.platform
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import cn.nekocode.rxlifecycle.LifecycleEvent
-import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
-import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseFragment
-import com.base.wanandroid.base.BaseFragment1
 import com.base.wanandroid.databinding.FragmentPlatformBinding
 import com.base.wanandroid.ext.loadServiceInit
 import com.base.wanandroid.ext.setErrorText
-import com.base.wanandroid.ext.showError
 import com.base.wanandroid.ext.showLoading
-import com.base.wanandroid.ui.project.ProjectChildFragment
-import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.bindViewPager2
 import com.base.wanandroid.utils.init
-import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.widget.loadcallback.ErrorCallBack
 import com.kingja.loadsir.core.LoadService
 import me.hgj.jetpackmvvm.ext.parseState
@@ -27,7 +19,7 @@ import me.hgj.jetpackmvvm.ext.parseState
  * @date 2022/5/31
  * 公众号fragment
  */
-class PlatformFragment : BaseFragment1<PlatformViewModel, FragmentPlatformBinding>() {
+class PlatformFragment : BaseFragment<PlatformViewModel, FragmentPlatformBinding>() {
 
 
     //界面状态管理

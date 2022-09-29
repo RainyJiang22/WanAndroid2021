@@ -8,12 +8,13 @@ import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.bean.base.ApiPagerResponse
 import com.base.wanandroid.network.RetrofitHelper
 import io.reactivex.Observable
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 /**
  * @author jiangshiyu
  * @date 2022/6/14
  */
-class CollectViewModel(application: Application) : AndroidViewModel(application) {
+class CollectViewModel:BaseViewModel() {
 
 
     /**

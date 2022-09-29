@@ -2,7 +2,7 @@ package com.base.wanandroid.ui.square
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentProjectChildBinding
 import com.base.wanandroid.ext.init
 import com.base.wanandroid.ext.initFooter
@@ -22,7 +22,7 @@ import com.kingja.loadsir.core.LoadService
  * @date 2022/5/31
  * 广场fragment
  */
-class SquareChildFragment : BaseFragment1<SquareViewModel, FragmentProjectChildBinding>() {
+class SquareChildFragment : BaseFragment<SquareViewModel, FragmentProjectChildBinding>() {
 
     //界面状态管理
     private lateinit var loadSir: LoadService<Any>

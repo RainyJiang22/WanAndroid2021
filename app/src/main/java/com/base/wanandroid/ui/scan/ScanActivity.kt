@@ -5,29 +5,28 @@ import androidx.core.content.ContextCompat
 import cn.bingoogolapple.qrcode.core.QRCodeView
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
-import com.base.wanandroid.base.EmptyViewModel
 import com.base.wanandroid.databinding.ActivityScanBinding
 import com.base.wanandroid.ui.web.WebActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.huantansheng.easyphotos.EasyPhotos
 import com.huantansheng.easyphotos.callback.SelectCallback
 import com.huantansheng.easyphotos.models.album.entity.Photo
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 /**
  * @author jiangshiyu
  * @date 2022/6/23
+ * 二维码扫描页
  */
-class ScanActivity : BaseActivity<ActivityScanBinding, EmptyViewModel>(), QRCodeView.Delegate {
+class ScanActivity : BaseActivity<BaseViewModel, ActivityScanBinding>(), QRCodeView.Delegate {
 
     private var isChecked = false
 
-    override fun onBundle(bundle: Bundle) {
-    }
 
-    override fun init(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
 
 
-        binding?.flash?.apply {
+        mViewBind.flash.apply {
             setOnClickListener {
                 isChecked = !isChecked
                 if (isChecked) {
@@ -37,7 +36,7 @@ class ScanActivity : BaseActivity<ActivityScanBinding, EmptyViewModel>(), QRCode
                             R.drawable.ic_flash_on
                         )
                     )
-                    binding?.zxingView?.openFlashlight()
+                    mViewBind.zxingView.openFlashlight()
                 } else {
                     setImageDrawable(
                         ContextCompat.getDrawable(
@@ -45,13 +44,13 @@ class ScanActivity : BaseActivity<ActivityScanBinding, EmptyViewModel>(), QRCode
                             R.drawable.ic_flash_off
                         )
                     )
-                    binding?.zxingView?.closeFlashlight()
+                    mViewBind.zxingView.closeFlashlight()
                 }
             }
         }
 
         //相册按钮点击监听
-        binding?.fab?.setOnClickListener {
+        mViewBind.fab.setOnClickListener {
             //使用Glide图片加载引擎
             GlideEngine.instance?.let { its ->
                 //参数说明：上下文，是否显示相机按钮，是否使用宽高数据（false时宽高数据为0，扫描速度更快），[配置Glide为图片加载引擎]
@@ -68,7 +67,7 @@ class ScanActivity : BaseActivity<ActivityScanBinding, EmptyViewModel>(), QRCode
                         override fun onResult(photos: ArrayList<Photo>, isOriginal: Boolean) {
                             photos.forEach {
                                 //根据图片路径解析二维码
-                                binding?.zxingView?.decodeQRCode(it.path)
+                                mViewBind.zxingView.decodeQRCode(it.path)
                             }
                         }
 
@@ -76,22 +75,22 @@ class ScanActivity : BaseActivity<ActivityScanBinding, EmptyViewModel>(), QRCode
                     })
             }
         }
-        binding?.zxingView?.setDelegate(this)
+        mViewBind.zxingView.setDelegate(this)
     }
 
     override fun onStart() {
         super.onStart()
-        binding?.zxingView?.startCamera() // 打开后置摄像头开始预览，但是并未开始识别
-        binding?.zxingView?.startSpotAndShowRect() // 显示扫描框，并开始识别
+        mViewBind.zxingView.startCamera() // 打开后置摄像头开始预览，但是并未开始识别
+        mViewBind.zxingView.startSpotAndShowRect() // 显示扫描框，并开始识别
     }
 
     override fun onStop() {
-        binding?.zxingView?.stopCamera() // 关闭摄像头预览，并且隐藏扫描框
+        mViewBind.zxingView.stopCamera() // 关闭摄像头预览，并且隐藏扫描框
         super.onStop()
     }
 
     override fun onDestroy() {
-        binding?.zxingView?.onDestroy() // 销毁二维码扫描控件
+        mViewBind.zxingView.onDestroy() // 销毁二维码扫描控件
         super.onDestroy()
     }
 
@@ -99,7 +98,7 @@ class ScanActivity : BaseActivity<ActivityScanBinding, EmptyViewModel>(), QRCode
         //解析失败
         if (result.isNullOrEmpty()) {
             ToastUtils.showShort(R.string.identify_error)
-            binding?.zxingView?.startSpot()//继续识别
+            mViewBind.zxingView.startSpot()//继续识别
             return
         }
         ToastUtils.showShort(R.string.identify_succeed)
@@ -109,16 +108,16 @@ class ScanActivity : BaseActivity<ActivityScanBinding, EmptyViewModel>(), QRCode
 
     override fun onCameraAmbientBrightnessChanged(isDark: Boolean) {
         //环境是否过暗状态
-        var tipText = binding?.zxingView?.scanBoxView?.tipText
+        var tipText = mViewBind.zxingView.scanBoxView?.tipText
         val ambientBrightnessTip = getString(R.string.open_flash)
         if (isDark) {
             if (tipText?.contains(ambientBrightnessTip) == false) {
-                binding?.zxingView?.scanBoxView?.tipText = tipText + ambientBrightnessTip
+                mViewBind.zxingView.scanBoxView?.tipText = tipText + ambientBrightnessTip
             }
         } else {
             if (tipText?.contains(ambientBrightnessTip) == true) {
                 tipText = tipText.substring(0, tipText.indexOf(ambientBrightnessTip))
-                binding?.zxingView?.scanBoxView?.tipText = tipText
+                mViewBind.zxingView.scanBoxView?.tipText = tipText
             }
         }
     }

@@ -5,12 +5,13 @@ import androidx.lifecycle.AndroidViewModel
 import com.base.wanandroid.history.HistoryRepository
 import com.base.wanandroid.history.bean.HistoryEntity
 import io.reactivex.Observable
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 /**
  * @author jiangshiyu
  * @date 2022/6/9
  */
-class HistoryRecordViewModel(application: Application) : AndroidViewModel(application) {
+class HistoryRecordViewModel : BaseViewModel() {
 
 
     /**

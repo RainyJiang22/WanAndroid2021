@@ -4,25 +4,22 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentProjectBinding
 import com.base.wanandroid.ext.loadServiceInit
 import com.base.wanandroid.ext.setErrorText
-import com.base.wanandroid.ext.showError
 import com.base.wanandroid.ext.showLoading
 import com.base.wanandroid.utils.bindViewPager2
 import com.base.wanandroid.utils.init
 import com.base.wanandroid.widget.loadcallback.ErrorCallBack
 import com.kingja.loadsir.core.LoadService
 import me.hgj.jetpackmvvm.ext.parseState
-import okhttp3.internal.notify
-import kotlin.math.log
 
 /**
  * @author jiangshiyu
  * @date 2022/3/7
  */
-class ProjectFragment : BaseFragment1<ProjectViewModel, FragmentProjectBinding>() {
+class ProjectFragment : BaseFragment<ProjectViewModel, FragmentProjectBinding>() {
 
     companion object {
         const val TAG = "ProjectFragment"

@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.wanandroid.R
-import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentHomeBinding
 import com.base.wanandroid.ext.init
 import com.base.wanandroid.ext.initFooter
@@ -43,7 +43,6 @@ import com.bumptech.glide.Glide
 import com.drake.serialize.intent.openActivity
 import com.google.android.material.imageview.ShapeableImageView
 import com.kingja.loadsir.core.LoadService
-import com.yanzhenjie.recyclerview.SwipeRecyclerView
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.ZoomOutPageTransformer
 import me.hgj.jetpackmvvm.ext.parseState
@@ -53,7 +52,7 @@ import me.hgj.jetpackmvvm.ext.parseState
  * @date 2022/3/7
  * 主页
  */
-class HomeFragment : BaseFragment1<HomeViewModel, FragmentHomeBinding>() {
+class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
     private val articleAdapter by lazy {
         ArticleNewAdapter(this, true).apply {
@@ -75,7 +74,7 @@ class HomeFragment : BaseFragment1<HomeViewModel, FragmentHomeBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         //状态页配置
-        loadSir = loadServiceInit(mViewBind.swipeRefresh) {
+        loadSir = loadServiceInit(mViewBind.homeLayout) {
             //重试时触发操作
             loadSir.showLoading()
             requestHomeViewModel.getHomeData(true)

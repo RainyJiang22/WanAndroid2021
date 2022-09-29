@@ -12,9 +12,9 @@ import com.base.wanandroid.ui.project.ProjectFragment
 import com.base.wanandroid.ui.square.SquareFragment
 import com.base.wanandroid.utils.replaceFragment
 import com.gyf.immersionbar.ktx.immersionBar
-import com.base.wanandroid.base.EmptyViewModel
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
-class MainActivity : BaseActivity<ActivityMainBinding, EmptyViewModel>() {
+class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>() {
 
     companion object {
         const val TAG = "MAIN"
@@ -37,17 +37,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, EmptyViewModel>() {
         )
     }
 
-    override fun onBundle(bundle: Bundle) {
-
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
         immersionBar {
             this.statusBarDarkFont(true)
         }
 
         replaceFragment(fragment[0], HOME_TAG)
-        binding?.bottomNavigation?.setOnNavigationItemSelectedListener { item ->
+        mViewBind.bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.page_home -> {
                     replaceFragment(fragment[0], HOME_TAG)
@@ -74,7 +70,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, EmptyViewModel>() {
                 }
             }
         }
-
     }
 
 }

@@ -2,7 +2,7 @@ package com.base.wanandroid.ui.answer
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentProjectChildBinding
 import com.base.wanandroid.ext.init
 import com.base.wanandroid.ext.initFooter
@@ -17,14 +17,13 @@ import com.base.wanandroid.widget.recyclerview.DefineLoadMoreView
 import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
 import com.blankj.utilcode.util.ConvertUtils
 import com.kingja.loadsir.core.LoadService
-import com.kingja.loadsir.core.LoadSir
 
 /**
  * @author jiangshiyu
  * @date 2022/6/6
  * 每日一问
  */
-class InquiryAnswerFragment : BaseFragment1<SquareViewModel, FragmentProjectChildBinding>() {
+class InquiryAnswerFragment : BaseFragment<SquareViewModel, FragmentProjectChildBinding>() {
 
 
     private val articleAdapter by lazy {

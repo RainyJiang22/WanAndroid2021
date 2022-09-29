@@ -1,116 +1,28 @@
 package com.base.wanandroid.base
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import java.lang.reflect.ParameterizedType
+import me.hgj.jetpackmvvm.base.fragment.BaseVmVbFragment
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
-
-abstract class BaseFragment<V : ViewBinding, VM : AndroidViewModel> : Fragment() {
-
-    var binding: V? = null
-
-    val viewModel: VM by lazy {
-        val types = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments
-        val clazz = types[1] as Class<VM>
-        ViewModelProvider(
-            requireActivity().viewModelStore,
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
-        ).get(clazz)
+/**
+ * @author jiangshiyu
+ * @date 2022/9/21
+ */
+abstract class BaseFragment<VM : BaseViewModel, V : ViewBinding> : BaseVmVbFragment<VM, V>() {
+    override fun createObserver() {
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            onBundle(requireArguments())
-        }
+    override fun dismissLoading() {
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return setContentView(inflater, container)
+    override fun initView(savedInstanceState: Bundle?) {
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        init(savedInstanceState)
+    override fun lazyLoadData() {
+        //懒加载数据
     }
 
-
-    open fun onVisible() {
-
-
+    override fun showLoading(message: String) {
     }
-
-
-    open fun onHidden() {
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (isAdded && !isHidden) {
-            onVisible()
-        }
-    }
-
-    override fun onPause() {
-        if (isVisible) {
-            onHidden()
-        }
-        super.onPause()
-    }
-
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden) {
-            onVisible()
-        } else {
-            onHidden()
-        }
-    }
-
-
-    private fun setContentView(inflater: LayoutInflater, container: ViewGroup?): View? {
-        if (view == null) {
-            val types = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments
-            val aClass = types[0] as Class<V>
-            try {
-                binding =
-                    aClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
-                        .invoke(null, getLayoutInflater()) as V?
-                return binding?.root
-            } catch (e: Error) {
-                e.printStackTrace();
-            }
-        }
-        return null
-    }
-
-
-    abstract fun onBundle(bundle: Bundle)
-
-    abstract fun init(savedInstanceState: Bundle?)
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
-
-
-    fun binding(block: V?.() -> Unit) {
-        block.invoke(binding)
-    }
-
-
 }

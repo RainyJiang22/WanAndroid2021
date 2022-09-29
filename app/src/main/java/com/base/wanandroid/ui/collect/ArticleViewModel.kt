@@ -15,12 +15,13 @@ import com.zchu.rxcache.data.CacheResult
 import com.zchu.rxcache.kotlin.rxCache
 import com.zchu.rxcache.stategy.CacheStrategy
 import io.reactivex.Observable
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 /**
  * @author jiangshiyu
  * @date 2022/6/15
  */
-class ArticleViewModel(application: Application) : AndroidViewModel(application) {
+class ArticleViewModel : BaseViewModel() {
 
 
     companion object {

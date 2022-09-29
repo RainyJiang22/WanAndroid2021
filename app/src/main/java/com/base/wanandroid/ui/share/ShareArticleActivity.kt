@@ -21,53 +21,50 @@ import kotlinx.coroutines.launch
  * @date 2022/6/16
  * 分享文章界面
  */
-class ShareArticleActivity : BaseActivity<ActivityShareArticleBinding, ShareViewModel>() {
-    override fun onBundle(bundle: Bundle) {
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
-        binding?.titleBar?.leftView?.setOnClickListener { finishAfterTransition() }
+class ShareArticleActivity : BaseActivity<ShareViewModel, ActivityShareArticleBinding>() {
+    override fun initView(savedInstanceState: Bundle?) {
+        mViewBind.titleBar.leftView?.setOnClickListener { finishAfterTransition() }
         //联动分享按钮和标题链接文本框
-        binding?.btnShare?.let {
+        mViewBind.btnShare.let {
             InputTextManager.with(this)
-                .addView(binding?.etShareTitle)
-                .addView(binding?.etShareLink)
+                .addView(mViewBind.etShareTitle)
+                .addView(mViewBind.etShareLink)
                 .setMain(it)
                 .build()
         }
 
-        binding?.btnShare?.setOnClickListener {
+        mViewBind.btnShare.setOnClickListener {
             //隐藏输入法
             hideSoftKeyboard(this)
-            val etShareTitle = binding?.etShareTitle?.text.toString()
-            val etShareLink = binding?.etShareLink?.text.toString()
+            val etShareTitle = mViewBind.etShareTitle.text.toString()
+            val etShareLink = mViewBind.etShareLink.text.toString()
             lifecycleScope.launch {
                 delay(2000)
-                viewModel.shareCurrentArticle(etShareTitle, etShareLink)
+                mViewModel.shareCurrentArticle(etShareTitle, etShareLink)
                     .compose(
                         RxLifecycleCompact.bind(this@ShareArticleActivity)
                             .disposeObservableWhen(LifecycleEvent.DESTROY)
                     )
                     .compose(RxTransformer.async())
                     .subscribe({
-                        binding?.btnShare?.showSucceed()
+                        mViewBind.btnShare.showSucceed()
                         ToastUtils.showShort(getString(R.string.share_succeed))
                         setResult(RESULT_OK)
                         ActivityCompat.finishAfterTransition(this@ShareArticleActivity)
                     }, {
                         //分享按钮显示失败
-                        binding?.btnShare?.showError(2000)
+                        mViewBind.btnShare.showError(2000)
                         //弹出错误信息吐司
                         ToastUtils.showShort(it.message)
                         //标题输入框加载动画效果
-                        binding?.etShareTitle?.startAnimation(
+                        mViewBind.etShareTitle.startAnimation(
                             AnimationUtils.loadAnimation(
                                 this@ShareArticleActivity,
                                 R.anim.shake_anim
                             )
                         )
                         //链接输入框加载动画效果
-                        binding?.etShareLink?.startAnimation(
+                        mViewBind.etShareLink.startAnimation(
                             AnimationUtils.loadAnimation(
                                 this@ShareArticleActivity,
                                 R.anim.shake_anim
@@ -76,6 +73,5 @@ class ShareArticleActivity : BaseActivity<ActivityShareArticleBinding, ShareView
                     })
             }
         }
-
     }
 }

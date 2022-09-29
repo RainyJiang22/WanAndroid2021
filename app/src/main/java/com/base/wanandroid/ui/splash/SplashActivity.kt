@@ -7,7 +7,6 @@ import android.view.animation.Animation
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.base.BaseActivity
-import com.base.wanandroid.base.BaseActivity1
 import com.base.wanandroid.databinding.ActivitySplashBinding
 import com.base.wanandroid.ui.MainActivity
 import com.base.wanandroid.ui.user.UserViewModel
@@ -22,7 +21,7 @@ import com.drake.serialize.intent.openActivity
  * 闪屏页
  */
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : BaseActivity1<UserViewModel, ActivitySplashBinding>() {
+class SplashActivity : BaseActivity<UserViewModel, ActivitySplashBinding>() {
 
     private val alphaAnimation: AlphaAnimation by lazy { AlphaAnimation(0.3F, 1.0F) }
 

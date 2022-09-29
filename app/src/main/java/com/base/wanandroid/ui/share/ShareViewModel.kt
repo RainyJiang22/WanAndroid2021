@@ -6,12 +6,13 @@ import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.bean.ShareListResponse
 import com.base.wanandroid.network.RetrofitHelper
 import io.reactivex.Observable
+import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 /**
  * @author jiangshiyu
  * @date 2022/6/16
  */
-class ShareViewModel(application: Application) : AndroidViewModel(application) {
+class ShareViewModel : BaseViewModel() {
 
 
     /**

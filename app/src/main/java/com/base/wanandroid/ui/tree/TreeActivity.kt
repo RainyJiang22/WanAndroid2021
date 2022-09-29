@@ -2,9 +2,7 @@ package com.base.wanandroid.ui.tree
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
 import com.base.wanandroid.base.BaseActivity
-import com.base.wanandroid.base.BaseActivity1
 import com.base.wanandroid.databinding.ActivityTreeBinding
 import com.base.wanandroid.utils.bindViewPager2
 import com.base.wanandroid.utils.init
@@ -15,7 +13,7 @@ import com.drake.serialize.intent.bundle
  * @date 2022/6/8
  * 体系activity
  */
-class TreeActivity : BaseActivity1<TreeViewModel, ActivityTreeBinding>() {
+class TreeActivity : BaseActivity<TreeViewModel, ActivityTreeBinding>() {
 
 
     /** Serialize界面传递参数: title */

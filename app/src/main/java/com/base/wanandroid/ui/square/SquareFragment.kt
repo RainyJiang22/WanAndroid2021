@@ -1,7 +1,7 @@
 package com.base.wanandroid.ui.square
 
 import androidx.fragment.app.Fragment
-import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentSquareBinding
 import com.base.wanandroid.ui.answer.InquiryAnswerFragment
 import com.base.wanandroid.ui.navigation.NavigationFragment
@@ -14,7 +14,7 @@ import com.base.wanandroid.utils.init
  * @date 2022/5/31
  * 广场fragment
  */
-class SquareFragment : BaseFragment1<SquareViewModel, FragmentSquareBinding>() {
+class SquareFragment : BaseFragment<SquareViewModel, FragmentSquareBinding>() {
 
 
     /** 分类集合 */

@@ -14,7 +14,6 @@ import android.webkit.WebView
 import androidx.annotation.RequiresApi
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewModelScope
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityWebBinding
@@ -27,7 +26,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
-import com.base.wanandroid.base.EmptyViewModel
 import com.base.wanandroid.bean.CollectResponse
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.utils.AppConfig
@@ -45,7 +43,7 @@ import java.util.*
  * @author jiangshiyu
  * @date 2022/6/2
  */
-class WebActivity : BaseActivity<ActivityWebBinding, ArticleViewModel>() {
+class WebActivity : BaseActivity<ArticleViewModel,ActivityWebBinding>() {
 
     private lateinit var mAgentWeb: AgentWeb
     private lateinit var shareTitle: String
@@ -126,11 +124,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, ArticleViewModel>() {
 
     }
 
-
-    override fun onBundle(bundle: Bundle) {
-    }
-
-    override fun init(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
         intent?.extras?.let {
             shareId = it.getInt(CONTENT_ID_KEY, -1)
             originId = it.getInt(CONTENT_ORIGIN_ID_KEY, -1)
@@ -141,14 +135,14 @@ class WebActivity : BaseActivity<ActivityWebBinding, ArticleViewModel>() {
             data = it.getParcelable(CONTENT_DATA_KEY)
         }
 
-        binding?.toolbar?.apply {
+        mViewBind.toolbar.apply {
             setSupportActionBar(this)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             setNavigationOnClickListener { finishAfterTransition() }
             navigationContentDescription = ""
         }
 
-        binding?.title?.apply {
+        mViewBind.title.apply {
             text = getString(R.string.loading)
             visibility = View.VISIBLE
             postDelayed({
@@ -158,6 +152,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, ArticleViewModel>() {
         initWebView()
     }
 
+
     private val mWebChromeClient = object : WebChromeClient() {
         @RequiresApi(Build.VERSION_CODES.N)
         override fun onReceivedTitle(view: WebView, title: String) {
@@ -165,7 +160,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, ArticleViewModel>() {
             //只对不是以URL链接为标题的网页执行以下操作(e.g.微信公众号会先显示网页链接，再显示标题)
             if (title.isNotEmpty() && !title.startsWith("http")) {
                 //设置网页标题
-                this@WebActivity.binding?.title?.text = title.html2Spanned()
+                this@WebActivity.mViewBind.title.text = title.html2Spanned()
                 //设置网页分享标题
                 this@WebActivity.shareTitle = title.html2String()
                 //设置网页分享URL
@@ -202,7 +197,7 @@ class WebActivity : BaseActivity<ActivityWebBinding, ArticleViewModel>() {
 
         mAgentWeb = shareUrl.getAgentWeb(
             this,
-            binding!!.webContainer,
+            mViewBind.webContainer,
             layoutParams,
             webView,
             BaseWebClient(),
@@ -259,13 +254,13 @@ class WebActivity : BaseActivity<ActivityWebBinding, ArticleViewModel>() {
                     }
                     //收藏
                     item.setIcon(R.drawable.ic_collect_strawberry)
-                    viewModel.collectCurrentArticle(indexId)
+                    mViewModel.collectCurrentArticle(indexId)
                         .compose(RxTransformer.async())
                         .subscribe()
                 } else {
                     //取消收藏
                     item.setIcon(R.drawable.ic_collect_black_24)
-                    viewModel.unCollectArticle(shareId, originId)
+                    mViewModel.unCollectArticle(shareId, originId)
                         .compose(RxTransformer.async())
                         .subscribe()
                 }

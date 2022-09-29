@@ -7,7 +7,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import com.base.wanandroid.R
-import com.base.wanandroid.base.BaseFragment1
+import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentMineBinding
 import com.base.wanandroid.ui.collect.CollectActivity
 import com.base.wanandroid.ui.history.HistoryRecordActivity
@@ -29,7 +29,7 @@ import com.drake.serialize.intent.openActivity
  * @date 2022/5/31
  * 我的界面
  */
-class MineFragment : BaseFragment1<UserViewModel,FragmentMineBinding>() {
+class MineFragment : BaseFragment<UserViewModel,FragmentMineBinding>() {
 
 
     private lateinit var loginResultLaunch: ActivityResultLauncher<Intent>
