@@ -11,13 +11,16 @@ import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityLoginBinding
 import com.base.wanandroid.utils.AppConfig
+import com.base.wanandroid.utils.CacheUtil
 import com.base.wanandroid.utils.InputTextManager
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.hideSoftKeyboard
 import com.blankj.utilcode.util.ToastUtils
 import com.drake.serialize.intent.openActivity
+import com.rainy.easybus.extention.postEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import me.hgj.jetpackmvvm.ext.parseState
 
 /**
  * @author jiangshiyu
@@ -44,40 +47,9 @@ class LoginActivity : BaseActivity<UserViewModel, ActivityLoginBinding>() {
             hideSoftKeyboard(this)
             lifecycleScope.launch {
                 delay(1500)
-
-                val editName = mViewBind?.etUsername?.text.toString()
-                val editPassword = mViewBind?.etPassword?.text.toString()
-                mViewModel.getLoginUserInfo(editName, editPassword)
-                    .compose(RxTransformer.async())
-                    .subscribe({
-                        AppConfig.UserName = it.userInfoResponse?.username ?: "Jacky"
-                        AppConfig.PassWord = editPassword
-                        AppConfig.Level = it.coinInfoResponse?.level.toString()
-                        AppConfig.Rank = it.coinInfoResponse?.rank ?: "1"
-                        AppConfig.CoinCount = it.coinInfoResponse?.coinCount.toString()
-
-                        mViewBind.btnLogin.showSucceed()
-                        setResult(Activity.RESULT_OK)
-                        ActivityCompat.finishAfterTransition(this@LoginActivity)
-                    }, {
-                        mViewBind.btnLogin.showError(2000)
-                        //弹出错误信息吐司
-                        ToastUtils.showShort(it.message)
-                        //账号输入框加载动画效果
-                        mViewBind.etUsername.startAnimation(
-                            AnimationUtils.loadAnimation(
-                                this@LoginActivity,
-                                R.anim.shake_anim
-                            )
-                        )
-                        //密码输入框加载动画效果
-                        mViewBind.etPassword.startAnimation(
-                            AnimationUtils.loadAnimation(
-                                this@LoginActivity,
-                                R.anim.shake_anim
-                            )
-                        )
-                    })
+                val editName = mViewBind.etUsername.text.toString()
+                val editPassword = mViewBind.etPassword.text.toString()
+                mViewModel.loginReq(editName, editPassword)
             }
         }
 
@@ -89,8 +61,40 @@ class LoginActivity : BaseActivity<UserViewModel, ActivityLoginBinding>() {
         }
     }
 
-    companion object {
 
+    override fun createObserver() {
+        mViewModel.loginResult.observe(this) { resultState ->
+            parseState(resultState, {
+                CacheUtil.setUser(it)
+                CacheUtil.setIsLogin(true)
+                postEvent(it, false)
+
+                mViewBind.btnLogin.showSucceed()
+                setResult(Activity.RESULT_OK)
+                ActivityCompat.finishAfterTransition(this@LoginActivity)
+            }, {
+                mViewBind.btnLogin.showError(2000)
+                //弹出错误信息吐司
+                ToastUtils.showShort(it.message)
+                //账号输入框加载动画效果
+                mViewBind.etUsername.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        this@LoginActivity,
+                        R.anim.shake_anim
+                    )
+                )
+                //密码输入框加载动画效果
+                mViewBind.etPassword.startAnimation(
+                    AnimationUtils.loadAnimation(
+                        this@LoginActivity,
+                        R.anim.shake_anim
+                    )
+                )
+            })
+        }
+    }
+
+    companion object {
         fun start(context: Context): Intent {
             return Intent(context, LoginActivity::class.java)
         }

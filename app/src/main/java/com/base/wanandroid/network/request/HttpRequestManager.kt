@@ -4,10 +4,12 @@ import com.base.wanandroid.data.ApiPagerResponse
 import com.base.wanandroid.data.ApiResponse
 import com.base.wanandroid.data.ArticleResponse
 import com.base.wanandroid.network.apiService
+import com.base.wanandroid.ui.user.data.UserInfo
 import com.base.wanandroid.utils.CacheUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import me.hgj.jetpackmvvm.network.AppException
 
 /**
  * @author jiangshiyu
@@ -55,5 +57,18 @@ class HttpRequestManager {
         }
     }
 
+
+    /**
+     * 注册并登录
+     */
+    suspend fun register(username: String, password: String): ApiResponse<UserInfo> {
+        val registerData = apiService.register(username, password, password)
+        //判断注册结果，注册成功，就调用登录
+        if (registerData.isSucces()) {
+            return apiService.login(username, password)
+        } else {
+            throw AppException(registerData.errorCode, registerData.errorMsg)
+        }
+    }
 
 }

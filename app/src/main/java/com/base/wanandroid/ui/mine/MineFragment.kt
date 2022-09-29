@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.FragmentMineBinding
@@ -17,22 +18,28 @@ import com.base.wanandroid.ui.setting.SettingActivity
 import com.base.wanandroid.ui.share.ShareActivity
 import com.base.wanandroid.ui.user.LoginActivity
 import com.base.wanandroid.ui.user.UserViewModel
+import com.base.wanandroid.ui.user.data.UserInfo
 import com.base.wanandroid.utils.AppConfig
+import com.base.wanandroid.utils.CacheUtil
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
+import com.base.wanandroid.viewmodel.request.RequestMineViewModel
 import com.base.wanandroid.widget.Dialog
 import com.blankj.utilcode.util.ToastUtils
 import com.drake.serialize.intent.openActivity
+import com.rainy.easybus.extention.observeEvent
 
 /**
  * @author jiangshiyu
  * @date 2022/5/31
  * 我的界面
  */
-class MineFragment : BaseFragment<UserViewModel,FragmentMineBinding>() {
+class MineFragment : BaseFragment<UserViewModel, FragmentMineBinding>() {
 
 
     private lateinit var loginResultLaunch: ActivityResultLauncher<Intent>
+
+    private val requestMeViewModel: RequestMineViewModel by viewModels()
 
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -86,7 +93,7 @@ class MineFragment : BaseFragment<UserViewModel,FragmentMineBinding>() {
             mineRecord.setOnClickListener { openActivity<HistoryRecordActivity>() }
             mineSetting.setOnClickListener { openActivity<SettingActivity>() }
             //未登录隐藏登出项，登陆可见
-            mineExit.isVisible = AppConfig.CoinCount.isNotEmpty()
+            mineExit.isVisible = CacheUtil.isLogin() == false
             mineExit.setOnClickListener {
                 //登出弹窗确认
                 Dialog.getConfirmDialog(
@@ -113,15 +120,21 @@ class MineFragment : BaseFragment<UserViewModel,FragmentMineBinding>() {
     }
 
     override fun lazyLoadData() {
-        mViewBind.apply {
-            //用户名
-            userText.text = AppConfig.UserName.ifEmpty { getString(R.string.my_user) }
-            //等级文字
-            levelText.text = AppConfig.Level.ifEmpty { getString(R.string.my_ellipsis) }
-            //排名文字
-            rankText.text = AppConfig.Rank.ifEmpty { getString(R.string.my_ellipsis) }
-            //积分项设置文本
-            mineIntegral.setRightText(AppConfig.CoinCount.ifEmpty { "" })
+
+    }
+
+    override fun createObserver() {
+        viewLifecycleOwner.observeEvent<UserInfo> {
+            mViewBind.apply {
+                //用户名
+                userText.text = it.userInfoResponse?.username
+                //等级文字
+                levelText.text = it.coinInfoResponse?.level.toString()
+                //排名文字
+                rankText.text = it.coinInfoResponse?.rank.toString()
+                //积分项设置文本
+                mineIntegral.setRightText(AppConfig.CoinCount.ifEmpty { "" })
+            }
         }
     }
 

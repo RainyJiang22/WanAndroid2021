@@ -9,6 +9,7 @@ import com.base.wanandroid.bean.base.BaseResponse
 import com.base.wanandroid.network.RetrofitHelper
 import com.base.wanandroid.network.entity.ApiResponse
 import com.base.wanandroid.ui.user.data.UserInfo
+import com.base.wanandroid.viewmodel.request.RequestLoginRegisterViewModel
 import io.reactivex.Observable
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
@@ -16,7 +17,7 @@ import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
  * @author jiangshiyu
  * @date 2022/6/10
  */
-class UserViewModel : BaseViewModel() {
+class UserViewModel : RequestLoginRegisterViewModel() {
 
 
     /**
@@ -31,21 +32,6 @@ class UserViewModel : BaseViewModel() {
             }
     }
 
-    /**
-     * 用户注册信息获取
-     */
-    fun getRegisterUserInfo(
-        username: String,
-        password: String,
-        rePassword: String
-    ): Observable<UserInfo> {
-        return register(username, password, rePassword)
-            .flatMap { user ->
-                getCoinInfo().map { coin ->
-                    UserInfo(user.data, coin.data)
-                }
-            }
-    }
 
     /**
      * 用户登录
@@ -65,16 +51,6 @@ class UserViewModel : BaseViewModel() {
         return RetrofitHelper.get().getCoinInfo()
     }
 
-    /**
-     * 用户注册
-     */
-    private fun register(
-        username: String,
-        password: String,
-        rePassword: String
-    ): Observable<BaseResponse<UserInfoResponse>> {
-        return RetrofitHelper.get().registerWanAndroid(username, password, rePassword)
-    }
 
     /**
      * 退出
