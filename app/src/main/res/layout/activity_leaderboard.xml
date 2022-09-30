@@ -10,21 +10,20 @@
         style="@style/TitleBar"
         app:title="@string/leaderboard" />
 
-    <com.drake.brv.PageRefreshLayout
-        android:id="@+id/page"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/integral_me"
         android:layout_below="@id/title_bar"
         app:srlEnableFooterFollowWhenLoadFinished="true">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_leaderboard_list" />
-    </com.drake.brv.PageRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:id="@+id/integral_me"

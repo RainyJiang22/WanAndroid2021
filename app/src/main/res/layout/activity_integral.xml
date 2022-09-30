@@ -26,20 +26,19 @@
         app:autoSizeTextType="uniform"
         tools:text="@string/integral" />
 
-    <com.drake.brv.PageRefreshLayout
-        android:id="@+id/page"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/my_integral"
         app:srlEnableFooterFollowWhenLoadFinished="true">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_integral_list" />
-    </com.drake.brv.PageRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

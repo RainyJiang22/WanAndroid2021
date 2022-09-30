@@ -2,18 +2,30 @@ package com.base.wanandroid.ui.integral
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.R
+import com.base.wanandroid.application.appViewModel
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityLeaderboardBinding
+import com.base.wanandroid.ext.init
+import com.base.wanandroid.ext.initFooter
+import com.base.wanandroid.ext.loadListData
+import com.base.wanandroid.ext.loadServiceInit
+import com.base.wanandroid.ext.showLoading
 import com.base.wanandroid.ui.adapter.LeaderBoardAdapter
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
+import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
+import com.blankj.utilcode.util.ConvertUtils
 import com.drake.brv.PageRefreshLayout
+import com.kingja.loadsir.core.LoadService
+import com.yanzhenjie.recyclerview.SwipeRecyclerView
 import kotlinx.coroutines.launch
 
 /**
@@ -23,69 +35,51 @@ import kotlinx.coroutines.launch
  */
 class LeaderBoardActivity : BaseActivity<IntegralViewModel, ActivityLeaderboardBinding>() {
 
-    private var first = true
 
     private val adapter by lazy { LeaderBoardAdapter() }
 
+    private lateinit var loadSir: LoadService<Any>
 
     override fun initView(savedInstanceState: Bundle?) {
 
         mViewBind.titleBar.leftView?.setOnClickListener {
             finishAfterTransition()
         }
-        if (AppConfig.UserName.isNotEmpty()) {
-            mViewBind.integralMyRank.text = AppConfig.Rank
-            mViewBind.integralMyName.text = AppConfig.UserName
-            mViewBind.integralMyLv.text = getString(R.string.integral_my_lv, AppConfig.Level)
-            mViewBind.integralMyCount.text = AppConfig.CoinCount
-        } else {
-            mViewBind.integralMe.visibility = View.GONE
+        mViewBind.integralMe.visibility = View.GONE
+
+        loadSir = loadServiceInit(mViewBind.swipeRefresh) {
+            //重试
+            loadSir.showLoading()
+            mViewModel.getIntegralData(true)
         }
-        PageRefreshLayout.startIndex = 1
-        mViewBind.rv.apply {
-            this.adapter = adapter
-            mViewBind.fab.let { initFloatBtn(it) }
+
+        //初始化recyclerView
+        mViewBind.rv.init(LinearLayoutManager(this), adapter).let {
+            it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f)))
+            it.initFooter {
+                //触发加载更多时请求数据
+                mViewModel.getIntegralData(false)
+            }
+            //初始化FloatingActionButton
+            it.initFloatBtn(mViewBind.fab)
         }
-        onRefresh()
+
+        mViewBind.swipeRefresh.init {
+            mViewModel.getIntegralData(true)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadSir.showLoading()
+        mViewModel.getIntegralData(true)
     }
 
 
-    private fun onRefresh() {
-        mViewBind.page.onRefresh {
-            lifecycleScope.launch {
-                mViewModel.getLeaderBoardList(index)
-                    .compose(
-                        RxLifecycleCompact.bind(this@LeaderBoardActivity)
-                            .disposeObservableWhen(LifecycleEvent.DESTROY)
-                    )
-                    .compose(RxTransformer.async())
-                    .subscribe({
-                        if (first && it.data.datas.isEmpty()) {
-                            showEmpty()
-                        } else {
-                            first = false
-                            index += if (index == 1) {
-                                adapter.setList(it.data.datas)
-                                1
-                            } else {
-                                if (it.data.datas.isEmpty()) {
-                                    //没有更多数据，结束动画，显示内容(没有更多数据)
-                                    showContent(false)
-                                    return@subscribe
-                                }
-                                //添加数据
-                                adapter.addData(it.data.datas)
-                                1
-                            }
-                        }
-                        showContent(true)
-                    }, {
-                        showError()
-                    }).lifecycleOwner(this@LeaderBoardActivity)
-
-            }
-
-        }.autoRefresh()
+    override fun createObserver() {
+        mViewModel.integralDataState.observe(this) {
+            loadListData(it, adapter, loadSir, mViewBind.rv, mViewBind.swipeRefresh)
+        }
     }
 
 

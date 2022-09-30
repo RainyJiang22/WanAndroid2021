@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/dp_8"
-    android:layout_marginVertical="@dimen/dp_5"
     app:cardCornerRadius="@dimen/dp_4"
     app:cardElevation="@dimen/dp_4">
 
@@ -35,13 +34,6 @@
             android:textSize="@dimen/sp_16"
             tools:text="@string/integral_name" />
 
-        <TextView
-            android:id="@+id/item_integral_lv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_12"
-            android:textSize="@dimen/sp_18"
-            tools:text="@string/integral_lv" />
 
         <TextView
             android:id="@+id/item_integral_count"

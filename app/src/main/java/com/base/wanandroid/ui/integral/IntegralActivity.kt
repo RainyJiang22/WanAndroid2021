@@ -2,19 +2,30 @@ package com.base.wanandroid.ui.integral
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.R
+import com.base.wanandroid.application.appViewModel
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityIntegralBinding
+import com.base.wanandroid.ext.init
+import com.base.wanandroid.ext.initFooter
+import com.base.wanandroid.ext.loadListData
+import com.base.wanandroid.ext.loadServiceInit
+import com.base.wanandroid.ext.showLoading
 import com.base.wanandroid.ui.adapter.IntegralAdapter
 import com.base.wanandroid.ui.web.WebActivity
 import com.base.wanandroid.utils.AnimatorUtil
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.initFloatBtn
+import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
+import com.blankj.utilcode.util.ConvertUtils
 import com.drake.brv.PageRefreshLayout
 import com.example.wanAndroid.widget.decoration.RecyclerViewItemDecoration
+import com.kingja.loadsir.core.LoadService
+import com.kingja.loadsir.core.LoadSir
 import kotlinx.coroutines.launch
 
 /**
@@ -25,13 +36,14 @@ import kotlinx.coroutines.launch
 class IntegralActivity : BaseActivity<IntegralViewModel, ActivityIntegralBinding>() {
 
 
-    private var first = true
-
     private val integralAdapter by lazy {
         IntegralAdapter().apply {
             setDiffCallback(IntegralDiffCallBack())
         }
     }
+
+    //界面状态管理
+    private lateinit var loadSir: LoadService<Any>
 
     override fun initView(savedInstanceState: Bundle?) {
 
@@ -46,51 +58,33 @@ class IntegralActivity : BaseActivity<IntegralViewModel, ActivityIntegralBinding
                 WebActivity.start(this@IntegralActivity, getString(R.string.integral_help))
             }
         }
-
-        mViewBind.rv.apply {
-            adapter = integralAdapter
-            addItemDecoration(RecyclerViewItemDecoration(this@IntegralActivity))
-            initFloatBtn(mViewBind.fab)
+        loadSir = loadServiceInit(mViewBind.swipeRefresh) {
+            loadSir.showLoading()
+            mViewModel.getIntegralHistoryData(true)
         }
-        PageRefreshLayout.startIndex = 0
-        onRefresh()
+
+        //初始化recyclerView
+        mViewBind.rv.init(LinearLayoutManager(this), integralAdapter).let {
+            it.initFooter {
+                //触发加载更多时请求数据
+                mViewModel.getIntegralHistoryData(false)
+            }
+            //初始化FloatingActionButton
+            it.initFloatBtn(mViewBind.fab)
+        }
     }
 
-    private fun onRefresh() {
-        mViewBind.page.onRefresh {
-            lifecycleScope.launch {
-                mViewModel.getIntegralList(index)
-                    .compose(
-                        RxLifecycleCompact.bind(this@IntegralActivity)
-                            .disposeObservableWhen(LifecycleEvent.DESTROY)
-                    )
-                    .compose(RxTransformer.async())
-                    .subscribe({
-                        if (first && it.data.datas.isEmpty()) {
-                            showEmpty()
-                        } else {
-                            first = false
-                            index += if (index == 0) {
-                                integralAdapter.setList(it.data.datas)
-                                1
-                            } else {
-                                if (it.data.datas.isEmpty()) {
-                                    //没有更多数据，结束动画，显示内容(没有更多数据)
-                                    showContent(false)
-                                    return@subscribe
-                                }
-                                //添加数据
-                                integralAdapter.addData(it.data.datas)
-                                1
-                            }
-                        }
-                        showContent(true)
-                    }, {
-                        showError()
-                    })
-            }
-        }.autoRefresh()
+    override fun onResume() {
+        super.onResume()
+        loadSir.showLoading()
+        mViewModel.getIntegralHistoryData(true)
+    }
 
+
+    override fun createObserver() {
+        mViewModel.integralHistoryDataState.observe(this) {
+            loadListData(it, integralAdapter, loadSir, mViewBind.rv, mViewBind.swipeRefresh)
+        }
     }
 
 }
