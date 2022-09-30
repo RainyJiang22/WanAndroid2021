@@ -6,13 +6,19 @@ import com.base.wanandroid.application.initializer.CommonProcessInitializer
 import com.base.wanandroid.application.initializer.DelegateInitializer
 import com.base.wanandroid.application.initializer.MainProcessInitializer
 import com.base.wanandroid.application.initializer.StubProcessInitializer
+import com.base.wanandroid.base.BaseApp
 import com.base.wanandroid.utils.AppUtils
+import com.base.wanandroid.viewmodel.state.AppViewModel
 
 /**
  * @author jiangshiyu
  * @date 2022/3/3
  */
-class WanAndroidApplication : Application() {
+
+val appViewModel: AppViewModel by lazy { WanAndroidApplication.appViewModelInstance }
+
+
+class WanAndroidApplication : BaseApp() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
@@ -29,6 +35,7 @@ class WanAndroidApplication : Application() {
             CommonProcessInitializer(newStubProcessInitializer())
         }
         mInitializer?.appCreate(this)
+        appViewModelInstance = getAppViewModelProvider()[AppViewModel::class.java]
 
     }
 
@@ -52,6 +59,9 @@ class WanAndroidApplication : Application() {
         fun getApplication(): Context? {
             return sContext
         }
+
         private var mInitializer: CommonProcessInitializer? = null
+
+        lateinit var appViewModelInstance: AppViewModel
     }
 }

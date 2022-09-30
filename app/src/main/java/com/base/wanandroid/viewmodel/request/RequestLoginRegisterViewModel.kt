@@ -1,10 +1,9 @@
 package com.base.wanandroid.viewmodel.request
 
 import androidx.lifecycle.MutableLiveData
-import com.base.wanandroid.data.ApiResponse
+import com.base.wanandroid.data.UserInfo
 import com.base.wanandroid.network.apiService
 import com.base.wanandroid.network.request.HttpRequestCoroutine
-import com.base.wanandroid.ui.user.data.UserInfo
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 import me.hgj.jetpackmvvm.ext.request
 import me.hgj.jetpackmvvm.state.ResultState

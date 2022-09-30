@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_15"
         android:layout_weight="1"
-        android:background="@drawable/shape_search_bg"
+        android:background="@android:color/transparent"
         android:hint="@string/search_tip"
         android:imeOptions="actionSearch"
         android:inputType="text"

@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class IntegralResponse(
     var coinCount: Int,//当前积分
-    var rank: Int,
+    var rank: String,
     var userId: Int,
     var username: String
 ) : Parcelable

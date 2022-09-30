@@ -9,15 +9,27 @@ import com.base.wanandroid.bean.base.BaseResponse
 import com.base.wanandroid.network.RetrofitHelper
 import com.base.wanandroid.network.entity.ApiResponse
 import com.base.wanandroid.ui.user.data.UserInfo
+import com.base.wanandroid.utils.ColorUtil
 import com.base.wanandroid.viewmodel.request.RequestLoginRegisterViewModel
 import io.reactivex.Observable
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
+import me.hgj.jetpackmvvm.callback.databind.IntObservableField
+import me.hgj.jetpackmvvm.callback.databind.StringObservableField
 
 /**
  * @author jiangshiyu
  * @date 2022/6/10
  */
 class UserViewModel : RequestLoginRegisterViewModel() {
+
+
+    var name = StringObservableField("请先登录~")
+
+    var integral = IntObservableField(0)
+
+    var info = StringObservableField("id：--　排名：-")
+
+    var imageUrl = StringObservableField(ColorUtil.randomImage())
 
 
     /**

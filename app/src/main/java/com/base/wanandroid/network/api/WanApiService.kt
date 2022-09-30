@@ -3,7 +3,6 @@ package com.base.wanandroid.network.api
 import com.base.wanandroid.data.ApiPagerResponse
 import com.base.wanandroid.data.ApiResponse
 import com.base.wanandroid.data.*
-import com.base.wanandroid.ui.user.data.UserInfo
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET

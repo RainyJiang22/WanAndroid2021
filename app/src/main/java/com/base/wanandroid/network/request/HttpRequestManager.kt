@@ -3,8 +3,8 @@ package com.base.wanandroid.network.request
 import com.base.wanandroid.data.ApiPagerResponse
 import com.base.wanandroid.data.ApiResponse
 import com.base.wanandroid.data.ArticleResponse
+import com.base.wanandroid.data.UserInfo
 import com.base.wanandroid.network.apiService
-import com.base.wanandroid.ui.user.data.UserInfo
 import com.base.wanandroid.utils.CacheUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

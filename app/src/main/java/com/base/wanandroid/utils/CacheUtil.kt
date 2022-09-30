@@ -1,7 +1,7 @@
 package com.base.wanandroid.utils
 
 import android.text.TextUtils
-import com.base.wanandroid.ui.user.data.UserInfo
+import com.base.wanandroid.data.UserInfo
 import com.google.gson.Gson
 import com.tencent.mmkv.MMKV
 
@@ -41,9 +41,9 @@ object CacheUtil {
     /**
      * 是否已经登录
      */
-    fun isLogin(): Boolean? {
+    fun isLogin(): Boolean {
         val kv = MMKV.mmkvWithID("app")
-        return kv?.decodeBool("login", false)
+        return kv?.decodeBool("login", false) == true
     }
 
     /**
@@ -61,15 +61,14 @@ object CacheUtil {
         val kv = MMKV.mmkvWithID("app")
         return kv?.decodeBool("first", true)
     }
+
     /**
      * 是否是第一次登陆
      */
-    fun setFirst(first:Boolean): Boolean? {
+    fun setFirst(first: Boolean): Boolean? {
         val kv = MMKV.mmkvWithID("app")
         return kv?.encode("first", first)
     }
-
-
 
 
     /**
