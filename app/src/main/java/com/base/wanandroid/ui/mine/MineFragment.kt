@@ -1,10 +1,10 @@
 package com.base.wanandroid.ui.mine
 
-import android.net.Uri
 import android.os.Bundle
-import androidx.core.net.toUri
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.base.wanandroid.BuildConfig
 import com.base.wanandroid.R
 import com.base.wanandroid.application.appViewModel
 import com.base.wanandroid.base.BaseFragment
@@ -23,7 +23,6 @@ import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.CacheUtil
 import com.base.wanandroid.viewmodel.request.RequestMineViewModel
 import com.blankj.utilcode.util.ToastUtils
-import com.bumptech.glide.Glide
 import com.drake.serialize.intent.openActivity
 import me.hgj.jetpackmvvm.ext.parseState
 import me.hgj.jetpackmvvm.ext.util.notNull
@@ -116,7 +115,6 @@ class MineFragment : BaseFragment<UserViewModel, FragmentMineBinding>() {
                     meInfo.text = "id：${it.userId}　排名：${it.rank}"
                     mineIntegral.setRightText(it.coinCount.toString())
                     AppConfig.CoinCount = it.coinCount.toString()
-                    userText.text = it.username
                 }
             }, {
                 ToastUtils.showShort(it.errorMsg)
@@ -127,6 +125,9 @@ class MineFragment : BaseFragment<UserViewModel, FragmentMineBinding>() {
 
         appViewModel.run {
             userInfo.observeInFragment(this@MineFragment) {
+                if (BuildConfig.LOG_ENABLE) {
+                    Log.d("mine", "createObserver: is Login")
+                }
                 it.notNull({
                     mViewBind.swipeRefresh.isRefreshing = true
                     mViewModel.name.set(it.nickname.ifEmpty { it.username })

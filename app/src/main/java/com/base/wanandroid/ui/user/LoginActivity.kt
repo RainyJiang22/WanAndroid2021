@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.base.wanandroid.R
+import com.base.wanandroid.application.appViewModel
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityLoginBinding
 import com.base.wanandroid.utils.AppConfig
@@ -68,7 +69,7 @@ class LoginActivity : BaseActivity<UserViewModel, ActivityLoginBinding>() {
                 CacheUtil.setUser(it)
                 CacheUtil.setIsLogin(true)
                 postEvent(it, false)
-
+                appViewModel.userInfo.value = it
                 mViewBind.btnLogin.showSucceed()
                 setResult(Activity.RESULT_OK)
                 ActivityCompat.finishAfterTransition(this@LoginActivity)

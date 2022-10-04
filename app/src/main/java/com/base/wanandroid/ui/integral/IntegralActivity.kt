@@ -59,6 +59,7 @@ class IntegralActivity : BaseActivity<IntegralViewModel, ActivityIntegralBinding
             }
         }
         loadSir = loadServiceInit(mViewBind.swipeRefresh) {
+            //上拉加载重试
             loadSir.showLoading()
             mViewModel.getIntegralHistoryData(true)
         }

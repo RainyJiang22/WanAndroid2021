@@ -9,6 +9,7 @@ import com.base.wanandroid.application.initializer.StubProcessInitializer
 import com.base.wanandroid.base.BaseApp
 import com.base.wanandroid.utils.AppUtils
 import com.base.wanandroid.viewmodel.state.AppViewModel
+import com.base.wanandroid.viewmodel.state.EventViewModel
 
 /**
  * @author jiangshiyu
@@ -17,6 +18,7 @@ import com.base.wanandroid.viewmodel.state.AppViewModel
 
 val appViewModel: AppViewModel by lazy { WanAndroidApplication.appViewModelInstance }
 
+val eventViewModel: EventViewModel by lazy { WanAndroidApplication.eventViewModel }
 
 class WanAndroidApplication : BaseApp() {
 
@@ -36,7 +38,7 @@ class WanAndroidApplication : BaseApp() {
         }
         mInitializer?.appCreate(this)
         appViewModelInstance = getAppViewModelProvider()[AppViewModel::class.java]
-
+        eventViewModel = getAppViewModelProvider()[EventViewModel::class.java]
     }
 
     private fun newStubProcessInitializer(): DelegateInitializer {
@@ -63,5 +65,6 @@ class WanAndroidApplication : BaseApp() {
         private var mInitializer: CommonProcessInitializer? = null
 
         lateinit var appViewModelInstance: AppViewModel
+        lateinit var eventViewModel: EventViewModel
     }
 }

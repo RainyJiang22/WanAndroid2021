@@ -16,6 +16,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
+import com.base.wanandroid.data.CollectResponse
 import com.base.wanandroid.databinding.ActivityWebBinding
 import com.base.wanandroid.history.HistoryRepository
 import com.base.wanandroid.history.bean.HistoryEntity
@@ -26,7 +27,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
-import com.base.wanandroid.bean.CollectResponse
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer

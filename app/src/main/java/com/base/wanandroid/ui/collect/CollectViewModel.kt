@@ -7,6 +7,7 @@ import com.base.wanandroid.bean.CollectResponse
 import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.bean.base.ApiPagerResponse
 import com.base.wanandroid.network.RetrofitHelper
+import com.base.wanandroid.viewmodel.request.RequestCollectViewModel
 import io.reactivex.Observable
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
@@ -14,7 +15,7 @@ import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
  * @author jiangshiyu
  * @date 2022/6/14
  */
-class CollectViewModel:BaseViewModel() {
+class CollectViewModel : RequestCollectViewModel() {
 
 
     /**

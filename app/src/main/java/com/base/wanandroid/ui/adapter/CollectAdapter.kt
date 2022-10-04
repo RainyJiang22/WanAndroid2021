@@ -5,10 +5,8 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.base.wanandroid.R
-import com.base.wanandroid.bean.CollectResponse
-import com.base.wanandroid.ui.collect.CollectViewModel
+import com.base.wanandroid.data.CollectResponse
 import com.base.wanandroid.ui.web.WebActivity
-import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.html2Spanned
 import com.base.wanandroid.utils.html2String
 import com.base.wanandroid.widget.view.CollectView
@@ -16,10 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.drake.channel.receiveEvent
 import com.google.android.material.imageview.ShapeableImageView
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import per.goweii.reveallayout.RevealLayout
 
 /**
@@ -28,10 +23,12 @@ import per.goweii.reveallayout.RevealLayout
  * 收藏adapter
  */
 class CollectAdapter(
-    private val lifecycleOwner: LifecycleOwner,
-    private val viewModel: CollectViewModel
-) :
-    BaseQuickAdapter<CollectResponse, BaseViewHolder>(R.layout.item_collect_list) {
+    data: ArrayList<CollectResponse>
+) : BaseQuickAdapter<CollectResponse, BaseViewHolder>(R.layout.item_collect_list, data) {
+
+    private var collectAction: (item: CollectResponse, v: CollectView, position: Int) -> Unit =
+        { _: CollectResponse, _: CollectView, _: Int -> }
+
     init {
         setAnimationWithDefault(AnimationType.AlphaIn)
         //设置Item点击事件
@@ -43,32 +40,6 @@ class CollectAdapter(
                 )
             }
         }
-        //接收消息事件，同步收藏列表(从adapter移除对应数据)，默认自动在ON_DESTROY生命周期取消接收
-        lifecycleOwner.receiveEvent<CollectResponse> { remove(it) }
-    }
-
-
-    override fun onItemViewHolderCreated(viewHolder: BaseViewHolder, viewType: Int) {
-        super.onItemViewHolderCreated(viewHolder, viewType)
-        viewHolder.getView<CollectView>(R.id.item_article_collect)
-            .setOnClickListener(object : CollectView.OnClickListener {
-                //收藏控件点击事件回调
-                override fun onClick(v: CollectView) {
-                    if (!v.isChecked) {
-                        //收藏页面默认全部选中，点击后直接取消收藏，并移除item
-                        lifecycleOwner.lifecycleScope.launch {
-                            viewModel.userUnCollectArticle(
-                                data[viewHolder.absoluteAdapterPosition].id,
-                                data[viewHolder.absoluteAdapterPosition].originId
-                            )
-                                .compose(RxTransformer.async())
-                                .subscribe()
-                            delay(300)
-                            removeAt(viewHolder.absoluteAdapterPosition)
-                        }
-                    }
-                }
-            })
     }
 
 
@@ -102,7 +73,20 @@ class CollectAdapter(
                 //内容描述
                 holder.setText(R.id.item_article_content, desc.html2String())
             }
+
+
+            holder.getView<CollectView>(R.id.item_article_collect)
+                .setOnClickListener(object : CollectView.OnClickListener {
+                    override fun onClick(v: CollectView) {
+                        collectAction.invoke(item, v, holder.absoluteAdapterPosition)
+                    }
+
+                })
         }
 
+    }
+
+    fun setCollectClick(inputCollectAction: (item: CollectResponse, v: CollectView, position: Int) -> Unit) {
+        this.collectAction = inputCollectAction
     }
 }

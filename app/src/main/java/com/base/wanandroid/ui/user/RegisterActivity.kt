@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.lifecycleScope
 import com.base.wanandroid.R
+import com.base.wanandroid.application.appViewModel
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityRegisterBinding
 import com.base.wanandroid.ui.MainActivity
@@ -84,7 +85,7 @@ class RegisterActivity : BaseActivity<UserViewModel, ActivityRegisterBinding>() 
                 CacheUtil.setIsLogin(true)
                 CacheUtil.setUser(it)
                 postEvent(it, false)
-
+                appViewModel.userInfo.value = it
                 finishAfterTransition()
                 openActivity<MainActivity>()
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

@@ -1,17 +1,22 @@
 package com.base.wanandroid.ui.collect
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.bean.CollectResponse
 import com.base.wanandroid.bean.base.ApiBaseResponse
 import com.base.wanandroid.bean.base.ApiPagerResponse
 import com.base.wanandroid.databinding.ActivityCollectBinding
+import com.base.wanandroid.ext.loadServiceInit
 import com.base.wanandroid.ui.adapter.CollectAdapter
+import com.base.wanandroid.utils.bindViewPager2
+import com.base.wanandroid.utils.init
 import com.base.wanandroid.utils.initFloatBtn
 import com.drake.brv.PageRefreshLayout
 import com.drake.net.Get
 import com.drake.net.utils.scope
+import com.kingja.loadsir.core.LoadService
 
 /**
  * @author jiangshiyu
@@ -20,56 +25,25 @@ import com.drake.net.utils.scope
  */
 class CollectActivity : BaseActivity<CollectViewModel, ActivityCollectBinding>() {
 
-    private val adapter: CollectAdapter by lazy { CollectAdapter(this, mViewModel) }
 
-    private var first = true
+    var titleData = arrayListOf("文章", "网址")
 
-    private lateinit var collectData: ApiBaseResponse<ApiPagerResponse<CollectResponse>>
 
+    private var fragments: ArrayList<Fragment> = arrayListOf()
+
+    init {
+        fragments.add(CollectArticleFragment())
+        fragments.add(CollectUrlFragment())
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
-        mViewBind.titleBar.leftView?.setOnClickListener {
-            finishAfterTransition()
-        }
-        mViewBind.titleBar.title = getString(R.string.my_collect)
-        PageRefreshLayout.startIndex = 0
-        mViewBind.let {
-            it.rv.apply {
-                this.adapter = adapter
-                this.initFloatBtn(it.fab)
+        mViewBind.apply {
+            collectViewPager.init(this@CollectActivity, fragments)
+            collectMagicIndicator.bindViewPager2(collectViewPager, mStringList = titleData)
+            titleBar.leftView.setOnClickListener {
+                finishAfterTransition()
             }
         }
-        onRefresh()
     }
 
-    private fun onRefresh() {
-
-        mViewBind.page.onRefresh {
-
-            scope {
-                collectData =
-                    Get<ApiBaseResponse<ApiPagerResponse<CollectResponse>>>("/lg/collect/list/$index/json").await()
-                if (first && collectData.data.datas.isEmpty()) {
-                    showEmpty()
-                } else {
-                    first = false
-                    index += if (index == 0) {
-                        adapter.setList(collectData.data.datas)
-                        1
-                    } else {
-                        if (collectData.data.datas.isEmpty()) {
-                            //没有更多数据，结束动画，显示内容(没有更多数据)
-                            showContent(false)
-                            return@scope
-                        }
-                        //添加数据
-                        adapter.addData(collectData.data.datas)
-                        1
-                    }
-                }
-                showContent(true)
-            }
-
-        }.autoRefresh()
-    }
 }

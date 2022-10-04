@@ -7,43 +7,43 @@
     <com.hjq.bar.TitleBar
         android:id="@+id/title_bar"
         style="@style/TitleBar"
+        android:background="?attr/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_scrollFlags="scroll|enterAlways" />
 
 
-    <com.drake.brv.PageRefreshLayout xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/page"
+    <LinearLayout
+        android:id="@+id/collect_viewpager_linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="@id/title_bar"
+        app:layout_constraintEnd_toEndOf="@id/title_bar"
+        app:layout_constraintStart_toStartOf="@id/title_bar"
+        app:layout_constraintTop_toTopOf="@id/title_bar">
+
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/collect_magic_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" />
+    </LinearLayout>
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/collect_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_bar"
-        app:srlEnableFooterFollowWhenLoadFinished="true">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_collect_list" />
-
-    </com.drake.brv.PageRefreshLayout>
-
-    <!--悬浮按钮-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/dp_20"
-        android:layout_marginBottom="@dimen/dp_70"
-        android:contentDescription="@android:string/unknownName"
-        android:visibility="invisible"
-        app:backgroundTint="@color/color_floating_button"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_arrow_upward" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_bar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
