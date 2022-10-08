@@ -63,6 +63,36 @@ open class RequestCollectViewModel : BaseViewModel() {
 
 
     /**
+     * 收藏网址
+     */
+    fun collectUrl(name: String, link: String) {
+        request({ apiService.collectUrl(name, link) }, {
+            val uiState = CollectUiState(isSuccess = true, collect = true, id = it.id)
+            collectUrlUiState.value = uiState
+        }, {
+            val uiState =
+                CollectUiState(isSuccess = false, collect = false, errorMsg = it.errorMsg, id = 0)
+            collectUrlUiState.value = uiState
+        })
+    }
+
+
+    /**
+     * 取消收藏网址
+     */
+    fun unCollectUrl(id: Int) {
+        request({ apiService.uncollect(id) }, {
+            val uiState = CollectUiState(isSuccess = true, collect = false, id = id)
+            collectUrlUiState.value = uiState
+        }, {
+            val uiState =
+                CollectUiState(isSuccess = false, collect = true, errorMsg = it.errorMsg, id = id)
+            collectUrlUiState.value = uiState
+        })
+    }
+
+
+    /**
      * 获取收藏文章列表
      */
     fun getCollectArticleData(isRefresh: Boolean) {

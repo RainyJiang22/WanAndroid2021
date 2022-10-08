@@ -85,7 +85,6 @@ class CollectArticleFragment : BaseFragment<CollectViewModel, FragmentChildListB
         }
 
         eventViewModel.run {
-
             //全局监听收藏消息
             collectEvent.observeInFragment(this@CollectArticleFragment, Observer {
                 for (index in collectAdapter.data.indices) {
