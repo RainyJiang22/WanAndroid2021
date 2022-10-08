@@ -31,6 +31,9 @@ class ArticleNewAdapter(
 ) :
     BaseQuickAdapter<ArticleResponse, BaseViewHolder>(R.layout.item_article_list) {
 
+    private var collectAction: (item: ArticleResponse, v: CollectView, position: Int) -> Unit =
+        { _: ArticleResponse, _: CollectView, _: Int -> }
+
     companion object {
         private var index: Int = 0
     }
@@ -62,29 +65,6 @@ class ArticleNewAdapter(
         }
     }
 
-
-    override fun onItemViewHolderCreated(viewHolder: BaseViewHolder, viewType: Int) {
-        super.onItemViewHolderCreated(viewHolder, viewType)
-        // 收藏逻辑
-        viewHolder.getView<CollectView>(R.id.item_article_collect)
-            .setOnClickListener(object : CollectView.OnClickListener {
-                override fun onClick(v: CollectView) {
-                    if (v.isChecked) {
-                        lifecycleOwner.scopeNetLife {
-                            Post<NoDataResponse>("/lg/collect/${data[viewHolder.adapterPosition - headerLayoutCount].id}/json").await()
-                        }
-                    } else {
-                        lifecycleOwner.scopeNetLife {
-                            Post<NoDataResponse>("/lg/uncollect_originId/${data[viewHolder.adapterPosition - headerLayoutCount].id}/json").await()
-                        }
-                    }
-                    data[viewHolder.adapterPosition - headerLayoutCount].collect =
-                        v.isChecked
-                }
-
-            })
-
-    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun convert(holder: BaseViewHolder, item: ArticleResponse) {
@@ -138,8 +118,20 @@ class ArticleNewAdapter(
                 holder.setText(R.id.item_article_content, desc.html2String())
             }
 
+            holder.getView<CollectView>(R.id.item_article_collect)
+                .setOnClickListener(object : CollectView.OnClickListener {
+                    override fun onClick(v: CollectView) {
+                        collectAction.invoke(item, v, holder.bindingAdapterPosition)
+                    }
+
+                })
+
         }
 
+    }
+
+    fun setCollectClick(inputCollectAction: (item: ArticleResponse, v: CollectView, position: Int) -> Unit) {
+        this.collectAction = inputCollectAction
     }
 
 }
