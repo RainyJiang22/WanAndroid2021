@@ -118,10 +118,12 @@ class ArticleNewAdapter(
                 holder.setText(R.id.item_article_content, desc.html2String())
             }
 
+            holder.getView<CollectView>(R.id.item_article_collect).isChecked = collect
+
             holder.getView<CollectView>(R.id.item_article_collect)
                 .setOnClickListener(object : CollectView.OnClickListener {
                     override fun onClick(v: CollectView) {
-                        collectAction.invoke(item, v, holder.bindingAdapterPosition)
+                        collectAction.invoke(item, v, holder.adapterPosition)
                     }
 
                 })
