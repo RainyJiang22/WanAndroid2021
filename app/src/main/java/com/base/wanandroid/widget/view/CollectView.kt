@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import com.base.wanandroid.R
 import com.base.wanandroid.utils.AppConfig
+import com.base.wanandroid.utils.CacheUtil
 import com.blankj.utilcode.util.ToastUtils
 import per.goweii.reveallayout.RevealLayout
 
@@ -36,7 +37,7 @@ class CollectView @JvmOverloads constructor(
     fun setOnClickListener(onClickListener: OnClickListener) {
         mOnClickListener = onClickListener
         setOnClickListener {
-            if (AppConfig.UserName.isNotEmpty()) {
+            if (CacheUtil.isLogin()) {
                 //登陆过直接走点击事件回调
                 mOnClickListener.onClick(this@CollectView)
             } else {
