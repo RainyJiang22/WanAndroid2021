@@ -14,10 +14,4 @@ import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
  */
 class AnswerViewModel: BaseViewModel() {
 
-    /**
-     * 获取问答列表
-     */
-    fun getAnswerList(page: Int): Observable<ArticleListResponse> {
-        return RetrofitHelper.get().getAnswerList(page)
-    }
 }

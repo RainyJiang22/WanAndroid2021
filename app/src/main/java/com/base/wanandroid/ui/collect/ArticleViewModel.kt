@@ -23,19 +23,6 @@ import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
  */
 class ArticleViewModel : BaseViewModel() {
 
-    /**
-     * 收藏当前文章
-     */
-    fun collectCurrentArticle(articleId: Int): Observable<NoDataResponse> {
-        return RetrofitHelper.get().collectCurrentArticle(articleId)
-    }
-
-    /**
-     * 取消收藏当前文章
-     */
-    fun unCollectArticle(articleId: Int, originId: Int = -1): Observable<NoDataResponse> {
-        return RetrofitHelper.get().unCollectArticle(articleId, originId)
-    }
 
     /**
      * 搜索结果

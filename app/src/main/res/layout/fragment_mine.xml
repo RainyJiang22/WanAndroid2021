@@ -1,139 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?><!--我的片段-->
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools"
-    android:id="@+id/swipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.base.wanandroid.widget.nested.NestedLinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_200"
-            android:background="@color/color_floating_button"
-            android:padding="@dimen/dp_5">
-
-
-            <ImageView
-                android:id="@+id/rank_image"
-                android:layout_width="@dimen/dp_24"
-                android:layout_height="@dimen/dp_24"
-                android:layout_margin="30dp"
-                android:background="@drawable/ic_rank"
-                android:backgroundTint="@color/color_ic_bg_tint"
-                android:contentDescription="@android:string/unknownName"
-                android:foreground="?attr/selectableItemBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/header_image"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_marginStart="@dimen/dp_16"
-                android:foreground="?attr/selectableItemBackground"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearance="@style/CircleStyle"
-                app:srcCompat="@drawable/ic_account" />
-
-            <TextView
-                android:id="@+id/user_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_16"
-                android:layout_marginTop="@dimen/dp_10"
-                android:text="@string/my_user"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_15"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/header_image"
-                app:layout_constraintTop_toTopOf="@id/header_image" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/me_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:text="id：--　排名：--"
-                android:textColor="@color/white"
-                android:textSize="12dp"
-                app:layout_constraintBottom_toBottomOf="@id/header_image"
-                app:layout_constraintStart_toEndOf="@id/header_image"
-                app:layout_constraintTop_toTopOf="@id/user_text" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <androidx.cardview.widget.CardView
+        <com.base.wanandroid.widget.nested.NestedLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="-10dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_200"
+                android:background="@color/color_floating_button"
+                android:padding="@dimen/dp_5">
+
+
+                <ImageView
+                    android:id="@+id/rank_image"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_margin="30dp"
+                    android:background="@drawable/ic_rank"
+                    android:backgroundTint="@color/color_ic_bg_tint"
+                    android:contentDescription="@android:string/unknownName"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/header_image"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearance="@style/CircleStyle"
+                    app:srcCompat="@drawable/ic_account" />
+
+                <TextView
+                    android:id="@+id/user_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="@string/my_user"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_15"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@id/header_image"
+                    app:layout_constraintTop_toTopOf="@id/header_image" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/me_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="id：--　排名：--"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="@id/header_image"
+                    app:layout_constraintStart_toEndOf="@id/header_image"
+                    app:layout_constraintTop_toTopOf="@id/user_text" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_marginTop="-10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
 
-                <com.base.wanandroid.widget.SettingBar
-                    android:id="@+id/mine_integral"
-                    style="@style/SettingBar"
-                    app:bar_leftDrawable="@drawable/ic_integral_24"
-                    app:bar_leftText="@string/my_integral" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <com.base.wanandroid.widget.SettingBar
-                    android:id="@+id/mine_collect"
-                    style="@style/SettingBar"
-                    app:bar_leftDrawable="@drawable/ic_collect_black_24"
-                    app:bar_leftText="@string/my_collect" />
+                    <com.base.wanandroid.widget.SettingBar
+                        android:id="@+id/mine_integral"
+                        style="@style/SettingBar"
+                        app:bar_leftDrawable="@drawable/ic_integral_24"
+                        app:bar_leftText="@string/my_integral" />
 
-                <com.base.wanandroid.widget.SettingBar
-                    android:id="@+id/mine_share"
-                    style="@style/SettingBar"
-                    app:bar_leftDrawable="@drawable/ic_share_24"
-                    app:bar_leftText="@string/my_share" />
+                    <com.base.wanandroid.widget.SettingBar
+                        android:id="@+id/mine_collect"
+                        style="@style/SettingBar"
+                        app:bar_leftDrawable="@drawable/ic_collect_black_24"
+                        app:bar_leftText="@string/my_collect" />
 
-                <com.base.wanandroid.widget.SettingBar
-                    android:id="@+id/mine_record"
-                    style="@style/SettingBar"
-                    app:bar_leftDrawable="@drawable/ic_record_24"
-                    app:bar_leftText="@string/my_record" />
+                    <com.base.wanandroid.widget.SettingBar
+                        android:id="@+id/mine_share"
+                        style="@style/SettingBar"
+                        app:bar_leftDrawable="@drawable/ic_share_24"
+                        app:bar_leftText="@string/my_share" />
 
-                <com.base.wanandroid.widget.SettingBar
-                    android:id="@+id/mine_setting"
-                    style="@style/SettingBar"
-                    app:bar_leftDrawable="@drawable/ic_setting_24"
-                    app:bar_leftText="@string/my_setting" />
+                    <com.base.wanandroid.widget.SettingBar
+                        android:id="@+id/mine_record"
+                        style="@style/SettingBar"
+                        app:bar_leftDrawable="@drawable/ic_record_24"
+                        app:bar_leftText="@string/my_record" />
 
-                <com.base.wanandroid.widget.SettingBar
-                    android:id="@+id/mine_exit"
-                    style="@style/SettingBar"
-                    app:bar_leftDrawable="@drawable/ic_exit_24"
-                    app:bar_leftText="@string/my_exit" />
+                    <com.base.wanandroid.widget.SettingBar
+                        android:id="@+id/mine_setting"
+                        style="@style/SettingBar"
+                        app:bar_leftDrawable="@drawable/ic_setting_24"
+                        app:bar_leftText="@string/my_setting" />
 
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-
-    </com.base.wanandroid.widget.nested.NestedLinearLayout>
+                    <com.base.wanandroid.widget.SettingBar
+                        android:id="@+id/mine_exit"
+                        style="@style/SettingBar"
+                        app:bar_leftDrawable="@drawable/ic_exit_24"
+                        app:bar_leftText="@string/my_exit" />
 
 
-    <FrameLayout
-        android:id="@+id/frame_share"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </com.base.wanandroid.widget.nested.NestedLinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 

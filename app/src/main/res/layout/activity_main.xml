@@ -10,43 +10,19 @@
         android:id="@+id/status_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/color_accent"/>
+        android:background="@color/color_accent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-
-    <FrameLayout
-        android:id="@+id/frame"
+    <fragment
+        android:id="@+id/host_fragment"
+        android:name="me.hgj.jetpackmvvm.navigation.NavHostFragmentHideShow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        app:layout_constraintTop_toBottomOf="@id/status_bar" />
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="?android:attr/windowBackground"
-        app:itemIconSize="24dp"
-        app:itemTextAppearanceActive="@style/bottom_tab_title_active"
-        app:itemTextAppearanceInactive="@style/bottom_tab_title_active"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:layout_constraintTop_toBottomOf="@id/status_bar"
+        app:navGraph="@navigation/main_navigation" />
 
-    <!--悬浮按钮-->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/dp_20"
-        android:layout_marginBottom="@dimen/dp_70"
-        android:contentDescription="@android:string/unknownName"
-        android:visibility="invisible"
-        app:backgroundTint="@color/color_floating_button"
-        app:srcCompat="@drawable/ic_arrow_upward" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

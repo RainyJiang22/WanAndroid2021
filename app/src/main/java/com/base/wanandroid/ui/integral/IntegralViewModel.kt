@@ -15,18 +15,4 @@ import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
  */
 class IntegralViewModel: RequestIntegralViewModel() {
 
-
-    /**
-     * 我的积分列表
-     */
-    fun getIntegralList(page: Int): Observable<IntegralListResponse> {
-        return RetrofitHelper.get().integralList(page)
-    }
-
-    /**
-     * 积分排行列表
-     */
-    fun getLeaderBoardList(page: Int): Observable<CoinInfoListResponse> {
-        return RetrofitHelper.get().leaderboardList(page)
-    }
 }

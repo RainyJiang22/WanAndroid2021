@@ -180,4 +180,6 @@ dependencies {
 
     implementation 'com.github.RainyJiang22.Android-OpenSource-Practice:EasyBus:1.0.3'
 
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
 }

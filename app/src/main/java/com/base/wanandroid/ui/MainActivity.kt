@@ -2,6 +2,8 @@ package com.base.wanandroid.ui
 
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.Navigation
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityMainBinding
@@ -11,6 +13,7 @@ import com.base.wanandroid.ui.platform.PlatformFragment
 import com.base.wanandroid.ui.project.ProjectFragment
 import com.base.wanandroid.ui.square.SquareFragment
 import com.base.wanandroid.utils.replaceFragment
+import com.blankj.utilcode.util.ToastUtils
 import com.gyf.immersionbar.ktx.immersionBar
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
@@ -19,57 +22,36 @@ class MainActivity : BaseActivity<BaseViewModel, ActivityMainBinding>() {
     companion object {
         const val TAG = "MAIN"
 
-        const val HOME_TAG = "HOME"
-        const val TREE_TAG = "TREE"
-        const val SQUARE_TAG = "SQUARE"
-        const val PLATFORM_TAG = "PLATFORM"
-        const val MINE_TAG = "MINE"
     }
 
 
-    private val fragment by lazy {
-        arrayOf(
-            HomeFragment(),
-            ProjectFragment(),
-            SquareFragment(),
-            PlatformFragment(),
-            MineFragment()
-        )
-    }
+    var exitTime = 0L
+
 
     override fun initView(savedInstanceState: Bundle?) {
         immersionBar {
             this.statusBarDarkFont(true)
         }
 
-        replaceFragment(fragment[0], HOME_TAG)
-        mViewBind.bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.page_home -> {
-                    replaceFragment(fragment[0], HOME_TAG)
-                    true
-                }
-                R.id.page_tree -> {
-                    replaceFragment(fragment[1], TREE_TAG)
-                    true
-                }
-                R.id.page_square -> {
-                    replaceFragment(fragment[2], SQUARE_TAG)
-                    true
-                }
-                R.id.page_platform -> {
-                    replaceFragment(fragment[3], PLATFORM_TAG)
-                    true
-                }
-                R.id.page_mine -> {
-                    replaceFragment(fragment[4], MINE_TAG)
-                    true
-                }
-                else -> {
-                    false
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val nav = Navigation.findNavController(this@MainActivity,R.id.host_fragment)
+                if (nav.currentDestination != null && nav.currentDestination!!.id != R.id.mainFragment) {
+                    //如果当前界面不是主页，那么直接调用返回即可
+                    nav.navigateUp()
+                } else {
+                    //是主页
+                    if (System.currentTimeMillis() - exitTime > 2000) {
+                        ToastUtils.showShort("再按一次退出程序")
+                        exitTime = System.currentTimeMillis()
+                    } else {
+                        finish()
+                    }
                 }
             }
-        }
+
+        })
+
     }
 
 }

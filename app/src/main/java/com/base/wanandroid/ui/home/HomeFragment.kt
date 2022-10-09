@@ -30,7 +30,6 @@ import com.base.wanandroid.ui.integral.IntegralActivity
 import com.base.wanandroid.ui.integral.LeaderBoardActivity
 import com.base.wanandroid.ui.search.SearchActivity
 import com.base.wanandroid.ui.setting.SettingActivity
-import com.base.wanandroid.ui.share.OnShareListener
 import com.base.wanandroid.ui.share.ShareFragment
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
@@ -52,6 +51,8 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.kingja.loadsir.core.LoadService
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.ZoomOutPageTransformer
+import me.hgj.jetpackmvvm.ext.nav
+import me.hgj.jetpackmvvm.ext.navigateAction
 import me.hgj.jetpackmvvm.ext.parseState
 
 /**
@@ -336,13 +337,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                         if (AppConfig.UserName.isEmpty()) {
                             ToastUtils.showShort(getString(R.string.please_login))
                         } else {
-                            val shareFragment = ShareFragment()
-                            shareFragment.onShareListener = object : OnShareListener {
-                                override fun removeFragment() {
-                                    closeFragment(shareFragment)
-                                }
-                            }
-                            showFragment(shareFragment, R.id.frame_share)
+                            nav().navigateAction(R.id.action_mainFragment_to_shareFragment)
                         }
                     }
                     R.id.nav_record -> {

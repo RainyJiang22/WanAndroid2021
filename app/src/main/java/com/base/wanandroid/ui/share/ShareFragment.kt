@@ -20,8 +20,9 @@ import com.base.wanandroid.widget.layout.SwipeItemLayout
 import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
-import com.drake.serialize.intent.openActivity
 import com.kingja.loadsir.core.LoadService
+import me.hgj.jetpackmvvm.ext.nav
+import me.hgj.jetpackmvvm.ext.navigateAction
 
 /**
  * @author jiangshiyu
@@ -35,25 +36,22 @@ class ShareFragment : BaseFragment<ShareViewModel, ActivityShareBinding>() {
 
     private lateinit var loadSir: LoadService<Any>
 
-    var onShareListener: OnShareListener? = null
-
 
     override fun initView(savedInstanceState: Bundle?) {
 
         mViewBind.titleBar.let {
             it.leftView.setOnClickListener {
-                onShareListener?.removeFragment()
+                nav().navigateUp()
             }
             it.rightView.setOnClickListener {
-                openActivity<ShareArticleActivity>()
+                nav().navigateAction(R.id.action_shareFragment_to_shareArticleFragment)
             }
         }
         mViewBind.titleBar.leftView?.setOnClickListener {
-            onShareListener?.removeFragment()
         }
         //标题栏右侧图标打开分享文章页面，获取返回结果，增加一条数据
         mViewBind.titleBar.rightView?.setOnClickListener {
-            openActivity<ShareArticleActivity>()
+            nav().navigateAction(R.id.action_shareFragment_to_shareArticleFragment)
         }
         loadSir = loadServiceInit(mViewBind.swipeRefresh) {
             loadSir.showLoading()
@@ -132,8 +130,4 @@ class ShareFragment : BaseFragment<ShareViewModel, ActivityShareBinding>() {
     }
 
 
-}
-
-interface OnShareListener {
-    fun removeFragment()
 }

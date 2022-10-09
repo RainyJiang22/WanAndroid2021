@@ -8,6 +8,7 @@ import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
+import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.databinding.ActivityShareArticleBinding
 import com.base.wanandroid.utils.InputTextManager
 import com.base.wanandroid.utils.RxTransformer
@@ -15,27 +16,28 @@ import com.base.wanandroid.utils.hideSoftKeyboard
 import com.blankj.utilcode.util.ToastUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import me.hgj.jetpackmvvm.ext.nav
 
 /**
  * @author jiangshiyu
  * @date 2022/6/16
  * 分享文章界面
  */
-class ShareArticleActivity : BaseActivity<ShareViewModel, ActivityShareArticleBinding>() {
+class ShareArticleFragment : BaseFragment<ShareViewModel, ActivityShareArticleBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
-        mViewBind.titleBar.leftView?.setOnClickListener { finishAfterTransition() }
+        mViewBind.titleBar.leftView?.setOnClickListener { nav().navigateUp() }
         //联动分享按钮和标题链接文本框
         mViewBind.btnShare.let {
-            InputTextManager.with(this)
+            InputTextManager.with(requireActivity())
                 .addView(mViewBind.etShareTitle)
                 .addView(mViewBind.etShareLink)
                 .setMain(it)
                 .build()
         }
 
-        mViewBind.btnShare.setOnClickListener {
+      /*  mViewBind.btnShare.setOnClickListener {
             //隐藏输入法
-            hideSoftKeyboard(this)
+            hideSoftKeyboard(requireActivity())
             val etShareTitle = mViewBind.etShareTitle.text.toString()
             val etShareLink = mViewBind.etShareLink.text.toString()
             lifecycleScope.launch {
@@ -72,6 +74,6 @@ class ShareArticleActivity : BaseActivity<ShareViewModel, ActivityShareArticleBi
                         )
                     })
             }
-        }
+        }*/
     }
 }
