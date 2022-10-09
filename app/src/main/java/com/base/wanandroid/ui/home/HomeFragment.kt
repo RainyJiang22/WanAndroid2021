@@ -30,11 +30,14 @@ import com.base.wanandroid.ui.integral.IntegralActivity
 import com.base.wanandroid.ui.integral.LeaderBoardActivity
 import com.base.wanandroid.ui.search.SearchActivity
 import com.base.wanandroid.ui.setting.SettingActivity
-import com.base.wanandroid.ui.share.ShareActivity
+import com.base.wanandroid.ui.share.OnShareListener
+import com.base.wanandroid.ui.share.ShareFragment
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.utils.closeFragment
 import com.base.wanandroid.utils.initFloatBtn
 import com.base.wanandroid.utils.lifecycleOwner
+import com.base.wanandroid.utils.showFragment
 import com.base.wanandroid.viewmodel.request.RequestCollectViewModel
 import com.base.wanandroid.viewmodel.request.RequestHomeViewModel
 import com.base.wanandroid.viewmodel.state.HomeViewModel
@@ -333,8 +336,13 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
                         if (AppConfig.UserName.isEmpty()) {
                             ToastUtils.showShort(getString(R.string.please_login))
                         } else {
-                            //分享文章，内容
-                            openActivity<ShareActivity>()
+                            val shareFragment = ShareFragment()
+                            shareFragment.onShareListener = object : OnShareListener {
+                                override fun removeFragment() {
+                                    closeFragment(shareFragment)
+                                }
+                            }
+                            showFragment(shareFragment, R.id.frame_share)
                         }
                     }
                     R.id.nav_record -> {

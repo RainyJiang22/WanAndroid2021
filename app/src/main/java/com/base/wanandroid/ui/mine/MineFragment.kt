@@ -17,11 +17,14 @@ import com.base.wanandroid.ui.history.HistoryRecordActivity
 import com.base.wanandroid.ui.integral.IntegralActivity
 import com.base.wanandroid.ui.integral.LeaderBoardActivity
 import com.base.wanandroid.ui.setting.SettingActivity
-import com.base.wanandroid.ui.share.ShareActivity
+import com.base.wanandroid.ui.share.OnShareListener
+import com.base.wanandroid.ui.share.ShareFragment
 import com.base.wanandroid.ui.user.LoginActivity
 import com.base.wanandroid.ui.user.UserViewModel
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.CacheUtil
+import com.base.wanandroid.utils.closeFragment
+import com.base.wanandroid.utils.showFragment
 import com.base.wanandroid.viewmodel.request.RequestMineViewModel
 import com.base.wanandroid.widget.Dialog
 import com.blankj.utilcode.util.ToastUtils
@@ -81,7 +84,13 @@ class MineFragment : BaseFragment<UserViewModel, FragmentMineBinding>() {
             mineShare.setOnClickListener {
                 if (CacheUtil.isLogin()) {
                     //分享
-                    openActivity<ShareActivity>()
+                    val shareFragment = ShareFragment()
+                    shareFragment.onShareListener = object : OnShareListener {
+                        override fun removeFragment() {
+                            closeFragment(shareFragment)
+                        }
+                    }
+                    showFragment(shareFragment, R.id.frame_share)
                 } else {
                     ToastUtils.showShort(getString(R.string.please_login))
                     openActivity<LoginActivity>()

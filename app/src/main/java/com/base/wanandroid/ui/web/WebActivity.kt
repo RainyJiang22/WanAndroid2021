@@ -9,12 +9,15 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.Window
 import android.webkit.WebSettings
 import android.webkit.WebView
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.base.wanandroid.R
+import com.base.wanandroid.application.eventViewModel
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.data.CollectResponse
 import com.base.wanandroid.databinding.ActivityWebBinding
@@ -28,8 +31,10 @@ import com.just.agentweb.AgentWeb
 import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
 import com.base.wanandroid.ui.collect.ArticleViewModel
+import com.base.wanandroid.ui.collect.CollectBus
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.viewmodel.request.RequestCollectViewModel
 import com.blankj.utilcode.util.ToastUtils
 import com.drake.channel.sendEvent
 import com.drake.channel.sendTag
@@ -43,7 +48,7 @@ import java.util.*
  * @author jiangshiyu
  * @date 2022/6/2
  */
-class WebActivity : BaseActivity<ArticleViewModel,ActivityWebBinding>() {
+class WebActivity : BaseActivity<ArticleViewModel, ActivityWebBinding>() {
 
     private lateinit var mAgentWeb: AgentWeb
     private lateinit var shareTitle: String
@@ -55,6 +60,8 @@ class WebActivity : BaseActivity<ArticleViewModel,ActivityWebBinding>() {
 
     private var historySource: HistoryEntity? = null
     private var data: CollectResponse? = null
+
+    private val requestCollectViewModel: RequestCollectViewModel by viewModels()
 
     companion object {
 
@@ -254,15 +261,11 @@ class WebActivity : BaseActivity<ArticleViewModel,ActivityWebBinding>() {
                     }
                     //收藏
                     item.setIcon(R.drawable.ic_collect_strawberry)
-                    mViewModel.collectCurrentArticle(indexId)
-                        .compose(RxTransformer.async())
-                        .subscribe()
+                    requestCollectViewModel.collect(indexId)
                 } else {
                     //取消收藏
                     item.setIcon(R.drawable.ic_collect_black_24)
-                    mViewModel.unCollectArticle(shareId, originId)
-                        .compose(RxTransformer.async())
-                        .subscribe()
+                    requestCollectViewModel.unCollect(originId)
                 }
             }
 
@@ -311,6 +314,17 @@ class WebActivity : BaseActivity<ArticleViewModel,ActivityWebBinding>() {
 
     override fun onResume() {
         mAgentWeb.webLifeCycle.onResume()
+        requestCollectViewModel.collectUiState.observe(this) {
+            if (it.isSuccess) {
+                eventViewModel.collectEvent.value = CollectBus(it.id, it.collect)
+                //刷新一下menu
+                this.window?.invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL)
+                this.invalidateOptionsMenu()
+            } else {
+                ToastUtils.showShort(it.errorMsg)
+            }
+        }
+
         super.onResume()
     }
 
@@ -336,6 +350,5 @@ class WebActivity : BaseActivity<ArticleViewModel,ActivityWebBinding>() {
         setSupportActionBar(null)
         super.onDestroy()
     }
-
 
 }

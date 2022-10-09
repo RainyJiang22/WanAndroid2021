@@ -97,5 +97,10 @@
         app:menu="@menu/menu_nav" />
 
 
+    <FrameLayout
+        android:id="@+id/frame_share"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.drawerlayout.widget.DrawerLayout>
 
