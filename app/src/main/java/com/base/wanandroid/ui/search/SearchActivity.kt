@@ -8,14 +8,18 @@ import cn.nekocode.rxlifecycle.LifecycleEvent
 import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
+import com.base.wanandroid.data.SearchResponse
 import com.base.wanandroid.databinding.ActivitySearchBinding
 import com.base.wanandroid.ui.adapter.SearchHistoryAdapter
 import com.base.wanandroid.ui.adapter.SearchHotAdapter
 import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
+import com.base.wanandroid.viewmodel.request.RequestSearchViewModel
 import com.drake.serialize.intent.openActivity
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.rainy.monitor.utils.viewModels
 import kotlinx.coroutines.launch
+import me.hgj.jetpackmvvm.ext.parseState
 
 /**
  * @author jiangshiyu
@@ -27,6 +31,8 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>() {
     private val hotAdapter: SearchHotAdapter by lazy { SearchHotAdapter() }
 
     private val historyAdapter: SearchHistoryAdapter by lazy { SearchHistoryAdapter() }
+
+    private val requestSearchViewModel: RequestSearchViewModel by viewModels()
 
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -74,27 +80,7 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>() {
 
 
     //初始化搜索热词
-    @SuppressLint("NotifyDataSetChanged")
     private fun initSearchHot() {
-        if (AppConfig.SearchHot.isEmpty()) {
-            lifecycleScope.launch {
-                mViewModel.getHotKeyList()
-                    .compose(
-                        RxLifecycleCompact.bind(this@SearchActivity)
-                            .disposeObservableWhen(LifecycleEvent.DESTROY)
-                    )
-                    .compose(RxTransformer.async())
-                    .subscribe {
-                        AppConfig.SearchHot.addAll(it.data)
-                        hotAdapter.setList(it.data)
-                        hotAdapter.notifyDataSetChanged()
-                    }
-            }
-
-        } else {
-            hotAdapter.setList(AppConfig.SearchHot)
-        }
-
         //初始化热门搜索RecyclerView
         mViewBind.rvHot.run {
             //使用伸缩布局
@@ -175,6 +161,24 @@ class SearchActivity : BaseActivity<SearchViewModel, ActivitySearchBinding>() {
             mViewBind.rvHistory.scrollToPosition(0)
             //改变序列化对象内的字段要求重新赋值
             AppConfig.SearchHistory = this
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requestSearchViewModel.getHotData()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun createObserver() {
+        requestSearchViewModel.hotData.observe(this) { resultState ->
+            parseState(resultState, {
+                if (AppConfig.SearchHot.isEmpty()) {
+                    AppConfig.SearchHot.addAll(it)
+                    hotAdapter.setList(it)
+                    hotAdapter.notifyDataSetChanged()
+                }
+            })
         }
     }
 }

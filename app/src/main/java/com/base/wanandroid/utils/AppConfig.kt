@@ -1,6 +1,7 @@
 package com.base.wanandroid.utils
 
 import com.base.wanandroid.bean.SearchHotResponse
+import com.base.wanandroid.data.SearchResponse
 import com.drake.serialize.serialize.serialLazy
 
 /**
@@ -27,7 +28,7 @@ object AppConfig {
     var CoinCount: String by serialLazy("10")
 
     /** 搜索热词 每次打开app重新初始化赋值一次 */
-    val SearchHot: MutableList<SearchHotResponse> by lazy { (mutableListOf()) }
+    val SearchHot: MutableList<SearchResponse> by lazy { (mutableListOf()) }
 
     /** 搜索记录*/
     var SearchHistory: ArrayList<String> by serialLazy(arrayListOf())

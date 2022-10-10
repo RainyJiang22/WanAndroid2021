@@ -20,11 +20,4 @@ class SearchViewModel : BaseViewModel() {
         return RetrofitHelper.get().getHotKeyList()
     }
 
-
-    /**
-     * 搜索结果
-     */
-    fun getSearchResult(page: Int, key: String): Observable<ArticleListResponse> {
-        return RetrofitHelper.get().getSearchList(page, key)
-    }
 }

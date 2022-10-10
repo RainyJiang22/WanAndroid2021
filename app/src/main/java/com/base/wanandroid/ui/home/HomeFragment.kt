@@ -23,21 +23,12 @@ import com.base.wanandroid.ext.loadServiceInit
 import com.base.wanandroid.ext.showLoading
 import com.base.wanandroid.ui.adapter.ArticleNewAdapter
 import com.base.wanandroid.ui.adapter.ImageTitleAdapter
-import com.base.wanandroid.ui.collect.CollectActivity
 import com.base.wanandroid.ui.collect.CollectBus
-import com.base.wanandroid.ui.history.HistoryRecordActivity
-import com.base.wanandroid.ui.integral.IntegralActivity
-import com.base.wanandroid.ui.integral.LeaderBoardActivity
 import com.base.wanandroid.ui.search.SearchActivity
-import com.base.wanandroid.ui.setting.SettingActivity
-import com.base.wanandroid.utils.AppConfig
-import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.initFloatBtn
-import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.viewmodel.request.RequestCollectViewModel
 import com.base.wanandroid.viewmodel.request.RequestHomeViewModel
 import com.base.wanandroid.viewmodel.state.HomeViewModel
-import com.base.wanandroid.widget.Dialog
 import com.base.wanandroid.widget.recyclerview.DefineLoadMoreView
 import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
 import com.blankj.utilcode.util.ConvertUtils
@@ -87,6 +78,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
             loadSir.showLoading()
             requestHomeViewModel.getHomeData(true)
             requestHomeViewModel.getBannerData()
+        }
+
+        setHasOptionsMenu(true)
+        mViewBind.toolbar.title = getString(R.string.home_name)
+        mViewBind.toolbar.inflateMenu(R.menu.menu_toolbar_search)
+        mViewBind.toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.search) {
+                openActivity<SearchActivity>()
+            }
+            true
         }
 
 
