@@ -14,6 +14,7 @@ import com.base.wanandroid.utils.AppConfig
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.lifecycleOwner
 import com.drake.serialize.intent.openActivity
+import com.gyf.immersionbar.ktx.immersionBar
 
 /**
  * @author jiangshiyu
@@ -26,6 +27,9 @@ class SplashActivity : BaseActivity<UserViewModel, ActivitySplashBinding>() {
     private val alphaAnimation: AlphaAnimation by lazy { AlphaAnimation(0.3F, 1.0F) }
 
     override fun initView(savedInstanceState: Bundle?) {
+        immersionBar {
+            this.statusBarDarkFont(true)
+        }
         alphaAnimation.run {
             duration = 1200
             setAnimationListener(object : Animation.AnimationListener {

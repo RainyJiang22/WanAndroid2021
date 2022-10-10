@@ -7,12 +7,6 @@ import androidx.navigation.Navigation
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.databinding.ActivityMainBinding
-import com.base.wanandroid.ui.home.HomeFragment
-import com.base.wanandroid.ui.mine.MineFragment
-import com.base.wanandroid.ui.platform.PlatformFragment
-import com.base.wanandroid.ui.project.ProjectFragment
-import com.base.wanandroid.ui.square.SquareFragment
-import com.base.wanandroid.utils.replaceFragment
 import com.blankj.utilcode.util.ToastUtils
 import com.gyf.immersionbar.ktx.immersionBar
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel

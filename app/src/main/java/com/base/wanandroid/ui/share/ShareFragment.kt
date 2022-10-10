@@ -1,12 +1,14 @@
 package com.base.wanandroid.ui.share
 
 import android.os.Bundle
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseFragment
 import com.base.wanandroid.data.ArticleResponse
 import com.base.wanandroid.databinding.ActivityShareBinding
 import com.base.wanandroid.ext.init
+import com.base.wanandroid.ext.initClose
 import com.base.wanandroid.ext.initFooter
 import com.base.wanandroid.ext.loadListData
 import com.base.wanandroid.ext.loadServiceInit
@@ -38,16 +40,8 @@ class ShareFragment : BaseFragment<ShareViewModel, ActivityShareBinding>() {
 
 
     override fun initView(savedInstanceState: Bundle?) {
-
-        mViewBind.titleBar.let {
-            it.leftView.setOnClickListener {
-                nav().navigateUp()
-            }
-            it.rightView.setOnClickListener {
-                nav().navigateAction(R.id.action_shareFragment_to_shareArticleFragment)
-            }
-        }
         mViewBind.titleBar.leftView?.setOnClickListener {
+            nav().navigateUp()
         }
         //标题栏右侧图标打开分享文章页面，获取返回结果，增加一条数据
         mViewBind.titleBar.rightView?.setOnClickListener {
@@ -58,6 +52,10 @@ class ShareFragment : BaseFragment<ShareViewModel, ActivityShareBinding>() {
             mViewModel.getShareData(true)
         }
 
+        loadSir = loadServiceInit(mViewBind.swipeRefresh) {
+            loadSir.showLoading()
+            mViewModel.getShareData(true)
+        }
 
         mViewBind.rvList.init(LinearLayoutManager(context), adapter).let {
             it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f)))

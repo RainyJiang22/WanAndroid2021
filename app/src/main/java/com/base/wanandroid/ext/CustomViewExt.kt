@@ -2,10 +2,19 @@ package com.base.wanandroid.ext
 
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.base.wanandroid.R
 import com.base.wanandroid.network.state.ListDataUiState
+import com.base.wanandroid.ui.home.HomeFragment
+import com.base.wanandroid.ui.mine.MineFragment
+import com.base.wanandroid.ui.platform.PlatformFragment
+import com.base.wanandroid.ui.project.ProjectFragment
+import com.base.wanandroid.ui.square.SquareFragment
 import com.base.wanandroid.utils.SettingUtil
 import com.base.wanandroid.utils.randomColor
 import com.base.wanandroid.widget.loadcallback.EmptyCallBack
@@ -13,10 +22,12 @@ import com.base.wanandroid.widget.loadcallback.ErrorCallBack
 import com.base.wanandroid.widget.loadcallback.LoadingCallBack
 import com.base.wanandroid.widget.recyclerview.DefineLoadMoreView
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import com.yanzhenjie.recyclerview.SwipeRecyclerView
 import me.hgj.jetpackmvvm.base.appContext
+import me.hgj.jetpackmvvm.ext.util.toHtml
 
 /**
  * @author jiangshiyu
@@ -158,4 +169,62 @@ fun SwipeRecyclerView.initFooter(loadmoreListener: SwipeRecyclerView.LoadMoreLis
         setLoadMoreListener(loadmoreListener)
     }
     return footerView
+}
+
+/**
+ * 初始化有返回键的toolbar
+ */
+fun Toolbar.initClose(
+    titleStr: String = "",
+    backImg: Int = R.drawable.ic_back,
+    onBack: (toolbar: Toolbar) -> Unit
+): Toolbar {
+    setBackgroundColor(SettingUtil.getColor(appContext))
+    title = titleStr.toHtml()
+    setNavigationIcon(backImg)
+    setNavigationOnClickListener { onBack.invoke(this) }
+    return this
+}
+
+
+fun ViewPager2.initMain(fragment: Fragment): ViewPager2 {
+    //是否可滑动
+    this.isUserInputEnabled = false
+    this.offscreenPageLimit = 5
+    //适配器
+    adapter = object : FragmentStateAdapter(fragment) {
+        override fun getItemCount(): Int = 5
+
+        override fun createFragment(position: Int): Fragment {
+            when (position) {
+                0 -> {
+                    return HomeFragment()
+                }
+                1 -> {
+                    return ProjectFragment()
+                }
+                2 -> {
+                    return SquareFragment()
+                }
+                3 -> {
+                    return PlatformFragment()
+                }
+                4 -> {
+                    return MineFragment()
+                }
+                else -> {
+                    return HomeFragment()
+                }
+            }
+        }
+    }
+    return this
+}
+
+fun BottomNavigationView.init(navigationItemSelectedAction: (Int) -> Unit): BottomNavigationView {
+    setOnNavigationItemSelectedListener {
+        navigationItemSelectedAction.invoke(it.itemId)
+        true
+    }
+    return this
 }

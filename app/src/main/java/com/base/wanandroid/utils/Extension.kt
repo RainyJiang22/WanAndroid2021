@@ -86,68 +86,6 @@ fun Context.color(colorId: Int): Int {
 }
 
 
-fun FragmentActivity.replaceFragment(replaceFragment: Fragment, tag: String, id: Int = R.id.frame) {
-    var tempFragment = supportFragmentManager.findFragmentByTag(tag)
-    val transaction = supportFragmentManager.beginTransaction()
-    if (tempFragment == null) {
-        try {
-            tempFragment = replaceFragment.apply {
-                enterTransition = createTransition()
-            }
-            transaction
-                .add(id, tempFragment, tag)
-                .setMaxLifecycle(tempFragment, Lifecycle.State.RESUMED)
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-    val fragments = supportFragmentManager.fragments
-
-    for (i in fragments.indices) {
-        val fragment = fragments[i]
-        if (fragment.tag == tag) {
-            transaction
-                .show(fragment)
-        } else {
-            transaction
-                .hide(fragment)
-        }
-    }
-    transaction.commitAllowingStateLoss()
-}
-
-fun Fragment.replaceFragment(replaceFragment: Fragment, tag: String, id: Int = R.id.frame) {
-    var tempFragment = childFragmentManager.findFragmentByTag(tag)
-    val transaction = childFragmentManager.beginTransaction()
-    if (tempFragment == null) {
-        try {
-            tempFragment = replaceFragment.apply {
-                enterTransition = createTransition()
-            }
-            transaction
-                .add(id, tempFragment, tag)
-                .setMaxLifecycle(tempFragment, Lifecycle.State.RESUMED)
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-    val fragments = childFragmentManager.fragments
-
-    for (i in fragments.indices) {
-        val fragment = fragments[i]
-        if (fragment.tag == tag) {
-            transaction
-                .show(fragment)
-        } else {
-            transaction
-                .hide(fragment)
-        }
-    }
-    transaction.commitAllowingStateLoss()
-}
-
 private fun createTransition(): androidx.transition.TransitionSet {
     val transitionSet = androidx.transition.TransitionSet()
     transitionSet.interpolator = LinearInterpolator()

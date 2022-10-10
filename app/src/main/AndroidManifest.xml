@@ -69,14 +69,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".ui.share.ShareActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".ui.share.ShareArticleActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".ui.search.SearchActivity"
             android:exported="false" />
 

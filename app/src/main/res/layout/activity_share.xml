@@ -37,6 +37,6 @@
         android:visibility="invisible"
         app:backgroundTint="@color/color_floating_button"
         app:srcCompat="@drawable/ic_arrow_upward" />
-    
+
 
 </RelativeLayout>
