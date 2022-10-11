@@ -67,9 +67,9 @@ class SquareChildFragment : BaseFragment<SquareViewModel, FragmentProjectChildBi
         articleAdapter.run {
             setCollectClick { item, v, position ->
                 if (v.isChecked) {
-                    requestCollectViewModel.unCollect(item.id)
-                } else {
                     requestCollectViewModel.collect(item.id)
+                } else {
+                    requestCollectViewModel.unCollect(item.id)
                 }
             }
         }

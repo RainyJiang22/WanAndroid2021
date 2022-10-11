@@ -157,10 +157,10 @@ fun SwipeRecyclerView.initFooter(loadmoreListener: SwipeRecyclerView.LoadMoreLis
     //给尾部设置颜色
     footerView.setLoadViewColor(SettingUtil.getOneColorStateList(appContext))
     //设置尾部点击回调
-    footerView.setmLoadMoreListener(SwipeRecyclerView.LoadMoreListener {
+    footerView.setmLoadMoreListener {
         footerView.onLoading()
         loadmoreListener.onLoadMore()
-    })
+    }
     this.run {
         //添加加载更多尾部
         addFooterView(footerView)

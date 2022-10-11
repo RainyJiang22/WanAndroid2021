@@ -85,9 +85,9 @@ class PlatformChildFragment : BaseFragment<PlatformViewModel, FragmentProjectChi
         articleAdapter.run {
             setCollectClick { item, v, position ->
                 if (v.isChecked) {
-                    requestCollectViewModel.unCollect(item.id)
-                } else {
                     requestCollectViewModel.collect(item.id)
+                } else {
+                    requestCollectViewModel.unCollect(id)
                 }
             }
         }
@@ -101,22 +101,6 @@ class PlatformChildFragment : BaseFragment<PlatformViewModel, FragmentProjectChi
     override fun createObserver() {
         mViewModel.platformDataState.observe(viewLifecycleOwner) {
             loadListData(it, articleAdapter, loadSir, mViewBind.rvList, mViewBind.swipeRefresh)
-        }
-
-
-        requestCollectViewModel.collectUiState.observe(viewLifecycleOwner) {
-            if (it.isSuccess) {
-                eventViewModel.collectEvent.value = CollectBus(it.id, it.collect)
-            } else {
-                ToastUtils.showShort(it.errorMsg)
-                for (index in articleAdapter.data.indices) {
-                    if (articleAdapter.data[index].id == it.id) {
-                        articleAdapter.data[index].collect = it.collect
-                        articleAdapter.notifyItemChanged(index)
-                        break
-                    }
-                }
-            }
         }
 
         appViewModel.run {
@@ -137,6 +121,21 @@ class PlatformChildFragment : BaseFragment<PlatformViewModel, FragmentProjectChi
                     }
                 }
                 articleAdapter.notifyDataSetChanged()
+            }
+        }
+
+        requestCollectViewModel.collectUiState.observe(viewLifecycleOwner) {
+            if (it.isSuccess) {
+                eventViewModel.collectEvent.value = CollectBus(it.id, it.collect)
+            } else {
+                ToastUtils.showShort(it.errorMsg)
+                for (index in articleAdapter.data.indices) {
+                    if (articleAdapter.data[index].id == it.id) {
+                        articleAdapter.data[index].collect = it.collect
+                        articleAdapter.notifyItemChanged(index)
+                        break
+                    }
+                }
             }
         }
     }

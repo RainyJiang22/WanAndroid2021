@@ -51,9 +51,9 @@ class CollectUrlFragment : BaseFragment<CollectViewModel, FragmentChildListBindi
         collectAdapter.run {
             setCollectClick { item, v, position ->
                 if (v.isChecked) {
-                    mViewModel.unCollectUrl(item.id)
-                } else {
                     mViewModel.collectUrl(item.name, item.link)
+                } else {
+                    mViewModel.unCollectUrl(item.id)
                 }
             }
         }
