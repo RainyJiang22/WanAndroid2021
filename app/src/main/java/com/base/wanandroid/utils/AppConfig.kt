@@ -1,6 +1,5 @@
 package com.base.wanandroid.utils
 
-import com.base.wanandroid.bean.SearchHotResponse
 import com.base.wanandroid.data.SearchResponse
 import com.drake.serialize.serialize.serialLazy
 

@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LifecycleOwner
 import com.base.wanandroid.R
-import com.base.wanandroid.bean.NoDataResponse
 import com.base.wanandroid.data.ArticleResponse
 import com.base.wanandroid.ui.author.AuthorActivity
 import com.base.wanandroid.ui.web.WebActivity

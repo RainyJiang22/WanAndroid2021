@@ -84,6 +84,14 @@
             android:name=".ui.scan.ScanActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.share.ShareActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.share.ShareArticleActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.wanAndroid.ui.provider.FileProvider"

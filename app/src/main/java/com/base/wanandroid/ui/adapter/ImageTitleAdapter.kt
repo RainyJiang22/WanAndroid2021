@@ -8,7 +8,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.base.wanandroid.R
-import com.base.wanandroid.bean.BannerData
 import com.base.wanandroid.data.BannerResponse
 import com.base.wanandroid.ui.web.WebActivity
 import com.bumptech.glide.RequestManager

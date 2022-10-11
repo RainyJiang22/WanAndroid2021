@@ -1,11 +1,7 @@
 package com.base.wanandroid.ui.search
 
-import android.hardware.Camera
 import android.os.Bundle
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import cn.nekocode.rxlifecycle.LifecycleEvent
-import cn.nekocode.rxlifecycle.compact.RxLifecycleCompact
 import com.base.wanandroid.application.appViewModel
 import com.base.wanandroid.application.eventViewModel
 import com.base.wanandroid.base.BaseActivity
@@ -15,17 +11,12 @@ import com.base.wanandroid.ext.initFooter
 import com.base.wanandroid.ext.loadServiceInit
 import com.base.wanandroid.ext.setErrorText
 import com.base.wanandroid.ext.showEmpty
-import com.base.wanandroid.ext.showError
 import com.base.wanandroid.ext.showLoading
-import com.base.wanandroid.ui.adapter.ArticleAdapter
 import com.base.wanandroid.ui.adapter.ArticleNewAdapter
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.collect.CollectBus
-import com.base.wanandroid.ui.home.ArticleDiffCallBack
 import com.base.wanandroid.ui.home.ArticleDiffNewCallBack
-import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.utils.initFloatBtn
-import com.base.wanandroid.utils.lifecycleOwner
 import com.base.wanandroid.viewmodel.request.RequestCollectViewModel
 import com.base.wanandroid.viewmodel.request.RequestSearchViewModel
 import com.base.wanandroid.widget.loadcallback.ErrorCallBack
@@ -35,10 +26,7 @@ import com.drake.brv.PageRefreshLayout
 import com.drake.serialize.intent.bundle
 import com.kingja.loadsir.core.LoadService
 import com.rainy.monitor.utils.viewModels
-import com.yanzhenjie.recyclerview.SwipeRecyclerView
-import kotlinx.coroutines.launch
 import me.hgj.jetpackmvvm.ext.parseState
-import androidx.lifecycle.Observer as Observer1
 
 /**
  * @author jiangshiyu

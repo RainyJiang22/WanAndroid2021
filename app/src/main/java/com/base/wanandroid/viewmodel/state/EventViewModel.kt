@@ -12,4 +12,7 @@ class EventViewModel : BaseViewModel() {
 
     //全局收藏
     val collectEvent = EventLiveData<CollectBus>()
+
+    //分享文章通知
+    val shareArticleEvent = EventLiveData<Boolean>()
 }

@@ -4,12 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.base.wanandroid.R
 import com.base.wanandroid.base.BaseActivity
-import com.base.wanandroid.bean.CollectResponse
-import com.base.wanandroid.bean.base.ApiBaseResponse
-import com.base.wanandroid.bean.base.ApiPagerResponse
 import com.base.wanandroid.databinding.ActivityCollectBinding
-import com.base.wanandroid.ext.loadServiceInit
-import com.base.wanandroid.ui.adapter.CollectAdapter
 import com.base.wanandroid.utils.bindViewPager2
 import com.base.wanandroid.utils.init
 import com.base.wanandroid.utils.initFloatBtn

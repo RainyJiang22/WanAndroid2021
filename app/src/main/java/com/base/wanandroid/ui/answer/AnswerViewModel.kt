@@ -1,11 +1,6 @@
 package com.base.wanandroid.ui.answer
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import com.base.wanandroid.bean.ArticleListResponse
-import com.base.wanandroid.bean.NoDataResponse
-import com.base.wanandroid.network.RetrofitHelper
-import io.reactivex.Observable
+
 import me.hgj.jetpackmvvm.base.viewmodel.BaseViewModel
 
 /**

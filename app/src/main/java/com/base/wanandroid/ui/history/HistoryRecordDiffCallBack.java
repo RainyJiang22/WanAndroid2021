@@ -3,7 +3,6 @@ package com.base.wanandroid.ui.history;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.base.wanandroid.bean.ArticleResponse;
 import com.base.wanandroid.history.bean.HistoryEntity;
 
 /**

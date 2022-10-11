@@ -3,7 +3,6 @@ package com.base.wanandroid.ui.adapter
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.base.wanandroid.R
-import com.base.wanandroid.bean.ClassificationResponse
 import com.base.wanandroid.data.ClassifyResponse
 import com.base.wanandroid.utils.html2Spanned
 import com.chad.library.adapter.base.BaseQuickAdapter

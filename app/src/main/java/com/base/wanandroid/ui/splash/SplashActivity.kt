@@ -40,14 +40,7 @@ class SplashActivity : BaseActivity<UserViewModel, ActivitySplashBinding>() {
                 }
 
                 override fun onAnimationStart(p0: Animation?) {
-                    /** 先登陆，获取cookie */
-                    mViewModel.getLoginUserInfo(AppConfig.UserName, AppConfig.PassWord)
-                        .compose(
-                            RxLifecycleCompact.bind(this@SplashActivity)
-                                .disposeObservableWhen(LifecycleEvent.DESTROY)
-                        )
-                        .compose(RxTransformer.async())
-                        .subscribe().lifecycleOwner(this@SplashActivity)
+
                 }
             })
         }

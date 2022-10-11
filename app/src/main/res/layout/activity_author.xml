@@ -13,7 +13,7 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_240"
-            android:background="@color/color_floating_button"
+            android:background="@color/color_primary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:scrimVisibleHeightTrigger="@dimen/dp_110">
 
@@ -57,20 +57,22 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.drake.brv.PageRefreshLayout
-        android:id="@+id/page"
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:srlEnableFooterFollowWhenLoadFinished="true">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
+            android:id="@+id/rv_home_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_article_list" />
-    </com.drake.brv.PageRefreshLayout>
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

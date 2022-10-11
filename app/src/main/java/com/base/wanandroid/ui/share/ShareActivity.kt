@@ -1,14 +1,12 @@
 package com.base.wanandroid.ui.share
 
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.base.wanandroid.R
-import com.base.wanandroid.base.BaseFragment
+import com.base.wanandroid.base.BaseActivity
 import com.base.wanandroid.data.ArticleResponse
 import com.base.wanandroid.databinding.ActivityShareBinding
 import com.base.wanandroid.ext.init
-import com.base.wanandroid.ext.initClose
 import com.base.wanandroid.ext.initFooter
 import com.base.wanandroid.ext.loadListData
 import com.base.wanandroid.ext.loadServiceInit
@@ -22,16 +20,15 @@ import com.base.wanandroid.widget.layout.SwipeItemLayout
 import com.base.wanandroid.widget.recyclerview.SpaceItemDecoration
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.drake.serialize.intent.openActivity
 import com.kingja.loadsir.core.LoadService
-import me.hgj.jetpackmvvm.ext.nav
-import me.hgj.jetpackmvvm.ext.navigateAction
 
 /**
  * @author jiangshiyu
  * @date 2022/6/16
  * 我的分享
  */
-class ShareFragment : BaseFragment<ShareViewModel, ActivityShareBinding>() {
+class ShareActivity : BaseActivity<ShareViewModel, ActivityShareBinding>() {
 
 
     private val adapter by lazy { ShareAdapter(this, mViewModel) }
@@ -41,11 +38,11 @@ class ShareFragment : BaseFragment<ShareViewModel, ActivityShareBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
         mViewBind.titleBar.leftView?.setOnClickListener {
-            nav().navigateUp()
+            finishAfterTransition()
         }
         //标题栏右侧图标打开分享文章页面，获取返回结果，增加一条数据
         mViewBind.titleBar.rightView?.setOnClickListener {
-            nav().navigateAction(R.id.action_shareFragment_to_shareArticleFragment)
+            openActivity<ShareArticleActivity>()
         }
         loadSir = loadServiceInit(mViewBind.swipeRefresh) {
             loadSir.showLoading()
@@ -57,14 +54,14 @@ class ShareFragment : BaseFragment<ShareViewModel, ActivityShareBinding>() {
             mViewModel.getShareData(true)
         }
 
-        mViewBind.rvList.init(LinearLayoutManager(context), adapter).let {
+        mViewBind.rvList.init(LinearLayoutManager(this), adapter).let {
             it.addItemDecoration(SpaceItemDecoration(0, ConvertUtils.dp2px(8f)))
             it.initFooter {
                 //触发加载更多时请求数据
                 mViewModel.getShareData(false)
             }
             //设置RecyclerView的侧滑监听器
-            it.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(requireContext()))
+            it.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this))
             //初始化FloatingActionButton
             it.initFloatBtn(mViewBind.fab)
         }
@@ -101,7 +98,8 @@ class ShareFragment : BaseFragment<ShareViewModel, ActivityShareBinding>() {
 
     }
 
-    override fun lazyLoadData() {
+    override fun onResume() {
+        super.onResume()
         loadSir.showLoading()
         mViewModel.getShareData(true)
     }
@@ -109,11 +107,11 @@ class ShareFragment : BaseFragment<ShareViewModel, ActivityShareBinding>() {
 
     override fun createObserver() {
 
-        mViewModel.shareDataState.observe(viewLifecycleOwner) {
+        mViewModel.shareDataState.observe(this) {
             loadListData(it, adapter, loadSir, mViewBind.rvList, mViewBind.swipeRefresh)
         }
 
-        mViewModel.delDataState.observe(viewLifecycleOwner) {
+        mViewModel.delDataState.observe(this) {
             if (it.isSuccess) {
                 if (adapter.data.size == 1) {
                     loadSir.showEmpty()
@@ -126,6 +124,4 @@ class ShareFragment : BaseFragment<ShareViewModel, ActivityShareBinding>() {
             }
         }
     }
-
-
 }
