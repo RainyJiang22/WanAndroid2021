@@ -176,4 +176,7 @@ public static final int *;
     @retrofit2.* <methods>;
 }
 
--keep class com.base.wanandroid.bean.**{ *; }
+-dontwarn com.kingja.loadsir.**
+-keep class com.kingja.loadsir.** {*;}
+
+-keep class com.base.wanandroid.data.**{ *; }

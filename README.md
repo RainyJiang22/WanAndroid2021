@@ -61,7 +61,7 @@ Kotlin版WanAndroid客户端,项目中集成了很多优秀的开源库和UI组�
 #### v2.0.0(开发中)
 
 - 整体界面UI细节改动
-- 重新调整项目架构，采用MVVM模式集成谷歌官方推荐的JetPack组件库,感谢开源框架(https://github.com/hegaojian/JetpackMvvm)
+- 重新调整项目架构，采用MVVM模式集成谷歌官方推荐的JetPack组件库,感谢开源框架(https://github.com/hegaojian/JetpackMvvm) (初步完成)
 - FIX主页切换卡顿闪退问题 (已解决)
 - 增加离线数据，已经加载的数据持久化存储 (已完成)
 
