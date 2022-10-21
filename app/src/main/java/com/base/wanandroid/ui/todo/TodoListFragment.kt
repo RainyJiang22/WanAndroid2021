@@ -24,6 +24,7 @@ import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.kingja.loadsir.core.LoadService
 import me.hgj.jetpackmvvm.ext.nav
+import me.hgj.jetpackmvvm.ext.navigateAction
 
 /**
  * @author jiangshiyu
@@ -48,7 +49,8 @@ class TodoListFragment : BaseFragment<TodoViewModel, FragmentTodoListBinding>() 
             }
 
             it.rightView.setOnClickListener {
-                //todo 添加待办todo界面
+                //添加待办todo界面
+                nav().navigateAction(R.id.action_todoListFragment_to_addTodoFragment)
             }
         }
 
@@ -72,7 +74,11 @@ class TodoListFragment : BaseFragment<TodoViewModel, FragmentTodoListBinding>() 
 
         todoAdapter.run {
             setOnItemClickListener { _, _, position ->
-                //todo 添加待办todo列表
+                //添加待办todo列表
+                nav().navigateAction(R.id.action_todoListFragment_to_addTodoFragment,
+                    Bundle().apply {
+                        putParcelable("todo", todoAdapter.data[position])
+                    })
             }
 
             addChildClickViewIds(R.id.item_todo_setting)
@@ -99,8 +105,14 @@ class TodoListFragment : BaseFragment<TodoViewModel, FragmentTodoListBinding>() 
                                                 )
                                             }
                                             1 -> {
-                                                //todo 编辑
-
+                                                //编辑
+                                                nav().navigateAction(R.id.action_todoListFragment_to_addTodoFragment,
+                                                    Bundle().apply {
+                                                        putParcelable(
+                                                            "todo",
+                                                            todoAdapter.data[position]
+                                                        )
+                                                    })
 
                                             }
                                             2 -> {
