@@ -114,6 +114,12 @@
                         app:bar_leftText="@string/my_record" />
 
                     <com.base.wanandroid.widget.SettingBar
+                        android:id="@+id/mine_todo"
+                        style="@style/SettingBar"
+                        app:bar_leftDrawable="@drawable/ic_todo_24"
+                        app:bar_leftText="TODO" />
+
+                    <com.base.wanandroid.widget.SettingBar
                         android:id="@+id/mine_setting"
                         style="@style/SettingBar"
                         app:bar_leftDrawable="@drawable/ic_setting_24"

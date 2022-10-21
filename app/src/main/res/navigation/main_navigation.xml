@@ -8,16 +8,10 @@
         android:id="@+id/mainFragment"
         android:name="com.base.wanandroid.ui.MainFragment"
         android:label="HomeFragment">
+
         <action
-            android:id="@+id/action_mainFragment_to_shareFragment"
-            app:destination="@id/shareFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_mainFragment_to_shareArticleFragment"
-            app:destination="@id/shareArticleFragment"
+            android:id="@+id/action_mainfragment_to_todoListFragment"
+            app:destination="@id/toListFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -26,20 +20,9 @@
 
 
     <fragment
-        android:id="@+id/shareFragment"
-        android:name="com.base.wanandroid.ui.share.ShareFragment"
-        android:label="ShareFragment">
-        <action
-            android:id="@+id/action_shareFragment_to_shareArticleFragment"
-            app:destination="@id/shareArticleFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
+        android:id="@+id/toListFragment"
+        android:name="com.base.wanandroid.ui.todo.TodoListFragment"
+        android:label="TodoListFragment" />
 
-    <fragment
-        android:id="@+id/shareArticleFragment"
-        android:name="com.base.wanandroid.ui.share.ShareArticleFragment"
-        android:label="ShareArticleFragment" />
+
 </navigation>

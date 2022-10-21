@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.base.wanandroid.BuildConfig
 import com.base.wanandroid.R
 import com.base.wanandroid.application.appViewModel
@@ -17,6 +18,7 @@ import com.base.wanandroid.ui.history.HistoryRecordActivity
 import com.base.wanandroid.ui.integral.IntegralActivity
 import com.base.wanandroid.ui.integral.LeaderBoardActivity
 import com.base.wanandroid.ui.setting.SettingActivity
+import com.base.wanandroid.ui.share.ShareActivity
 import com.base.wanandroid.ui.user.LoginActivity
 import com.base.wanandroid.ui.user.UserViewModel
 import com.base.wanandroid.utils.AppConfig
@@ -82,12 +84,22 @@ class MineFragment : BaseFragment<UserViewModel, FragmentMineBinding>() {
             mineShare.setOnClickListener {
                 if (CacheUtil.isLogin()) {
                     //分享界面
-                    nav().navigateAction(R.id.action_mainFragment_to_shareFragment)
+                    openActivity<ShareActivity>()
                 } else {
                     ToastUtils.showShort(getString(R.string.please_login))
                     openActivity<LoginActivity>()
                 }
             }
+
+            mineTodo.setOnClickListener {
+                if (CacheUtil.isLogin()) {
+                    nav().navigateAction(R.id.action_mainfragment_to_todoListFragment)
+                } else {
+                    ToastUtils.showShort(getString(R.string.please_login))
+                    openActivity<LoginActivity>()
+                }
+            }
+
             mineRecord.setOnClickListener { openActivity<HistoryRecordActivity>() }
             mineSetting.setOnClickListener { openActivity<SettingActivity>() }
             //未登录隐藏登出项，登陆可见

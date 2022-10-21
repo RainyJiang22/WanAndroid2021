@@ -123,5 +123,6 @@
     <string name="identify_succeed">识别成功</string>
     <string name="open_camera_failed">打开相机失败</string>
     <string name="open_flash">打开闪光灯</string>
+    <string name="add_todo">添加</string>
 
 </resources>
