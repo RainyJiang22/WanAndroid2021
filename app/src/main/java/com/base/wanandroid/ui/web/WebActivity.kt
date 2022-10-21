@@ -33,6 +33,7 @@ import com.just.agentweb.WebChromeClient
 import com.base.wanandroid.ui.collect.ArticleViewModel
 import com.base.wanandroid.ui.collect.CollectBus
 import com.base.wanandroid.utils.AppConfig
+import com.base.wanandroid.utils.CacheUtil
 import com.base.wanandroid.utils.RxTransformer
 import com.base.wanandroid.viewmodel.request.RequestCollectViewModel
 import com.blankj.utilcode.util.ToastUtils
@@ -247,7 +248,7 @@ class WebActivity : BaseActivity<ArticleViewModel, ActivityWebBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.web_collect -> {
-                if (AppConfig.UserName.isEmpty()) {
+                if (!CacheUtil.isLogin()) {
                     ToastUtils.showShort(getString(R.string.please_login))
                     return true
                 }

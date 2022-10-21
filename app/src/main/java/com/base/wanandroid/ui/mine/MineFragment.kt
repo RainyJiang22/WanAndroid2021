@@ -132,6 +132,7 @@ class MineFragment : BaseFragment<UserViewModel, FragmentMineBinding>() {
                     meInfo.text = "id：${it.userId}　排名：${it.rank}"
                     userText.text = it.username
                     mineIntegral.setRightText(it.coinCount.toString())
+                    //拿到积分数据
                     AppConfig.CoinCount = it.coinCount.toString()
                 }
             }, {

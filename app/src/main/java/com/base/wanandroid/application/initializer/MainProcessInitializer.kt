@@ -3,25 +3,19 @@ package com.base.wanandroid.application.initializer
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.base.wanandroid.R
-import com.base.wanandroid.network.GsonConvert
 import com.base.wanandroid.utils.AppConfig
-import com.base.wanandroid.utils.BASE_URL
-import com.base.wanandroid.utils.MyCookie
 import com.base.wanandroid.widget.loadcallback.EmptyCallBack
 import com.base.wanandroid.widget.loadcallback.ErrorCallBack
 import com.base.wanandroid.widget.loadcallback.LoadingCallBack
 import com.base.wanandroid.widget.refresh.MyClassicFooter
 import com.base.wanandroid.widget.refresh.MyClassicHeader
 import com.drake.brv.PageRefreshLayout
-import com.drake.net.NetConfig
-import com.drake.net.okhttp.setConverter
 import com.drake.statelayout.StateConfig
 import com.kingja.loadsir.callback.SuccessCallback
 import com.kingja.loadsir.core.LoadSir
 import com.rainy.easybus.EventBusInitializer
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.tencent.mmkv.MMKV
-import org.greenrobot.eventbus.EventBus
 
 /**
  * @author jiangshiyu
@@ -37,12 +31,6 @@ class MainProcessInitializer : DelegateInitializer() {
             false -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-        NetConfig.initialize(BASE_URL) {
-            //设置Gson解析方式
-            setConverter(GsonConvert())
-            //设置cookie管理器
-            cookieJar(MyCookie())
-        }
 
         //全局缺省页配置
         StateConfig.apply {

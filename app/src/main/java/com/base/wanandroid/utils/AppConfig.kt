@@ -13,16 +13,6 @@ object AppConfig {
     //夜间主题
     var DarkTheme: Boolean by serialLazy(false)
 
-    //登录后返回的cookie
-    var Cookie: HashMap<String, String> by serialLazy(hashMapOf())
-
-    var UserName: String by serialLazy("")
-
-    var PassWord: String by serialLazy("")
-
-    var Level: String by serialLazy("")
-
-    var Rank: String by serialLazy("")
 
     var CoinCount: String by serialLazy("10")
 
