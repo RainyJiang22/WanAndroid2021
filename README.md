@@ -1,6 +1,6 @@
 # WanAndroid2021
 
-Kotlin版WanAndroid客户端,项目中集成了很多优秀的开源库和UI组件,正在开发中
+Kotlin版WanAndroid客户端,项目中集成了很多优秀的开源库和UI组件
 
 ## 接口
 
